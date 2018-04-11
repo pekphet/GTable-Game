@@ -7,7 +7,7 @@ object StaticData {
     private val mMonsterMap = mutableMapOf(
             Pair(1, BaseMonster(2, 1, 1, "M-a", 2, 1)),
             Pair(2, BaseMonster(4, 1, 2, "M-b", 5, 3)),
-            Pair(3, BaseMonster(1, 4, 1, "M-c", 5, 4))
+            Pair(3, BaseMonster(1, 4, 1, "M-c", 5, 6))
     )
 
     private val mAreaMonsterMap = mutableMapOf(

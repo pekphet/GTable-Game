@@ -40,6 +40,7 @@ class GameActivity : Activity() {
     var mFloor = 1
     val mArea = 1
     val mBuff = FloorBuff(0, 0, 0)
+    val mGridLayoutManager by lazy { GridLayoutManager(this@GameActivity, 5) }
     val mPerson by lazy { PersonRecord.getPersonData() }
     val mPersonView by lazy { PersionView(this@GameActivity, mBuff) }
 
@@ -50,7 +51,7 @@ class GameActivity : Activity() {
         makeFloor(mFloor)
         loadPerson()
         fl_game_persons.addView(mPersonView.getView())
-        rv_game.layoutManager = GridLayoutManager(this@GameActivity, 5)
+        rv_game.layoutManager = mGridLayoutManager
         rv_game.adapter = mAdapter
     }
 
@@ -164,6 +165,7 @@ class GameActivity : Activity() {
     }
 
     private fun flushPersonUI() {
+        mGridLayoutManager.findLastCompletelyVisibleItemPosition()
         mPersonView.load(mPerson)
     }
 
