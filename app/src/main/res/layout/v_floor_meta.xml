@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="72dp"
+    android:layout_height="72dp"
+    android:background="@color/floor_base">
+
+    <TextView
+        android:id="@+id/tv_gamefloor_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="15dp"/>
+
+    <TextView
+        android:id="@+id/tv_gamefloor_hp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_margin="8dp"
+        android:textSize="10dp"
+        android:textColor="@color/text_color_hp"
+        android:text="HP:"/>
+
+    <TextView
+        android:id="@+id/tv_gamefloor_atk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="8dp"
+        android:textSize="10dp"
+        android:text="ATK:"
+        android:textColor="@color/text_color_atk"/>
+
+    <TextView
+        android:id="@+id/tv_gamefloor_def"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="8dp"
+        android:textSize="10dp"
+        android:text="DEF:"
+        android:textColor="@color/text_color_def"/>
+
+    <FrameLayout
+        android:id="@+id/fl_gamefloor_unused"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/floor_unused"/>
+
+    <FrameLayout
+        android:id="@+id/fl_gamefloor_nmst"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        android:background="@color/floor_near_mst" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="@color/line_gm" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:background="@color/line_gm" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="top"
+        android:background="@color/line_gm" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="@color/line_gm" />
+
+</FrameLayout>
