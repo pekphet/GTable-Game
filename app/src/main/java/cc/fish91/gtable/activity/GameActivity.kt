@@ -157,7 +157,8 @@ class GameActivity : Activity() {
                 if (isK)
                     mBuff.keys++
                 mData[position].status = FloorStatus.IDLE
-                FightScene.award(mPerson, monsterData, isK)
+                if (FightScene.award(mPerson, monsterData, isK))
+                    show("level up!!", 1500)
                 show("${monsterData.gold}金币入手", 1000)
             }
         }

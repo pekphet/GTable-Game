@@ -46,11 +46,34 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_vperson_lv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="24dp"
+        android:textColor="@color/text_color_lv"
+        android:textSize="12dp"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/tv_vperson_exp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="24dp"
+        android:textColor="@color/text_color_lv"
+        android:textSize="12dp"
+        android:layout_below="@+id/tv_vperson_lv"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
         android:id="@+id/tv_vperson_gold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="24dp"
         android:textColor="@color/text_color_lv"
+        android:layout_below="@+id/tv_vperson_exp"
         android:textSize="12dp"
         android:layout_alignParentRight="true"/>
 

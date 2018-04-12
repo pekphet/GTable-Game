@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import cc.fish91.gtable.R
 import cc.fish91.gtable.localdata.PersonRecord
+import cc.fish91.gtable.resource.StaticData
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : Activity() {
@@ -23,6 +24,7 @@ class MainActivity : Activity() {
     private fun flushPersonArea() {
         PersonRecord.getPersonData().let {
             tv_main_lv.text = "Lv: ${it.level}"
+            tv_main_exp.text = "EXP: ${it.exp} / ${StaticData.getLimitExp(it.level)}"
             tv_main_hp.text = "HP: ${it.HP}"
             tv_main_atk.text = "ATK: ${it.atk}"
             tv_main_def.text = "DEF: ${it.def}"

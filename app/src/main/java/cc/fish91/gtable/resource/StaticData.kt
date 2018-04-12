@@ -1,6 +1,7 @@
 package cc.fish91.gtable.resource
 
 import cc.fish91.gtable.*
+import cc.fish91.gtable.localdata.PersonRecord
 
 object StaticData {
 
@@ -31,5 +32,9 @@ object StaticData {
         BuffAbility.ATK -> Pair("Buff-ATK", "make attack up")
         BuffAbility.DEF -> Pair("Buff-DEF", "make defence up")
     }
+
+    fun getLimitExp(level: Int) = level * level * 10
+
+    fun getLvGrow() = PersonData(20, 2, 2, 0, 0, 0, 0)
 
 }

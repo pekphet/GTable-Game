@@ -17,10 +17,10 @@ object FloorEngine {    //Floor start with 0
 
     private fun createMonster(id: Int, floor: Int) = StaticData.getBaseMonster(id).run {
         MonsterData(
-                this.baseHP * (1 + floor / 3) + Math.rand(floor / 2),
-                this.baseAtk * (1 + floor / 3) + Math.rand(floor / 4),
-                this.baseDef * (1 + floor / 3) + Math.rand(floor / 4),
-                this.baseExp * (1 + floor / 3) + Math.rand(floor / 2),
+                this.baseHP * (1 + floor / 2) + Math.rand(floor),
+                this.baseAtk * (1 + floor / 2) + Math.rand(floor / 2),
+                this.baseDef * (1 + floor / 2) + Math.rand(floor / 2),
+                this.baseExp * (1 + floor / 2) + Math.rand(floor),
                 Math.rand(this.baseGold * 3) + baseGold * floor,
                 id)
     }

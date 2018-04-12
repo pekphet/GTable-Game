@@ -3,6 +3,7 @@ package cc.fish91.gtable.engine
 import cc.fish91.gtable.*
 import cc.fish91.gtable.localdata.PersonRecord
 import cc.fish91.gtable.plugin.Math
+import cc.fish91.gtable.resource.StaticData
 
 object FightScene {
     fun fight(m: MonsterData, p: PersonData, fb: FloorBuff): Boolean {
@@ -26,9 +27,27 @@ object FightScene {
         }
     }
 
-    fun award(p: PersonData, m: MonsterData, isK: Boolean) {
+    fun award(p: PersonData, m: MonsterData, isK: Boolean): Boolean {
         p.exp += m.exp
         p.gold += m.gold
+        if (p.exp >= StaticData.getLimitExp(p.level)) {
+            PersonRecord.personDataLevelUP()
+            p.exp = 0
+            p.level++
+            StaticData.getLvGrow().let {
+                it.atk += p.atk
+                it.def += p.def
+                it.HP += p.HP
+                it.level = p.level
+                PersonRecord.storePersonData(it)
+            }
+            PersonRecord.getPersonHPLine().let {
+                if (it > p.HP)
+                    p.HP = it
+            }
+            return true
+        }
+        return false
     }
 
     fun failed(mPerson: PersonData, mFloor: Int) {

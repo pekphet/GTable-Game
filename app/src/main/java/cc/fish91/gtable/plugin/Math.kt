@@ -41,4 +41,18 @@ object Math {
     }
 
     fun forceMinus(a: Int, b: Int) = if (a <= b) 1 else a - b
+
+    fun <T> chance(vararg member: Pair<T, Int>): T {
+        rand(1, member.map { it.second }.reduce(Int::plus)).let {
+            var resultVal = it
+            for (i in member) {
+                if (resultVal in 1..i.second)
+                    return i.first
+                else resultVal -= i.second
+            }
+            return member[0].first
+        }
+    }
+
+    fun percent(weight: Int) = rand(1, 100) in 1..weight
 }
