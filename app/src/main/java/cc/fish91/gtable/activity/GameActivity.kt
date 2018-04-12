@@ -1,6 +1,7 @@
 package cc.fish91.gtable.activity
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -17,6 +18,7 @@ import cc.fish91.gtable.plugin.Math.getNear9Blocks
 import cc.fish91.gtable.plugin.Math.getNearBlocks
 import cc.fish91.gtable.plugin.changeToKing
 import cc.fish91.gtable.plugin.toast
+import cc.fish91.gtable.view.Dialogs
 import cc.fish91.gtable.view.FloorView
 import cc.fish91.gtable.view.PersionView
 import cc.fish91.gtable.view.ShowableViews
@@ -122,7 +124,7 @@ class GameActivity : Activity() {
                 FloorStatus.MONSTER -> doFight(position, mMonsters[data.exId], false)
                 FloorStatus.STAIR_DN -> if (mBuff.keys > 0) makeFloor(++mFloor) else show("has no keys")
                 FloorStatus.STAIR_UP -> {
-                    FightScene.failed(mPerson, mFloor)
+                    interrupt()
                 }
                 FloorStatus.GIFT -> doGift(position, data)
                 FloorStatus.BUFF -> doBuff(position, data)
@@ -210,7 +212,15 @@ class GameActivity : Activity() {
 
     override fun onBackPressed() {
         setResult(1002)
+        FightScene.failed(mPerson, mFloor)
         super.onBackPressed()
+    }
+
+    private fun interrupt() {
+        Dialogs.question(this@GameActivity, "确定返回主城？"){
+            FightScene.failed(mPerson, mFloor)
+            finish()
+        }
     }
 }
 

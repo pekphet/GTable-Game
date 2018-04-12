@@ -43,7 +43,6 @@
             android:gravity="center"
             android:textColor="@color/text_color_lv"
             android:textSize="14dp" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -93,4 +92,13 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/img_main_info"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/icon_about"
+        android:scaleType="fitXY"/>
 </RelativeLayout>

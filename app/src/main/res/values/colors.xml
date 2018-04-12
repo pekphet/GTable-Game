@@ -24,4 +24,7 @@
 
     <color name="btn_blue">#79e</color>
     <color name="btn_blue_p">#8af</color>
+
+    <color name="d_common_bg">#215656</color>
+    <color name="d_common_bg_stroke">#114343</color>
 </resources>

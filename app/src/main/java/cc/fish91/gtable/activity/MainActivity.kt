@@ -2,11 +2,14 @@ package cc.fish91.gtable.activity
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import cc.fish91.gtable.R
 import cc.fish91.gtable.localdata.PersonRecord
 import cc.fish91.gtable.resource.StaticData
+import cc.fish91.gtable.resource.StaticInfo
+import cc.fish91.gtable.view.Dialogs
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : Activity() {
@@ -16,6 +19,9 @@ class MainActivity : Activity() {
         setContentView(R.layout.activity_main)
         tv_start.setOnClickListener {
             GameActivity.start(this@MainActivity, 1)
+        }
+        img_main_info.setOnClickListener {
+            Dialogs.show(this@MainActivity, "游戏说明", StaticInfo.APP_INFO_D) {}
         }
         flushPersonArea()
     }
