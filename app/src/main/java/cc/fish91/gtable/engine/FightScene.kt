@@ -54,7 +54,7 @@ object FightScene {
         PersonRecord.getPersonData().let {
             it.gold = mPerson.gold
             it.exp = mPerson.exp
-            it.maxFloor = mFloor
+            it.maxFloor.run { if (this < mFloor) it.maxFloor = mFloor }
             PersonRecord.storePersonData(it)
         }
     }

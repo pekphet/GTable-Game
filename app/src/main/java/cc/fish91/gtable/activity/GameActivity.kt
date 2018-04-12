@@ -122,6 +122,7 @@ class GameActivity : Activity() {
                 FloorStatus.MONSTER -> doFight(position, mMonsters[data.exId], false)
                 FloorStatus.STAIR_DN -> if (mBuff.keys > 0) makeFloor(++mFloor) else show("has no keys")
                 FloorStatus.STAIR_UP -> {
+                    FightScene.failed(mPerson, mFloor)
                 }
                 FloorStatus.GIFT -> doGift(position, data)
                 FloorStatus.BUFF -> doBuff(position, data)
@@ -159,7 +160,7 @@ class GameActivity : Activity() {
                 mData[position].status = FloorStatus.IDLE
                 if (FightScene.award(mPerson, monsterData, isK))
                     show("level up!!", 1500)
-                show("${monsterData.gold}金币入手", 1000)
+//                show("${monsterData.gold}金币入手", 1000)
             }
         }
         flushPersonUI()
