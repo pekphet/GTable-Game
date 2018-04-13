@@ -18,6 +18,7 @@ import cc.fish91.gtable.plugin.Math.getNear9Blocks
 import cc.fish91.gtable.plugin.Math.getNearBlocks
 import cc.fish91.gtable.plugin.changeToKing
 import cc.fish91.gtable.plugin.toast
+import cc.fish91.gtable.resource.StaticData
 import cc.fish91.gtable.view.Dialogs
 import cc.fish91.gtable.view.FloorView
 import cc.fish91.gtable.view.PersionView
@@ -45,6 +46,7 @@ class GameActivity : Activity() {
     val mGridLayoutManager by lazy { GridLayoutManager(this@GameActivity, 5) }
     val mPerson by lazy { PersonRecord.getPersonData() }
     val mPersonView by lazy { PersionView(this@GameActivity, mBuff) }
+    val mBought by lazy { PersonRecord.getPersonBought() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +60,7 @@ class GameActivity : Activity() {
     }
 
     private fun loadPerson() {
+        StaticData.statusUpCalc(mPerson, mBought)
         mPersonView.load(mPerson)
     }
 
@@ -217,7 +220,7 @@ class GameActivity : Activity() {
     }
 
     private fun interrupt() {
-        Dialogs.question(this@GameActivity, "确定返回主城？"){
+        Dialogs.question(this@GameActivity, "确定返回主城？") {
             FightScene.failed(mPerson, mFloor)
             finish()
         }

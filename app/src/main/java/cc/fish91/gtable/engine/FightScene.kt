@@ -35,11 +35,8 @@ object FightScene {
             p.exp = 0
             p.level++
             StaticData.getLvGrow().let {
-                it.atk += p.atk
-                it.def += p.def
-                it.HP += p.HP
-                it.level = p.level
-                PersonRecord.storePersonData(it)
+                p.atk += it.atk
+                p.def += it.def
             }
             PersonRecord.getPersonHPLine().let {
                 if (it > p.HP)

@@ -8,8 +8,8 @@
     <TextView
         android:id="@+id/tv_d_title"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:gravity="center"
+        android:layout_height="48dp"
+        android:gravity="center_horizontal|bottom"
         android:textColor="@color/text_color_lv"
         android:textSize="18dp"
         android:textStyle="bold" />
@@ -17,9 +17,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_margin="16dp"
         android:overScrollMode="never"
         android:scrollbars="none">
 

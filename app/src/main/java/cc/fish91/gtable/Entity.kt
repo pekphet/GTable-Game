@@ -11,3 +11,5 @@ data class Gift(var giftType: Gifts, var value: Int)
 data class BaseMonster(var baseHP: Int, var baseAtk: Int, var baseDef: Int, var name: String, var baseExp: Int, var baseGold: Int, var exEffectId: Int = 0)
 
 data class FloorBuff(var tAtk: Int, var tDef: Int, var keys: Int)
+
+data class PersonBought(var atkLv: Int, var defLv: Int, var hpLv: Int)

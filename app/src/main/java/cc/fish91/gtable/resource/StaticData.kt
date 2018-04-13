@@ -1,7 +1,6 @@
 package cc.fish91.gtable.resource
 
 import cc.fish91.gtable.*
-import cc.fish91.gtable.localdata.PersonRecord
 
 object StaticData {
 
@@ -37,4 +36,17 @@ object StaticData {
 
     fun getLvGrow() = PersonData(20, 2, 2, 0, 0, 0, 0)
 
+    fun getUPFee(currentLevel: Int) = 500 * currentLevel + 200
+
+    fun getUppedAtk(originAtk: Int, atkLv: Int) = (originAtk * (1 + 0.1 * atkLv) + atkLv).toInt()
+    fun getUppedDef(originDef: Int, defLv: Int) = (originDef * (1 + 0.1 * defLv) + defLv).toInt()
+    fun getUppedHP(originHP: Int, hpLv: Int) = (originHP * (1 + 0.1 * hpLv) + hpLv * 10).toInt()
+
+    fun statusUpCalc(person: PersonData, personBought: PersonBought) {
+        person.let {
+            it.HP = getUppedHP(person.HP, personBought.hpLv)
+            it.atk = getUppedHP(person.atk, personBought.atkLv)
+            it.def = getUppedHP(person.def, personBought.defLv)
+        }
+    }
 }

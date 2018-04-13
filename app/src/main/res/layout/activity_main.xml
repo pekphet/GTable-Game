@@ -6,19 +6,38 @@
     android:background="@color/main_bg"
     tools:context=".activity.MainActivity">
 
-    <TextView
-        android:id="@+id/tv_start"
-        android:layout_width="200dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/btn_bg_blue_blk_sel"
-        android:gravity="center"
-        android:text="START"
-        android:textColor="@drawable/text_blue_btn_sel"
-        android:textSize="20dp"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/sp_main_skip"
+            android:layout_width="64dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:padding="0dp"
+            android:gravity="center"
+            android:background="@drawable/btn_bg_blue_blk_40"
+            android:layout_marginLeft="24dp"/>
+
+        <TextView
+            android:id="@+id/tv_start"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="100dp"
+            android:background="@drawable/btn_bg_blue_blk_sel"
+            android:gravity="center"
+            android:text="START"
+            android:textColor="@drawable/text_blue_btn_sel"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,6 +54,7 @@
             android:gravity="center"
             android:textColor="@color/text_color_lv"
             android:textSize="14dp" />
+
         <TextView
             android:id="@+id/tv_main_exp"
             android:layout_width="0dp"
@@ -46,11 +66,12 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_main_ability"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="72dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
+        android:layout_marginTop="72dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -96,9 +117,49 @@
         android:id="@+id/img_main_info"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:padding="8dp"
-        android:layout_marginTop="8dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/icon_about"
-        android:scaleType="fitXY"/>
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/icon_about" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_main_ability"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+        <TextView
+            android:id="@+id/tv_home_atk_up"
+            android:layout_width="220dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_bg_blue_blk_sel"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textColor="@drawable/text_blue_btn_sel"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_home_def_up"
+            android:layout_width="220dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_bg_blue_blk_sel"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textColor="@drawable/text_blue_btn_sel"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_home_hp_up"
+            android:layout_width="220dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_bg_blue_blk_sel"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textColor="@drawable/text_blue_btn_sel"
+            android:textSize="16dp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
 </RelativeLayout>
