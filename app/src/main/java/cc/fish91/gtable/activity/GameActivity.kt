@@ -165,7 +165,6 @@ class GameActivity : Activity() {
                 mData[position].status = FloorStatus.IDLE
                 if (FightScene.award(mPerson, monsterData, isK))
                     show("level up!!", 1500)
-//                show("${monsterData.gold}金币入手", 1000)
             }
         }
         flushPersonUI()

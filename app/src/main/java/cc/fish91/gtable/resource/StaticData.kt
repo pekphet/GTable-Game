@@ -14,6 +14,10 @@ object StaticData {
             Pair(1, listOf(1, 2, 3))
     )
 
+    private val mEquipInfoMap = mutableMapOf(
+            Pair(1, EquipInfo("E1A", EquipPosition.ARMOR, 1, 0, null))
+    )
+
 
     //  will add CACHE  later!!
     fun getBaseMonster(id: Int) = mMonsterMap[id]!!
@@ -49,4 +53,6 @@ object StaticData {
             it.def = getUppedHP(person.def, personBought.defLv)
         }
     }
+
+    fun getBaseEquipInfo(id: Int) = mEquipInfoMap[id]!!
 }

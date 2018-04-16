@@ -56,4 +56,8 @@ object FightScene {
         }
     }
 
+    fun checkDrop(person: PersonData, floor: Int, monster: MonsterData) = if (canDrop(person, monster)) EquipEngine.create(floor) else null
+
+    private fun canDrop(person: PersonData, monster: MonsterData): Boolean {return false}
+
 }
