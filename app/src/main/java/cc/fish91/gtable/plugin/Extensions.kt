@@ -7,6 +7,8 @@ import android.widget.TextView
 import android.widget.Toast
 import cc.fish91.gtable.MonsterData
 
+
+/****Math Ex*********/
 fun <E> List<E>.getRand() = this[Math.rand(size - 1)]
 fun <E> Array<E>.getRand() = this[Math.rand(size - 1)]
 
@@ -19,6 +21,7 @@ fun MonsterData.changeToKing(): MonsterData {
     return this
 }
 
+/****View & Activity********/
 fun Activity.toast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 
 fun TextView.showNotEmpty(msg: String) {

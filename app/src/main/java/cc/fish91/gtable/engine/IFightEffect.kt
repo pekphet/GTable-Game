@@ -1,7 +1,9 @@
 package cc.fish91.gtable.engine
 
-interface IFightEffect<P> {
-    fun onFightStart(p: P)
-    fun onFight(p: P)
-    fun onFightEnd(p: P)
+import cc.fish91.gtable.MonsterData
+import cc.fish91.gtable.PersonData
+
+interface IFightEffect {            //NOT FOR EQUIP EX EFFECT, ONLY FOR ROLE/MONSTER
+    fun onFight(person: PersonData, monster: MonsterData)
+    fun onFightEnd(person: PersonData, monster: MonsterData)
 }

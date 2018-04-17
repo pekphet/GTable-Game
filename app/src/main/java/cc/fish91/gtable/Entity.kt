@@ -2,8 +2,8 @@ package cc.fish91.gtable
 
 
 data class FloorMeta(var isOpened: Boolean = false, var isNearMonster: Boolean = false, var status: FloorStatus = FloorStatus.IDLE, var exId: Int = -1)
-data class PersonData(var HP: Int, var atk: Int, var def: Int, var exp: Int, var level: Int, var gold: Int, var maxFloor: Int = 1, var exPerson: ExPerson = ExPerson())
-data class ExPerson(var miss: Int = 10, var critical: Int = 10, var critical_dmg: Int = 150, var restore: Int = 0, val ex: MutableList<Pair<ExEffect, Int>> = mutableListOf())
+data class PersonData(var HP: Int, var atk: Int, var def: Int, var exp: Int, var level: Int, var gold: Int, var maxFloor: Int = 1, var ex: ExPerson = ExPerson(), var roleType: RoleType = RoleType.BEGINNER)
+data class ExPerson(var miss: Int = 100, var critical: Int = 800, var critical_dmg: Int = 150, var restore: Int = 0, val ex: MutableList<Pair<ExEffect, Int>> = mutableListOf())
 
 data class MonsterData(var HP: Int, var atk: Int, var def: Int, var exp: Int, var gold: Int, var mId: Int)
 

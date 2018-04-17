@@ -55,4 +55,5 @@ object Math {
     }
 
     fun percent(weight: Int) = rand(1, 100) in 1..weight
+    fun mil_percent(weight: Int) = rand(1, 1000) in 1..weight
 }

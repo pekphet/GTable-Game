@@ -25,7 +25,7 @@ object PersonRecord {
             .apply()
 
     fun personDataLevelUP() = getPersonData().let {
-        StaticData.getLvGrow().run {
+        StaticData.getLvGrow(it.roleType).run {
             it.level++
             it.exp = 0
             it.HP += this.HP

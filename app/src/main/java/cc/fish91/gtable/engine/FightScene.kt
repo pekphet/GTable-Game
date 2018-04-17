@@ -6,9 +6,12 @@ import cc.fish91.gtable.plugin.Math
 import cc.fish91.gtable.resource.StaticData
 
 object FightScene {
-    fun fight(m: MonsterData, p: PersonData, fb: FloorBuff): Boolean {
-        m.HP -= Math.forceMinus(p.atk + fb.tAtk, m.def)
-        p.HP -= Math.forceMinus(m.atk, p.def + fb.tDef)
+    fun fight(m: MonsterData, p: PersonData, fb: FloorBuff, vararg effects: IFightEffect): Boolean {
+        effects.map { it.onFight(p, m) }
+        m.HP -= (Math.forceMinus(p.atk + fb.tAtk, m.def) * (if (Math.mil_percent(p.ex.critical)) (p.ex.critical_dmg / 100.0) else 1.0)).toInt()
+        if (!Math.mil_percent(p.ex.miss.apply { if (this > 800) 800 else this }))
+            p.HP -= Math.forceMinus(m.atk, p.def + fb.tDef)
+        effects.map { it.onFightEnd(p, m) }
         return m.HP <= 0 || p.HP <= 0
     }
 
@@ -34,7 +37,7 @@ object FightScene {
             PersonRecord.personDataLevelUP()
             p.exp = 0
             p.level++
-            StaticData.getLvGrow().let {
+            StaticData.getLvGrow(p.roleType).let {
                 p.atk += it.atk
                 p.def += it.def
             }
@@ -58,6 +61,8 @@ object FightScene {
 
     fun checkDrop(person: PersonData, floor: Int, monster: MonsterData) = if (canDrop(person, monster)) EquipEngine.create(floor) else null
 
-    private fun canDrop(person: PersonData, monster: MonsterData): Boolean {return false}
+    private fun canDrop(person: PersonData, monster: MonsterData): Boolean {
+        return false
+    }
 
 }

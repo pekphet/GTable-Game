@@ -1,5 +1,14 @@
 package cc.fish91.gtable
 
+enum class RoleType(name: String) {
+    BEGINNER("初心者"),
+    KNIGHT("骑士"),
+    ROGUE("暗杀者"),
+    FIGHTER("格斗家"),
+    HUNTER("猎人"),
+    NEC("死灵术士"),
+}
+
 enum class FloorStatus {
     IDLE,
     MONSTER,
@@ -31,6 +40,7 @@ enum class EquipProperty(description: String) {
     HP_PC(""),
     CRITICAL(""),
     CRITICAL_DMG(""),
+    MISS("")
 
 }
 
