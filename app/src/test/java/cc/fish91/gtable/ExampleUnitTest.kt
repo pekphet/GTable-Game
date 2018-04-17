@@ -20,8 +20,7 @@ class ExampleUnitTest {
     val mArray = arrayOf(0, 0, 0, 0)
     @Test
     fun test() {
-        var i: Int = 90
-        println(i * (150 / 100.0))
+        println((19/10f).toInt())
 //        val ts = System.currentTimeMillis()
 //        for (i in 1..10000) {
 //            mArray[Math.chance(Pair(0, 20), Pair(1, 30), Pair(2, 40), Pair(3, 10))]++

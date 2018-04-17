@@ -7,9 +7,9 @@ object StaticData {
     /****Static Data**************/
 
     private val mMonsterMap = mutableMapOf(
-            Pair(1, BaseMonster(2, 1, 1, "M-a", 2, 1)),
-            Pair(2, BaseMonster(4, 1, 2, "M-b", 5, 3)),
-            Pair(3, BaseMonster(1, 4, 1, "M-c", 5, 6))
+            Pair(1, BaseMonster(2, 1, 1, "M-a", 2, 1, R.drawable.t_icon_monster_mashroom)),
+            Pair(2, BaseMonster(4, 1, 2, "M-b", 5, 3, R.drawable.t_icon_monster_steelpig)),
+            Pair(3, BaseMonster(1, 4, 1, "M-c", 5, 6, R.drawable.t_icon_monster_star))
     )
 
     private val mAreaMonsterMap = mutableMapOf(
@@ -30,15 +30,16 @@ object StaticData {
 
     /****Gift ********************/
     fun getGiftInfo(gift: Gifts) = when (gift) {
-        Gifts.ATK_UP -> Pair("ATK", "攻击提升")
-        Gifts.DEF_UP -> Pair("DEF", "防御提升")
-        Gifts.HP_RESTORE -> Pair("HP", "恢复生命值")
+        Gifts.ATK_UP -> Pair(R.drawable.t_icon_atk, "攻击提升")
+        Gifts.DEF_UP -> Pair(R.drawable.t_icon_def, "防御提升")
+        Gifts.HP_RESTORE -> Pair(R.drawable.t_icon_hp, "恢复生命值")
     }
 
     /**** Buff**********************/
     fun getBuffInfo(buffA: BuffAbility) = when (buffA) {
-        BuffAbility.ATK -> Pair("Buff-ATK", "攻击提升")
-        BuffAbility.DEF -> Pair("Buff-DEF", "防御提升")
+        BuffAbility.ATK -> Pair(R.drawable.t_icon_buff_atk, "攻击提升")
+        BuffAbility.DEF -> Pair(R.drawable.t_icon_buff_def, "防御提升")
+        BuffAbility.ARMOR -> Pair(R.drawable.t_icon_buff_armor, "护甲提升")
     }
 
 
@@ -56,7 +57,7 @@ object StaticData {
     fun getUppedDef(originDef: Int, defLv: Int) = (originDef * (1 + 0.1 * defLv) + defLv).toInt()
     fun getUppedHP(originHP: Int, hpLv: Int) = (originHP * (1 + 0.1 * hpLv) + hpLv * 10).toInt()
 
-    fun getLimitExp(level: Int) = level * level * 10
+    fun getLimitExp(level: Int) = level * level * 20
 
     fun statusUpCalc(person: PersonData, personBought: PersonBought) {
         person.let {

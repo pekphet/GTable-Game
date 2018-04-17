@@ -42,7 +42,7 @@ class GameActivity : Activity() {
     var mMonsterK = MonsterData(1, 1, 1, 1, 1, 1)
     var mFloor = 1
     val mArea = 1
-    val mBuff = FloorBuff(0, 0, 0)
+    val mBuff = FloorBuff(0, 0, 0, 0)
     val mGridLayoutManager by lazy { GridLayoutManager(this@GameActivity, 5) }
     val mPerson by lazy { PersonRecord.getPersonData() }
     val mPersonView by lazy { PersionView(this@GameActivity, mBuff) }
@@ -98,6 +98,7 @@ class GameActivity : Activity() {
         mBuff.apply {
             tAtk = 0
             tDef = 0
+            tArmor = 0
             keys = 0
         }
     }
@@ -125,7 +126,7 @@ class GameActivity : Activity() {
             when (data.status) {
                 FloorStatus.MONSTER_K -> doFight(position, mMonsterK, true)
                 FloorStatus.MONSTER -> doFight(position, mMonsters[data.exId], false)
-                FloorStatus.STAIR_DN -> if (mBuff.keys > 0) makeFloor(++mFloor) else show("has no keys")
+                FloorStatus.STAIR_DN -> if (mBuff.keys > 0) makeFloor(++mFloor) else show("缺少钥匙")
                 FloorStatus.STAIR_UP -> {
                     interrupt()
                 }
@@ -164,7 +165,7 @@ class GameActivity : Activity() {
                     mBuff.keys++
                 mData[position].status = FloorStatus.IDLE
                 if (FightScene.award(mPerson, monsterData, isK))
-                    show("level up!!", 1500)
+                    show("等级上升！", 1500)
             }
         }
         flushPersonUI()

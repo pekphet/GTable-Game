@@ -22,6 +22,7 @@ enum class FloorStatus {
 enum class BuffAbility {
     ATK,
     DEF,
+    ARMOR,
 }
 
 enum class Gifts {

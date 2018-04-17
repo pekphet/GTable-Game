@@ -32,3 +32,7 @@ fun TextView.showNotEmpty(msg: String) {
 }
 
 fun Context.dp2px(dp: Float) = (resources.displayMetrics.density * dp + 0.5).toInt()
+
+/****Strings****************/
+fun Int.toPercentKeep1() = String.format("%.1f%%", this/100f)
+fun Int.toPercentKeep2() = String.format("%.2f%%", this/100f)

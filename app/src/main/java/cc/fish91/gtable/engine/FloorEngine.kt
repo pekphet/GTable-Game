@@ -17,10 +17,10 @@ object FloorEngine {    //Floor start with 0
 
     private fun createMonster(id: Int, floor: Int) = StaticData.getBaseMonster(id).run {
         MonsterData(
-                this.baseHP * (1 + floor / 2) + Math.rand(floor),
-                this.baseAtk * (1 + floor / 2) + Math.rand(floor / 2),
-                this.baseDef * (1 + floor / 2) + Math.rand(floor / 2),
-                this.baseExp * (1 + floor / 2) + Math.rand(floor),
+                this.baseHP * (1 + floor) + Math.rand(floor),
+                this.baseAtk * (1 + floor) + Math.rand(floor / 2),
+                this.baseDef * (1 + floor) + Math.rand(floor / 2),
+                this.baseExp * (1 + floor) + Math.rand(floor),
                 Math.rand(this.baseGold * 3) + baseGold * floor,
                 id)
     }
@@ -39,6 +39,6 @@ object FloorEngine {    //Floor start with 0
     private fun getBuff(buffA: BuffAbility, floor: Int) = Buff(buffA, when (buffA) {
         BuffAbility.ATK -> 1 + Math.rand(floor + 1) / 2
         BuffAbility.DEF -> 1 + Math.rand(floor + 1) / 2
-//        BuffAbility.HP -> floor + Math.rand(floor)
+        BuffAbility.ARMOR -> 1 + Math.rand(floor + 1) / 2
     })
 }
