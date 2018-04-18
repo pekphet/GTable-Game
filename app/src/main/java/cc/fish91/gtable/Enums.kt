@@ -17,6 +17,7 @@ enum class FloorStatus {
     STAIR_DN,
     MONSTER_K,
     BUFF,
+    DROP,
 }
 
 enum class BuffAbility {

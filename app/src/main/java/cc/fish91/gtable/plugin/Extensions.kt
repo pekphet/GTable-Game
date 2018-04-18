@@ -5,7 +5,9 @@ import android.content.Context
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import cc.fish91.gtable.FightSceneFinalData
 import cc.fish91.gtable.MonsterData
+import cc.fish91.gtable.PersonData
 
 
 /****Math Ex*********/
@@ -25,14 +27,24 @@ fun MonsterData.changeToKing(): MonsterData {
 fun Activity.toast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 
 fun TextView.showNotEmpty(msg: String) {
-    if (msg.isEmpty())
-        visibility = View.GONE
-    else
-        text = msg
+    visibility = if (msg.isEmpty()) View.GONE else View.VISIBLE
+    text = msg
 }
 
 fun Context.dp2px(dp: Float) = (resources.displayMetrics.density * dp + 0.5).toInt()
 
 /****Strings****************/
-fun Int.toPercentKeep1() = String.format("%.1f%%", this/100f)
-fun Int.toPercentKeep2() = String.format("%.2f%%", this/100f)
+fun Int.toMillicentKeep1() = String.format("%.1f", this/10f)
+fun Int.max(max: Int) = if (this <= max) this else max
+
+fun <E> Array<E>.makeStringArray(operator: E.() -> String) = map { it.operator() }
+
+fun FightSceneFinalData.addPersonData(p: PersonData) {
+    atk += p.atk
+    def += p.def
+    HP += p.HP
+    critical += p.ex.critical
+    criticalDmg += p.ex.critical_dmg
+    miss += p.ex.miss
+    restore += p.ex.restore
+}

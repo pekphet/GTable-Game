@@ -43,36 +43,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|left"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         android:drawableLeft="@drawable/t_icon_p_hp"
-        android:drawablePadding="2dp"
+        android:drawablePadding="0dp"
         android:text="HP:"
         android:textColor="@color/text_color_hp"
-        android:textSize="10dp" />
+        android:textSize="8dp" />
 
     <TextView
         android:id="@+id/tv_gamefloor_atk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         android:drawableLeft="@drawable/t_icon_p_atk"
-        android:drawablePadding="2dp"
+        android:drawablePadding="0dp"
         android:text="ATK:"
         android:textColor="@color/text_color_atk"
-        android:textSize="10dp" />
+        android:textSize="8dp" />
 
     <TextView
         android:id="@+id/tv_gamefloor_def"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         android:drawableLeft="@drawable/t_icon_p_def"
-        android:drawablePadding="2dp"
+        android:drawablePadding="0dp"
         android:text="DEF:"
         android:textColor="@color/text_color_def"
-        android:textSize="10dp" />
+        android:textSize="8dp" />
 
     <ImageView
         android:id="@+id/img_gamefloor_kmark"

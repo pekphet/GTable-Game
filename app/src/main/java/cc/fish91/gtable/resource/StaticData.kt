@@ -7,9 +7,9 @@ object StaticData {
     /****Static Data**************/
 
     private val mMonsterMap = mutableMapOf(
-            Pair(1, BaseMonster(2, 1, 1, "M-a", 2, 1, R.drawable.t_icon_monster_mashroom)),
-            Pair(2, BaseMonster(4, 1, 2, "M-b", 5, 3, R.drawable.t_icon_monster_steelpig)),
-            Pair(3, BaseMonster(1, 4, 1, "M-c", 5, 6, R.drawable.t_icon_monster_star))
+            Pair(1, BaseMonster(2, 1, 1, "M-a", 2, 1, R.drawable.t_icon_monster_mashroom, Pair(0x1, 20))),
+            Pair(2, BaseMonster(4, 1, 2, "M-b", 5, 3, R.drawable.t_icon_monster_steelpig, Pair(0x1001, 25))),
+            Pair(3, BaseMonster(1, 4, 1, "M-c", 5, 6, R.drawable.t_icon_monster_star, Pair(0x2001, 30)))
     )
 
     private val mAreaMonsterMap = mutableMapOf(
@@ -17,7 +17,9 @@ object StaticData {
     )
 
     private val mEquipInfoMap = mutableMapOf(
-            Pair(1, EquipInfo("E1A", EquipPosition.ARMOR, 1, 0, null))
+            Pair(0x0001, EquipInfo("短剑", EquipPosition.ARMOR, 2, R.drawable.t_icon_a_001, null)),
+            Pair(0x1001, EquipInfo("布衣", EquipPosition.WEAPON, 2, R.drawable.t_icon_w_001, null)),
+            Pair(0x2001, EquipInfo("蓝宝石戒指", EquipPosition.RING, 2, R.drawable.t_icon_r_001, null))
     )
 
 
@@ -32,7 +34,7 @@ object StaticData {
     fun getGiftInfo(gift: Gifts) = when (gift) {
         Gifts.ATK_UP -> Pair(R.drawable.t_icon_atk, "攻击提升")
         Gifts.DEF_UP -> Pair(R.drawable.t_icon_def, "防御提升")
-        Gifts.HP_RESTORE -> Pair(R.drawable.t_icon_hp, "恢复生命值")
+        Gifts.HP_RESTORE -> Pair(R.drawable.t_icon_hpup, "恢复生命值")
     }
 
     /**** Buff**********************/
@@ -43,10 +45,9 @@ object StaticData {
     }
 
 
-
     /****Person Property********/
 
-    fun getLvGrow(roleType: RoleType = RoleType.BEGINNER) = when(roleType) {
+    fun getLvGrow(roleType: RoleType = RoleType.BEGINNER) = when (roleType) {
         RoleType.BEGINNER -> PersonData(20, 2, 2, 0, 0, 0, 0)
         else -> PersonData(20, 2, 2, 0, 0, 0, 0)
     }

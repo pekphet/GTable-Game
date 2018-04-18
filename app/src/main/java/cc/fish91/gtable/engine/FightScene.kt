@@ -3,16 +3,21 @@ package cc.fish91.gtable.engine
 import cc.fish91.gtable.*
 import cc.fish91.gtable.localdata.PersonRecord
 import cc.fish91.gtable.plugin.Math
+import cc.fish91.gtable.plugin.max
 import cc.fish91.gtable.resource.StaticData
 
 object FightScene {
-    fun fight(m: MonsterData, p: PersonData, fb: FloorBuff, vararg effects: IFightEffect): Boolean {
-        effects.map { it.onFight(p, m) }
-        m.HP -= (Math.forceMinus(p.atk + fb.tAtk, m.def) * (if (Math.mil_percent(p.ex.critical)) (p.ex.critical_dmg / 100.0) else 1.0)).toInt()
-        if (!Math.mil_percent(p.ex.miss.apply { if (this > 800) 800 else this }))
-            p.HP -= Math.forceMinus(m.atk, p.def + fb.tDef)
-        effects.map { it.onFightEnd(p, m) }
-        return m.HP <= 0 || p.HP <= 0
+    fun fight(m: MonsterData, p: FightSceneFinalData, forceEnd: Boolean = false, vararg effects: IFightEffect): Boolean {
+        while (forceEnd) {
+            effects.map { it.onFight(p, m) }
+            m.HP -= (Math.forceMinus(p.atk + p.buff.tAtk, m.def) * (if (Math.mil_percent(p.critical)) (p.criticalDmg / 100.0) else 1.0)).toInt()
+            if (!Math.mil_percent(p.miss.max(800)))
+                p.HP -= Math.forceMinus(m.atk, p.def + p.buff.tDef)
+            effects.map { it.onFightEnd(p, m) }
+            if (m.HP <= 0 || p.HP <= 0)
+                return true
+        }
+        return false
     }
 
     fun buff(b: Buff, fb: FloorBuff) {
@@ -22,7 +27,7 @@ object FightScene {
         }
     }
 
-    fun gift(g: Gift, p: PersonData) {
+    fun gift(g: Gift, p: FightSceneFinalData) {
         when (g.giftType) {
             Gifts.HP_RESTORE -> p.HP += g.value
             Gifts.ATK_UP -> p.atk += g.value
@@ -59,10 +64,14 @@ object FightScene {
         }
     }
 
-    fun checkDrop(person: PersonData, floor: Int, monster: MonsterData) = if (canDrop(person, monster)) EquipEngine.create(floor) else null
+    fun takeDrop(floor: Int, isK: Boolean, monster: MonsterData) = takeDropId(monster, isK).run {
+        if (this > 0)
+            EquipEngine.create(this, if (isK) 2 else 1, floor)
+        else null
+    }
 
-    private fun canDrop(person: PersonData, monster: MonsterData): Boolean {
-        return false
+    private fun takeDropId(monster: MonsterData, isK: Boolean) = StaticData.getBaseMonster(monster.mId).drop.run {
+        if (Math.denominatorOf(first, if (isK) 2 else 1)) second else 0
     }
 
 }

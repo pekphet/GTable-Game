@@ -2,9 +2,14 @@ package cc.fish91.gtable.view
 
 import android.app.Activity
 import android.app.Dialog
+import android.util.TypedValue
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import cc.fish91.gtable.R
+import cc.fish91.gtable.plugin.dp2px
 import cc.fish91.gtable.plugin.showNotEmpty
 
 object Dialogs {
@@ -14,12 +19,12 @@ object Dialogs {
             setContentView(R.layout.d_common)
             findViewById<TextView>(R.id.tv_d_title).showNotEmpty(title)
             findViewById<TextView>(R.id.tv_d_content).text = msg
-            findViewById<TextView>(R.id.tv_d_ok).setOnClickListener{
+            findViewById<TextView>(R.id.tv_d_ok).setOnClickListener {
                 ok()
                 this.cancel()
             }
             if (hasCancel)
-                findViewById<View>(R.id.tv_d_cancel).setOnClickListener{
+                findViewById<View>(R.id.tv_d_cancel).setOnClickListener {
                     cancel()
                     this.cancel()
                 }
@@ -32,5 +37,36 @@ object Dialogs {
 
     fun show(activity: Activity, title: String = "", msg: String, ok: () -> Unit) = show(activity, title, msg, false, ok) {}
 
-    fun question(activity: Activity, msg: String, ok:()->Unit) = show(activity, "", msg, true, ok){}
+    fun question(activity: Activity, msg: String, ok: () -> Unit) = show(activity, "", msg, true, ok) {}
+
+
+    object ExDialogs {
+        fun showSelectors(activity: Activity, title: String, content: String, selectors: List<String>, callback: (String, Int) -> Unit) {
+            Dialog(activity, R.style.app_dialog).apply {
+                setContentView(R.layout.d_selector)
+                var mTextColor = activity.resources.getColor(R.color.text_color_lv)
+                var mTextSize = 0f
+                findViewById<TextView>(R.id.tv_d_content).apply {
+                    showNotEmpty(content)
+                    mTextSize = this.textSize
+                }
+                findViewById<TextView>(R.id.tv_d_title).showNotEmpty(title)
+                val rg = findViewById<RadioGroup>(R.id.rg_d_content).apply {
+                    selectors.map {
+                        addView(RadioButton(activity).apply {
+                            setTextSize(TypedValue.COMPLEX_UNIT_PX, activity.dp2px(10f).toFloat())
+                            setTextColor(mTextColor)
+                            text = it
+                        }, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                    }
+                    (getChildAt(0) as RadioButton).isChecked = true
+                }
+                findViewById<View>(R.id.tv_d_ok).setOnClickListener {
+                    rg.indexOfChild(findViewById(rg.checkedRadioButtonId)).run { callback(selectors[this], this) }
+                    cancel()
+                }
+
+            }.show()
+        }
+    }
 }
