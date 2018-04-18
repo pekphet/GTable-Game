@@ -1,16 +1,18 @@
 package cc.fish91.gtable.view
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.util.TypedValue
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
+import android.widget.*
+import cc.fish91.gtable.Equip
+import cc.fish91.gtable.EquipProperty
 import cc.fish91.gtable.R
 import cc.fish91.gtable.plugin.dp2px
 import cc.fish91.gtable.plugin.showNotEmpty
+import org.w3c.dom.Text
 
 object Dialogs {
 
@@ -41,6 +43,8 @@ object Dialogs {
 
 
     object ExDialogs {
+        private val LinearLayoutParamsWW = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+
         fun showSelectors(activity: Activity, title: String, content: String, selectors: List<String>, callback: (String, Int) -> Unit) {
             Dialog(activity, R.style.app_dialog).apply {
                 setContentView(R.layout.d_selector)
@@ -67,6 +71,39 @@ object Dialogs {
                 }
 
             }.show()
+        }
+
+
+        fun showEquip(activity: Activity, ori: Equip?, target: Equip, cmt: (Boolean) -> Unit) {
+            Dialog(activity, R.style.app_dialog).apply {
+                setContentView(R.layout.d_game_equip)
+                findViewById<TextView>(R.id.tv_d_game_name).text = target.info.name
+                findViewById<ImageView>(R.id.img_d_game_title).setImageResource(target.info.iconId)
+                findViewById<LinearLayout>(R.id.ll_d_game_equip_content).apply {
+                    target.exProperty.keys.also {
+                        if (ori != null)
+                            it.addAll(ori.exProperty.keys)
+                    }.forEach {
+                        addView(getEquipInfoItem(activity, it, target.exProperty.getV(it)
+                                ?: 0, ori?.exProperty?.getV(it)), LinearLayoutParamsWW)
+                    }
+                }
+
+
+            }.show()
+        }
+
+        @SuppressLint("SetTextI18n")
+        private fun getEquipInfoItem(ctx: Context, ep: EquipProperty, tar: Int, ori: Int?) = TextView(ctx).apply {
+            var mOri = tar
+            if (ori != null)
+                mOri = ori
+            text = "${ep.description}  ${tar} ${if (tar > mOri)
+                "(+${tar - mOri})"
+            else if (tar < mOri)
+                "(-${mOri - tar})"
+            else
+                ""}"
         }
     }
 }

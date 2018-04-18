@@ -1,7 +1,6 @@
 package cc.fish91.gtable.engine
 
 import cc.fish91.gtable.Equip
-import cc.fish91.gtable.EquipInfo
 import cc.fish91.gtable.EquipProperty
 import cc.fish91.gtable.PersonData
 import cc.fish91.gtable.plugin.AddableMutableMap
@@ -12,11 +11,13 @@ import cc.fish91.gtable.resource.StaticData
 object EquipEngine {
     const val CHANGE_LEVEL_COUNT = 5
     const val CHANGE_RARE_COUNT = 2
-    fun create(id: Int, rare: Int, floor: Int) = Equip(
-            floor / CHANGE_LEVEL_COUNT,
-            StaticData.getBaseEquipInfo(id)).apply {
-        for (i in 0..Math.rand(rare + floor % CHANGE_LEVEL_COUNT / CHANGE_RARE_COUNT))
-            EquipProperty.values().getRand().let { exProperty.add(Pair(it, getExValue(it, id, floor))) }
+    fun create(id: Int, rare: Int, floor: Int) = Math.rand(rare + floor % CHANGE_LEVEL_COUNT / CHANGE_RARE_COUNT).let {
+        Equip(
+                floor / CHANGE_LEVEL_COUNT,
+                StaticData.getBaseEquipInfo(id), it).apply {
+            for (i in 0..it)
+                EquipProperty.values().getRand().let { exProperty.add(it, getExValue(it, id, floor)) }
+        }
     }
 
     private fun getExValue(ep: EquipProperty, id: Int, level: Int) = StaticData.getBaseEquipInfo(id).run {
@@ -35,17 +36,15 @@ object EquipEngine {
     }
 
 
-    fun calcuateEquipEX(vararg mEquips: Equip) = AddableMutableMap<EquipProperty>().apply {
+    private fun calcEquipEX(vararg mEquips: Equip) = AddableMutableMap<EquipProperty>().apply {
         mEquips.map {
-            it.exProperty.map {
-                this.put(it.first, it.second)
-            }
+            it.exProperty.forEach {add(it.key, it.value.value)}
         }
     }
 
 
     fun calcEquipsAppend(person: PersonData, vararg mEquips: Equip) = PersonData(0, 0, 0, 0, 0, 0, 0).apply {
-        calcuateEquipEX(*mEquips).forEach {
+        calcEquipEX(*mEquips).forEach {
             when (it.key) {
                 EquipProperty.ATK -> this.atk += it.value.value
                 EquipProperty.ATK_PC -> this.atk += (person.atk * it.value.value / 100f).toInt()

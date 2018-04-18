@@ -1,6 +1,6 @@
 package cc.fish91.gtable
 
-enum class RoleType(name: String) {
+enum class RoleType(val info: String) {
     BEGINNER("初心者"),
     KNIGHT("骑士"),
     ROGUE("暗杀者"),
@@ -32,17 +32,17 @@ enum class Gifts {
     DEF_UP,
 }
 
-enum class EquipProperty(description: String) {
-    HP_RESTORE(""),
-    ATK(""),
-    DEF(""),
-    HP(""),
-    ATK_PC(""),
-    DEF_PC(""),
-    HP_PC(""),
-    CRITICAL(""),
-    CRITICAL_DMG(""),
-    MISS("")
+enum class EquipProperty(val description: String) {
+    HP_RESTORE("生命回复"),
+    ATK("攻击力"),
+    DEF("防御力"),
+    HP("生命值"),
+    ATK_PC("攻击力追加"),
+    DEF_PC("防御力追加"),
+    HP_PC("生命值追加"),
+    CRITICAL("暴击率"),
+    CRITICAL_DMG("暴击伤害比率"),
+    MISS("闪避率")
 
 }
 

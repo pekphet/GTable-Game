@@ -43,7 +43,7 @@ class MainActivity : Activity() {
         flushPersonArea()
         flushUps()
         initSpinner()
-        Dialogs.ExDialogs.showSelectors(this@MainActivity, "123", "ceshi", RoleType.values().makeStringArray(RoleType::name)){
+        Dialogs.ExDialogs.showSelectors(this@MainActivity, "123", "ceshi", RoleType.values().makeStringArray(RoleType::info)){
             msg, position -> toast("At $position, Msg: $msg")
         }
     }

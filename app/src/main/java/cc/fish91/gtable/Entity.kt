@@ -1,5 +1,7 @@
 package cc.fish91.gtable
 
+import cc.fish91.gtable.plugin.AddableMutableMap
+
 
 data class FloorMeta(var isOpened: Boolean = false, var isNearMonster: Boolean = false, var status: FloorStatus = FloorStatus.IDLE, var exId: Int = -1)
 data class PersonData(var HP: Int, var atk: Int, var def: Int, var exp: Int, var level: Int, var gold: Int, var maxFloor: Int = 1, var ex: ExPerson = ExPerson(), var roleType: RoleType = RoleType.BEGINNER)
@@ -16,7 +18,7 @@ data class FloorBuff(var tAtk: Int = 0, var tDef: Int = 0, var tArmor: Int = 0, 
 
 data class PersonBought(var atkLv: Int, var defLv: Int, var hpLv: Int)
 
-data class Equip(var level: Int, val info: EquipInfo, val exProperty: MutableList<Pair<EquipProperty, Int>> = mutableListOf())
+data class Equip(var level: Int, val info: EquipInfo, var rare: Int, val exProperty: AddableMutableMap<EquipProperty> = AddableMutableMap())
 
 data class EquipInfo(var name: String, var position: EquipPosition, var baseProperty: Int, var iconId: Int, var extra: Pair<ExEffect, Int>?)
 
