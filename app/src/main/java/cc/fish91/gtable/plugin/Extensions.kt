@@ -7,6 +7,8 @@ import android.widget.TextView
 import android.widget.Toast
 import cc.fish91.gtable.MonsterData
 
+
+/****Math Ex*********/
 fun <E> List<E>.getRand() = this[Math.rand(size - 1)]
 fun <E> Array<E>.getRand() = this[Math.rand(size - 1)]
 
@@ -19,6 +21,7 @@ fun MonsterData.changeToKing(): MonsterData {
     return this
 }
 
+/****View & Activity********/
 fun Activity.toast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 
 fun TextView.showNotEmpty(msg: String) {
@@ -29,3 +32,7 @@ fun TextView.showNotEmpty(msg: String) {
 }
 
 fun Context.dp2px(dp: Float) = (resources.displayMetrics.density * dp + 0.5).toInt()
+
+/****Strings****************/
+fun Int.toPercentKeep1() = String.format("%.1f%%", this/100f)
+fun Int.toPercentKeep2() = String.format("%.2f%%", this/100f)

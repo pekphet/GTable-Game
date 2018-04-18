@@ -25,6 +25,8 @@
             android:id="@+id/tv_vperson_hp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/t_icon_p_hp"
+            android:drawablePadding="4dp"
             android:textColor="@color/text_color_hp"
             android:textSize="12dp" />
 
@@ -33,6 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:drawableLeft="@drawable/t_icon_p_atk"
+            android:drawablePadding="4dp"
             android:textColor="@color/text_color_atk"
             android:textSize="12dp" />
 
@@ -41,6 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:drawableLeft="@drawable/t_icon_p_def"
+            android:drawablePadding="4dp"
             android:textColor="@color/text_color_def"
             android:textSize="12dp" />
     </LinearLayout>
@@ -49,44 +55,44 @@
         android:id="@+id/tv_vperson_lv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_alignParentRight="true"
         android:layout_marginRight="24dp"
+        android:layout_marginTop="24dp"
         android:textColor="@color/text_color_lv"
-        android:textSize="12dp"
-        android:layout_alignParentRight="true"/>
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/tv_vperson_exp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="24dp"
-        android:textColor="@color/text_color_lv"
-        android:textSize="12dp"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_vperson_lv"
-        android:layout_alignParentRight="true"/>
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/text_color_lv"
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/tv_vperson_gold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="24dp"
-        android:textColor="@color/text_color_lv"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_vperson_exp"
-        android:textSize="12dp"
-        android:layout_alignParentRight="true"/>
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/text_color_lv"
+        android:textSize="12dp" />
 
     <TextView
         android:id="@+id/tv_vperson_keys"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="24dp"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_vperson_gold"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="16dp"
         android:textColor="@color/text_color_lv"
-        android:textSize="12dp"
-        android:layout_alignParentRight="true"/>
+        android:textSize="12dp" />
 
 
 </RelativeLayout>

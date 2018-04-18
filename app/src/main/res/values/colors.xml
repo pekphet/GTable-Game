@@ -4,10 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="main_bg">#555</color>
+    <color name="main_bg">#42374e</color>
 
     <color name="line_gm">#999</color>
-    <color name="floor_unused">#bbb</color>
+    <color name="floor_unused">#706577</color>
+    <color name="floor_bg">#42374e</color>
     <color name="floor_base">#fff</color>
 
     <color name="floor_near_mst">#50ef2323</color>
