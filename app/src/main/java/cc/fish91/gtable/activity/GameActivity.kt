@@ -181,9 +181,12 @@ class GameActivity : Activity() {
     }
 
     private fun doGift(position: Int, data: FloorMeta) {
-        FightScene.gift(mGifts[data.exId], mFightData)
-        flushPersonUI()
-        cleanMeta(position)
+        mGifts[data.exId].let {
+            FightScene.gift(it, mFightData)
+            flushPersonUI()
+            cleanMeta(position)
+            show("${it.giftType.desc} ${it.value}")
+        }
     }
 
     private fun doFight(position: Int, monsterData: MonsterData, isK: Boolean, forceEnd: Boolean = false) {

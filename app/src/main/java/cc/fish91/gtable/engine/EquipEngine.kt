@@ -23,7 +23,7 @@ object EquipEngine {
             EquipProperty.ATK -> this.baseProperty * (level + 1)
             EquipProperty.ATK_PC -> (level + 1)
             EquipProperty.DEF -> this.baseProperty * (level + 1)
-            EquipProperty.DEF_PC -> level
+            EquipProperty.DEF_PC -> (level + 1)
             EquipProperty.HP -> this.baseProperty * (level + 1) * 10
             EquipProperty.HP_PC -> (level + 1)
             EquipProperty.MISS -> (level + 1) * 5
@@ -52,14 +52,15 @@ object EquipEngine {
     }
 
 
-    fun calcEquipsAppend(person: PersonData, vararg mEquips: Equip?) = PersonData(0, 0, 0, 0, 0, 0, 0).apply {
+    fun calcEquipsAppend(person: PersonData, vararg mEquips: Equip?) = PersonData(0, 0, 0, 0, 0, 0, 0,
+            ExPerson(0, 0, 0, 0)).apply {
         calcEquipEX(*mEquips).forEach {
             when (it.key) {
                 EquipProperty.ATK -> this.atk += it.value.value
                 EquipProperty.ATK_PC -> this.atk += (person.atk * it.value.value / 100f).toInt()
                 EquipProperty.DEF -> this.def += it.value.value
                 EquipProperty.DEF_PC -> this.def += (person.def * it.value.value / 100f).toInt()
-                EquipProperty.HP -> this.HP += 10 * it.value.value
+                EquipProperty.HP -> this.HP += it.value.value
                 EquipProperty.HP_PC -> this.HP += (person.HP * it.value.value / 100f).toInt()
                 EquipProperty.MISS -> this.ex.miss += it.value.value
                 EquipProperty.CRITICAL -> this.ex.critical += it.value.value

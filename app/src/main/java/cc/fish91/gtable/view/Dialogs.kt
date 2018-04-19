@@ -88,14 +88,14 @@ object Dialogs {
                     EquipEngine.getMainValue(target).let {
                         addView(getEquipInfoItem(activity, it.first, it.second,
                                 EquipEngine.getMainValueNullable(it.first, ori?.info, ori?.level
-                                        ?: 0)))
+                                        ?: 0) ?: 0))
                     }
                     target.exProperty.keys.toMutableSet().also {
                         if (ori != null)
                             it.addAll(ori.exProperty.keys)
                     }.forEach {
                         addView(getEquipInfoItem(activity, it, target.exProperty.getV(it)
-                                ?: 0, ori?.exProperty?.getV(it)), LinearLayoutParamsWW)
+                                ?: 0, ori?.exProperty?.getV(it)?:0), LinearLayoutParamsWW)
                     }
                 }
                 findViewById<View>(R.id.tv_d_ok).setOnClickListener {
@@ -109,6 +109,7 @@ object Dialogs {
             }.show()
         }
 
+        @SuppressLint("SetTextI18n")
         fun showEquip(context: Context, eq: Equip, clk: () -> Unit) {
             Dialog(context, R.style.app_dialog).apply {
                 setContentView(R.layout.d_game_equip)
@@ -141,9 +142,11 @@ object Dialogs {
 
         @SuppressLint("SetTextI18n")
         private fun getEquipInfoItem(ctx: Context, ep: EquipProperty, tar: Int, ori: Int?) = TextView(ctx).apply {
-            var mOri = tar
+            var mOri = 0
             if (ori != null)
                 mOri = ori
+            else
+                mOri = tar
             when {
                 tar - mOri > 0 -> {
                     text = "${ep.description} $tar (+${tar - mOri})"
