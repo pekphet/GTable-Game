@@ -195,15 +195,16 @@ class GameActivity : Activity() {
                 if (isK)
                     mFightData.buff.keys++
                 mFightData.HP += mFightData.restore
-//                mData[position].status = FloorStatus.IDLE
                 if (FightScene.award(mPerson, monsterData, isK)) {
                     show("等级上升！", 1500)
                     mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
                 }
-            }
-            FightScene.takeDrop(mFloor, isK, monsterData).let {
-                if (it != null)
-                    changeToDrop(it, position)
+                FightScene.takeDrop(mFloor, isK, monsterData).let {
+                    if (it != null)
+                        changeToDrop(it, position)
+                    else
+                        mData[position].status = FloorStatus.IDLE
+                }
             }
         }
         flushPersonUI()
