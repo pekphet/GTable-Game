@@ -9,10 +9,10 @@ import android.view.View
 import android.widget.*
 import cc.fish91.gtable.Equip
 import cc.fish91.gtable.EquipProperty
+import cc.fish91.gtable.Framework
 import cc.fish91.gtable.R
 import cc.fish91.gtable.plugin.dp2px
 import cc.fish91.gtable.plugin.showNotEmpty
-import org.w3c.dom.Text
 
 object Dialogs {
 
@@ -88,6 +88,14 @@ object Dialogs {
                                 ?: 0, ori?.exProperty?.getV(it)), LinearLayoutParamsWW)
                     }
                 }
+                findViewById<View>(R.id.tv_d_ok).setOnClickListener {
+                    cmt(true)
+                    cancel()
+                }
+                findViewById<View>(R.id.tv_d_cancel).setOnClickListener {
+                    cmt(false)
+                    cancel()
+                }
 
 
             }.show()
@@ -98,12 +106,21 @@ object Dialogs {
             var mOri = tar
             if (ori != null)
                 mOri = ori
-            text = "${ep.description}  ${tar} ${if (tar > mOri)
-                "(+${tar - mOri})"
-            else if (tar < mOri)
-                "(-${mOri - tar})"
-            else
-                ""}"
+            when {
+                tar - mOri > 0 -> {
+                    text = "${ep.description} $tar (+${tar - mOri})"
+                    setTextColor(resources.getColor(R.color.text_eq_more))
+                }
+                tar - mOri == 0 -> {
+                    text = "${ep.description} $tar"
+                    setTextColor(resources.getColor(R.color.text_eq_equal))
+                }
+                tar - mOri < 0 -> {
+                    text = "${ep.description} $tar (-${mOri - tar})"
+                    setTextColor(resources.getColor(R.color.text_eq_less))
+                }
+            }
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, Framework._C.dp2px(12f).toFloat())
         }
     }
 }

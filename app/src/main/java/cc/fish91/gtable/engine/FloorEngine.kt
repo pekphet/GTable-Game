@@ -31,7 +31,7 @@ object FloorEngine {    //Floor start with 0
     private fun getGift(g: Gifts, floor: Int) = Gift(g, when (g) {
         Gifts.ATK_UP -> 1 + Math.rand(floor / 3)
         Gifts.DEF_UP -> 1 + Math.rand(floor / 3)
-        Gifts.HP_RESTORE -> floor + Math.rand(floor * 2)
+        Gifts.HP_ARMOR -> floor + Math.rand(floor * 2)
     })
 
     fun createBuff(area: Int, floor: Int) = getBuff(BuffAbility.values().getRand(), floor)
@@ -39,6 +39,6 @@ object FloorEngine {    //Floor start with 0
     private fun getBuff(buffA: BuffAbility, floor: Int) = Buff(buffA, when (buffA) {
         BuffAbility.ATK -> 1 + Math.rand(floor + 1) / 2
         BuffAbility.DEF -> 1 + Math.rand(floor + 1) / 2
-        BuffAbility.ARMOR -> 1 + Math.rand(floor + 1) / 2
+//        BuffAbility.ARMOR -> 1 + Math.rand(floor + 1) / 2
     })
 }

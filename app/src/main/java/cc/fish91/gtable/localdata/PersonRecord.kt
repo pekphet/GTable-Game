@@ -12,11 +12,20 @@ object PersonRecord {
     private const val PERSON_BASE_BOUGHT = "base_bought"
 
     private val SP_HANDLE by lazy { Framework._C.getSharedPreferences(PERSON_FILE, Context.MODE_PRIVATE) }
+
+    private var mHpLine = 0
+
     fun getPersonData(): PersonData = SP_HANDLE.getString(PERSON_BASE_KEY, "").run {
         if (this.isBlank())
             PersonData(100, 2, 2, 0, 1, 0)
         else
             Framework._G.fromJson(this, PersonData::class.java)
+    }
+
+    fun getBaseHPLine():Int {
+        if (mHpLine <= 0)
+            mHpLine = getPersonData().HP
+        return mHpLine
     }
 
     @Synchronized
@@ -32,6 +41,7 @@ object PersonRecord {
             it.atk += this.atk
             it.def += this.def
             storePersonData(it)
+            mHpLine += this.HP
         }
     }
 
@@ -47,8 +57,6 @@ object PersonRecord {
         else
             Framework._G.fromJson(this, PersonBought::class.java)
     }
-
-    fun getPersonHPLine() = getPersonData().HP
 
     @Synchronized fun abilityBought(pb: PersonBought, p: PersonData, statusType: Int) {
         when(statusType) {

@@ -20,16 +20,16 @@ enum class FloorStatus {
     DROP,
 }
 
-enum class BuffAbility {
-    ATK,
-    DEF,
-    ARMOR,
+enum class BuffAbility(val desc: String) {
+    ATK("攻击提升"),
+    DEF("防御提升"),
+//    ARMOR("护甲提升"),
 }
 
-enum class Gifts {
-    HP_RESTORE,
-    ATK_UP,
-    DEF_UP,
+enum class Gifts(val desc: String) {
+    HP_ARMOR("提升护盾"),
+    ATK_UP("攻击提升"),
+    DEF_UP("防御提升"),
 }
 
 enum class EquipProperty(val description: String) {
@@ -46,10 +46,10 @@ enum class EquipProperty(val description: String) {
 
 }
 
-enum class EquipPosition {
-    ARMOR,
-    WEAPON,
-    RING,
+enum class EquipPosition(val desc: String) {
+    ARMOR("武器"),
+    WEAPON("防具"),
+    RING("戒指"),
 }
 
 enum class ExEffect {

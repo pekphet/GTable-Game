@@ -82,6 +82,9 @@ class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift
                 dispContent(false)
                 mMonsterImg.setImageResource(R.drawable.t_icon_up)
             }
+            FloorStatus.DROP -> {
+
+            }
         }
     }
 

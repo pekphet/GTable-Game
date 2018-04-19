@@ -36,14 +36,14 @@ object EquipEngine {
     }
 
 
-    private fun calcEquipEX(vararg mEquips: Equip) = AddableMutableMap<EquipProperty>().apply {
+    private fun calcEquipEX(vararg mEquips: Equip?) = AddableMutableMap<EquipProperty>().apply {
         mEquips.map {
-            it.exProperty.forEach {add(it.key, it.value.value)}
+            it?.exProperty?.forEach {add(it.key, it.value.value)}
         }
     }
 
 
-    fun calcEquipsAppend(person: PersonData, vararg mEquips: Equip) = PersonData(0, 0, 0, 0, 0, 0, 0).apply {
+    fun calcEquipsAppend(person: PersonData, vararg mEquips: Equip?) = PersonData(0, 0, 0, 0, 0, 0, 0).apply {
         calcEquipEX(*mEquips).forEach {
             when (it.key) {
                 EquipProperty.ATK -> this.atk += it.value.value

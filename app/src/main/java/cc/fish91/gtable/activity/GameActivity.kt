@@ -11,12 +11,11 @@ import cc.fish91.gtable.*
 import cc.fish91.gtable.engine.FightScene
 import cc.fish91.gtable.engine.FloorDataCreater
 import cc.fish91.gtable.engine.FloorEngine
+import cc.fish91.gtable.localdata.EquipRecord
 import cc.fish91.gtable.localdata.PersonRecord
+import cc.fish91.gtable.plugin.*
 import cc.fish91.gtable.plugin.Math.getNear9Blocks
 import cc.fish91.gtable.plugin.Math.getNearBlocks
-import cc.fish91.gtable.plugin.addPersonData
-import cc.fish91.gtable.plugin.changeToKing
-import cc.fish91.gtable.plugin.toast
 import cc.fish91.gtable.resource.StaticData
 import cc.fish91.gtable.view.Dialogs
 import cc.fish91.gtable.view.FloorView
@@ -41,6 +40,7 @@ class GameActivity : Activity() {
     val mBuffs = mutableListOf<Buff>()
     val mGifts = mutableListOf<Gift>()
     val mDropMap = mutableMapOf<Int, Equip>()
+    val mEquips = mutableMapOf<EquipPosition, Equip>()
 
     /****Game Scene Data*********/
     var mMonsterK = MonsterData(1, 1, 1, 1, 1, 1)
@@ -48,7 +48,7 @@ class GameActivity : Activity() {
     val mArea = 1
     val mPerson by lazy { PersonRecord.getPersonData() }
     val mBought by lazy { PersonRecord.getPersonBought() }
-    val mPersonView by lazy { PersionView(this@GameActivity, mFightData.buff) }
+    val mPersonView by lazy { PersionView(this@GameActivity, mFightData) }
     val mFightData = FightSceneFinalData()
 
 
@@ -66,12 +66,15 @@ class GameActivity : Activity() {
     private fun loadPerson() {
         StaticData.statusUpCalc(mPerson, mBought)
         mPersonView.load(mPerson)
-        mFightData.addPersonData(mPerson)
         loadEquips()
+        mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
     }
 
-    private fun loadEquips() {
 
+    private fun loadEquips() {
+        mEquips.putNullable(EquipPosition.WEAPON, EquipRecord.getEqW())
+        mEquips.putNullable(EquipPosition.ARMOR, EquipRecord.getEqA())
+        mEquips.putNullable(EquipPosition.RING, EquipRecord.getEqR())
     }
 
     private fun makeFloor(floor: Int) {
@@ -101,12 +104,7 @@ class GameActivity : Activity() {
     }
 
     private fun cleanTmp() {
-        mFightData.buff.apply {
-            tAtk = 0
-            tDef = 0
-            tArmor = 0
-            keys = 0
-        }
+        mFightData.buff.clear()
         mData.clear()
         mMonsters.clear()
         mBuffs.clear()
@@ -121,11 +119,11 @@ class GameActivity : Activity() {
 
         override fun onBindViewHolder(holder: FloorVH, position: Int) {
             mData[position].run {
-                when(status) {
+                holder.load(this)
+                when (status) {
                     FloorStatus.MONSTER_K -> holder.changeMonsterK(mMonsterK)
                     FloorStatus.DROP -> holder.loadDroppedItem(position)
                 }
-                holder.load(this)
                 holder.itemView.setOnClickListener {
                     doAct(position, this)
                 }
@@ -161,6 +159,16 @@ class GameActivity : Activity() {
             mData[position].status = FloorStatus.IDLE
             return
         }
+        Dialogs.ExDialogs.showEquip(this@GameActivity, mEquips[equip.info.position], equip) {
+            if (it) {
+                EquipRecord.saveEq(equip)
+                mEquips[equip.info.position] = equip
+                mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
+            } else {
+
+            }
+            mData[position].status = FloorStatus.IDLE
+        }
     }
 
     private fun doBuff(position: Int, data: FloorMeta) {
@@ -178,7 +186,7 @@ class GameActivity : Activity() {
     private fun doFight(position: Int, monsterData: MonsterData, isK: Boolean, forceEnd: Boolean = false) {
         if (FightScene.fight(monsterData, mFightData, forceEnd)) {
             open(position, true)
-            if (mPerson.HP <= 0) {
+            if (mFightData.HP <= 0) {
                 toast("died")
                 FightScene.failed(mPerson, mFloor)
                 setResult(1001)
@@ -187,9 +195,11 @@ class GameActivity : Activity() {
                 if (isK)
                     mFightData.buff.keys++
                 mFightData.HP += mFightData.restore
-                mData[position].status = FloorStatus.IDLE
-                if (FightScene.award(mPerson, monsterData, isK))
+//                mData[position].status = FloorStatus.IDLE
+                if (FightScene.award(mPerson, monsterData, isK)) {
                     show("等级上升！", 1500)
+                    mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
+                }
             }
             FightScene.takeDrop(mFloor, isK, monsterData).let {
                 if (it != null)

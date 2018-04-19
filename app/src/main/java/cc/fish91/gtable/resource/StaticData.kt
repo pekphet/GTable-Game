@@ -7,7 +7,7 @@ object StaticData {
     /****Static Data**************/
 
     private val mMonsterMap = mutableMapOf(
-            Pair(1, BaseMonster(2, 1, 1, "M-a", 2, 1, R.drawable.t_icon_monster_mashroom, Pair(0x1, 20))),
+            Pair(1, BaseMonster(2, 1, 1, "M-a", 2, 1, R.drawable.t_icon_monster_mashroom, Pair(0x1, 2))),
             Pair(2, BaseMonster(4, 1, 2, "M-b", 5, 3, R.drawable.t_icon_monster_steelpig, Pair(0x1001, 25))),
             Pair(3, BaseMonster(1, 4, 1, "M-c", 5, 6, R.drawable.t_icon_monster_star, Pair(0x2001, 30)))
     )
@@ -32,16 +32,16 @@ object StaticData {
 
     /****Gift ********************/
     fun getGiftInfo(gift: Gifts) = when (gift) {
-        Gifts.ATK_UP -> Pair(R.drawable.t_icon_atk, "攻击提升")
-        Gifts.DEF_UP -> Pair(R.drawable.t_icon_def, "防御提升")
-        Gifts.HP_RESTORE -> Pair(R.drawable.t_icon_hpup, "恢复生命值")
+        Gifts.ATK_UP -> Pair(R.drawable.t_icon_atk, gift.desc)
+        Gifts.DEF_UP -> Pair(R.drawable.t_icon_def, gift.desc)
+        Gifts.HP_ARMOR -> Pair(R.drawable.t_icon_hpup, gift.desc)
     }
 
     /**** Buff**********************/
     fun getBuffInfo(buffA: BuffAbility) = when (buffA) {
-        BuffAbility.ATK -> Pair(R.drawable.t_icon_buff_atk, "攻击提升")
-        BuffAbility.DEF -> Pair(R.drawable.t_icon_buff_def, "防御提升")
-        BuffAbility.ARMOR -> Pair(R.drawable.t_icon_buff_armor, "护甲提升")
+        BuffAbility.ATK -> Pair(R.drawable.t_icon_buff_atk, buffA.desc)
+        BuffAbility.DEF -> Pair(R.drawable.t_icon_buff_def, buffA.desc)
+//        BuffAbility.ARMOR -> Pair(R.drawable.t_icon_buff_armor, buffA.desc)
     }
 
 
@@ -71,4 +71,5 @@ object StaticData {
     /****Equip Area**********************/
 
     fun getBaseEquipInfo(id: Int) = mEquipInfoMap[id]!!
+
 }
