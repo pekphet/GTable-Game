@@ -4,10 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="main_bg">#555</color>
+    <color name="main_bg">#42374e</color>
 
     <color name="line_gm">#999</color>
-    <color name="floor_unused">#bbb</color>
+    <color name="floor_unused">#706577</color>
+    <color name="floor_bg">#42374e</color>
     <color name="floor_base">#fff</color>
 
     <color name="floor_near_mst">#50ef2323</color>
@@ -17,6 +18,16 @@
     <color name="text_color_def">#84a5eb</color>
     <color name="text_color_floor">#eeaa11</color>
     <color name="text_color_lv">#ffee33</color>
+
+    <color name="text_eq_equal">#eeee33</color>
+    <color name="text_eq_less">#eb6564</color>
+    <color name="text_eq_more">#65eb54</color>
+
+    <color name="text_eq_rare0">#fff</color>
+    <color name="text_eq_rare1">#4c9fff</color>
+    <color name="text_eq_rare2">#a578e6</color>
+    <color name="text_eq_rare3">#d956d9</color>
+    <color name="text_eq_rare4">#f17030</color>
 
     <color name="text_color_show">#98e7e7</color>
     <color name="bg_color_show">#666</color>

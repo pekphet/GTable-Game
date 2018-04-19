@@ -5,39 +5,43 @@
     android:background="@drawable/bg_common_d"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_d_title"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="center_horizontal|bottom"
-        android:textColor="@color/text_color_lv"
-        android:textSize="18dp"
-        android:textStyle="bold" />
-
-    <ScrollView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/ll_gamefloor_content"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:overScrollMode="never"
-        android:scrollbars="none">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/img_d_game_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
 
-            <TextView
-                android:id="@+id/tv_d_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/text_color_atk"
-                android:textSize="14dp" />
-        </FrameLayout>
-    </ScrollView>
+        <TextView
+            android:id="@+id/tv_d_game_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="16dp"
+            android:textColor="@color/text_color_lv"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_d_game_equip_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:layout_marginTop="16dp"
         android:background="@color/d_common_bg_stroke" />
 
     <LinearLayout
@@ -51,7 +55,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="好的"
+            android:text="替换"
             android:textColor="@drawable/text_d_ok_btn_sel"
             android:textSize="16dp"
             android:textStyle="bold" />
@@ -68,7 +72,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="取消"
+            android:text="保留"
             android:textColor="@drawable/text_d_ok_btn_sel"
             android:textSize="16dp"
             android:textStyle="bold" />

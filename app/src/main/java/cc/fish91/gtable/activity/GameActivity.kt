@@ -1,8 +1,6 @@
 package cc.fish91.gtable.activity
 
 import android.app.Activity
-import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -13,11 +11,11 @@ import cc.fish91.gtable.*
 import cc.fish91.gtable.engine.FightScene
 import cc.fish91.gtable.engine.FloorDataCreater
 import cc.fish91.gtable.engine.FloorEngine
+import cc.fish91.gtable.localdata.EquipRecord
 import cc.fish91.gtable.localdata.PersonRecord
+import cc.fish91.gtable.plugin.*
 import cc.fish91.gtable.plugin.Math.getNear9Blocks
 import cc.fish91.gtable.plugin.Math.getNearBlocks
-import cc.fish91.gtable.plugin.changeToKing
-import cc.fish91.gtable.plugin.toast
 import cc.fish91.gtable.resource.StaticData
 import cc.fish91.gtable.view.Dialogs
 import cc.fish91.gtable.view.FloorView
@@ -35,18 +33,24 @@ class GameActivity : Activity() {
         }
     }
 
+    val mGridLayoutManager by lazy { GridLayoutManager(this@GameActivity, 5) }
+    /**** FLOOR METAS************/
     val mData = mutableListOf<FloorMeta>()
     val mMonsters = mutableListOf<MonsterData>()
     val mBuffs = mutableListOf<Buff>()
     val mGifts = mutableListOf<Gift>()
+    val mDropMap = mutableMapOf<Int, Equip>()
+    val mEquips = mutableMapOf<EquipPosition, Equip>()
+
+    /****Game Scene Data*********/
     var mMonsterK = MonsterData(1, 1, 1, 1, 1, 1)
     var mFloor = 1
     val mArea = 1
-    val mBuff = FloorBuff(0, 0, 0)
-    val mGridLayoutManager by lazy { GridLayoutManager(this@GameActivity, 5) }
     val mPerson by lazy { PersonRecord.getPersonData() }
-    val mPersonView by lazy { PersionView(this@GameActivity, mBuff) }
     val mBought by lazy { PersonRecord.getPersonBought() }
+    val mPersonView by lazy { PersionView(this@GameActivity, mFightData) }
+    val mFightData = FightSceneFinalData()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,16 +66,22 @@ class GameActivity : Activity() {
     private fun loadPerson() {
         StaticData.statusUpCalc(mPerson, mBought)
         mPersonView.load(mPerson)
+        loadEquips()
+        mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
+    }
+
+
+    private fun loadEquips() {
+        mEquips.putNullable(EquipPosition.WEAPON, EquipRecord.getEqW())
+        mEquips.putNullable(EquipPosition.ARMOR, EquipRecord.getEqA())
+        mEquips.putNullable(EquipPosition.RING, EquipRecord.getEqR())
+        mPersonView.flushEquip(mEquips)
     }
 
     private fun makeFloor(floor: Int) {
         cleanTmp()
         FloorDataCreater.create(floor) {
             mPersonView.setFloor(floor)
-            mData.clear()
-            mMonsters.clear()
-            mBuffs.clear()
-            mGifts.clear()
             mData.addAll(this)
             flushPersonUI()
             mMonsters.addAll(FloorEngine.createMonsters(mArea, floor, FloorDataCreater.getMonsterCount(floor)))
@@ -95,23 +105,26 @@ class GameActivity : Activity() {
     }
 
     private fun cleanTmp() {
-        mBuff.apply {
-            tAtk = 0
-            tDef = 0
-            keys = 0
-        }
+        mFightData.buff.clear()
+        mData.clear()
+        mMonsters.clear()
+        mBuffs.clear()
+        mGifts.clear()
+        mDropMap.clear()
     }
 
     val mAdapter = object : Adapter<FloorVH>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FloorVH(parent, mMonsters, mGifts, mBuffs, mMonsterK)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FloorVH(parent, mMonsters, mGifts, mBuffs, mMonsterK, mDropMap)
 
         override fun getItemCount() = 5 * 7
 
         override fun onBindViewHolder(holder: FloorVH, position: Int) {
             mData[position].run {
-                if (status == FloorStatus.MONSTER_K)
-                    holder.changeMonsterK(mMonsterK)
                 holder.load(this)
+                when (status) {
+                    FloorStatus.MONSTER_K -> holder.changeMonsterK(mMonsterK)
+                    FloorStatus.DROP -> holder.loadDroppedItem(position)
+                }
                 holder.itemView.setOnClickListener {
                     doAct(position, this)
                 }
@@ -125,7 +138,7 @@ class GameActivity : Activity() {
             when (data.status) {
                 FloorStatus.MONSTER_K -> doFight(position, mMonsterK, true)
                 FloorStatus.MONSTER -> doFight(position, mMonsters[data.exId], false)
-                FloorStatus.STAIR_DN -> if (mBuff.keys > 0) makeFloor(++mFloor) else show("has no keys")
+                FloorStatus.STAIR_DN -> if (mFightData.buff.keys > 0) makeFloor(++mFloor) else show("缺少钥匙")
                 FloorStatus.STAIR_UP -> {
                     interrupt()
                 }
@@ -133,46 +146,83 @@ class GameActivity : Activity() {
                 FloorStatus.BUFF -> doBuff(position, data)
                 FloorStatus.IDLE -> {
                 }
+                FloorStatus.DROP -> {
+                    showDroppedEquipInfo(position, mDropMap[position])
+                }
             }
         } else if (data.isNearMonster) {
             show("请先击杀附近的怪物", 300)
         }
     }
 
+    private fun showDroppedEquipInfo(position: Int, equip: Equip?) {
+        if (equip == null) {
+            mData[position].status = FloorStatus.IDLE
+            return
+        }
+        Dialogs.ExDialogs.showEquipCompare(this@GameActivity, mEquips[equip.info.position], equip) {
+            if (it) {
+                EquipRecord.saveEq(equip)
+                mEquips[equip.info.position] = equip
+                mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
+                mPersonView.flushEquip(mEquips)
+            } else {
+
+            }
+            mData[position].status = FloorStatus.IDLE
+            mAdapter.notifyItemChanged(position)
+        }
+    }
+
     private fun doBuff(position: Int, data: FloorMeta) {
-        FightScene.buff(mBuffs[data.exId], mBuff)
+        FightScene.buff(mBuffs[data.exId], mFightData.buff)
         flushPersonUI()
         cleanMeta(position)
     }
 
     private fun doGift(position: Int, data: FloorMeta) {
-        FightScene.gift(mGifts[data.exId], mPerson)
-        flushPersonUI()
-        cleanMeta(position)
+        mGifts[data.exId].let {
+            FightScene.gift(it, mFightData)
+            flushPersonUI()
+            cleanMeta(position)
+            show("${it.giftType.desc} ${it.value}")
+        }
     }
 
-    private fun doFight(position: Int, monsterData: MonsterData, isK: Boolean) {
-        if (FightScene.fight(monsterData, mPerson, mBuff)) {
+    private fun doFight(position: Int, monsterData: MonsterData, isK: Boolean, forceEnd: Boolean = false) {
+        if (FightScene.fight(monsterData, mFightData, forceEnd)) {
             open(position, true)
-            if (mPerson.HP <= 0) {
+            if (mFightData.HP <= 0) {
                 toast("died")
                 FightScene.failed(mPerson, mFloor)
                 setResult(1001)
                 finish()
             } else {
                 if (isK)
-                    mBuff.keys++
-                mData[position].status = FloorStatus.IDLE
-                if (FightScene.award(mPerson, monsterData, isK))
-                    show("level up!!", 1500)
-//                show("${monsterData.gold}金币入手", 1000)
+                    mFightData.buff.keys++
+                mFightData.HP += mFightData.restore
+                if (FightScene.award(mPerson, monsterData, isK)) {
+                    show("等级上升！", 1500)
+                    mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
+                }
+                FightScene.takeDrop(mFloor, isK, monsterData).let {
+                    if (it != null)
+                        changeToDrop(it, position)
+                    else
+                        mData[position].status = FloorStatus.IDLE
+                }
             }
         }
         flushPersonUI()
     }
 
+    private fun changeToDrop(e: Equip, position: Int) {
+        mData[position].status = FloorStatus.DROP
+        mDropMap[position] = e
+        mAdapter.notifyItemChanged(position)
+    }
+
     private fun flushPersonUI() {
-        mGridLayoutManager.findLastCompletelyVisibleItemPosition()
         mPersonView.load(mPerson)
     }
 
@@ -228,10 +278,11 @@ class GameActivity : Activity() {
 }
 
 
-class FloorVH(val floorView: FloorView) : RecyclerView.ViewHolder(floorView.getView()) {
-    constructor(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift>, buffs: List<Buff>, monsterK: MonsterData) : this(FloorView(parent, monsters, gifts, buffs, monsterK))
+class FloorVH(val floorView: FloorView, val dropMap: Map<Int, Equip>) : RecyclerView.ViewHolder(floorView.getView()) {
+    constructor(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift>, buffs: List<Buff>, monsterK: MonsterData, dropMap: Map<Int, Equip>) : this(FloorView(parent, monsters, gifts, buffs, monsterK), dropMap)
 
     fun changeMonsterK(monsterK: MonsterData) = floorView.changeMonsterK(monsterK)
     fun load(data: FloorMeta) = floorView.load(data)
+    fun loadDroppedItem(position: Int) = floorView.loadEquip(dropMap[position])
 }
 

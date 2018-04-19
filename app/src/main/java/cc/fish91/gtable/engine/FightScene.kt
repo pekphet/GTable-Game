@@ -3,13 +3,30 @@ package cc.fish91.gtable.engine
 import cc.fish91.gtable.*
 import cc.fish91.gtable.localdata.PersonRecord
 import cc.fish91.gtable.plugin.Math
+import cc.fish91.gtable.plugin.max
 import cc.fish91.gtable.resource.StaticData
 
 object FightScene {
-    fun fight(m: MonsterData, p: PersonData, fb: FloorBuff): Boolean {
-        m.HP -= Math.forceMinus(p.atk + fb.tAtk, m.def)
-        p.HP -= Math.forceMinus(m.atk, p.def + fb.tDef)
-        return m.HP <= 0 || p.HP <= 0
+    fun fight(m: MonsterData, p: FightSceneFinalData, forceEnd: Boolean = false, vararg effects: IFightEffect): Boolean {
+        do {
+            effects.map { it.onFight(p, m) }
+            m.HP -= (Math.forceMinus(p.atk + p.buff.tAtk + p.floorAppend.atk, m.def) * (if (Math.mil_percent(p.critical)) (p.criticalDmg / 100.0) else 1.0)).toInt()
+            if (!Math.mil_percent(p.miss.max(800))) {
+                Math.forceMinus(m.atk, p.def + p.buff.tDef + p.floorAppend.def).let {
+                    if (p.floorAppend.HP > it) {
+                        p.floorAppend.HP -= it
+                    } else if (p.floorAppend.HP != 0) {     //护盾抵抗
+                        p.floorAppend.HP = 0
+                    } else {
+                        p.HP -= it
+                    }
+                }
+            }
+            effects.map { it.onFightEnd(p, m) }
+            if (m.HP <= 0 || p.HP <= 0)
+                return true
+        } while (forceEnd)
+        return false
     }
 
     fun buff(b: Buff, fb: FloorBuff) {
@@ -19,11 +36,11 @@ object FightScene {
         }
     }
 
-    fun gift(g: Gift, p: PersonData) {
+    fun gift(g: Gift, p: FightSceneFinalData) {
         when (g.giftType) {
-            Gifts.HP_RESTORE -> p.HP += g.value
-            Gifts.ATK_UP -> p.atk += g.value
-            Gifts.DEF_UP -> p.def += g.value
+            Gifts.HP_ARMOR -> p.floorAppend.HP += g.value
+            Gifts.ATK_UP -> p.floorAppend.atk += g.value
+            Gifts.DEF_UP -> p.floorAppend.def += g.value
         }
     }
 
@@ -34,11 +51,11 @@ object FightScene {
             PersonRecord.personDataLevelUP()
             p.exp = 0
             p.level++
-            StaticData.getLvGrow().let {
+            StaticData.getLvGrow(p.roleType).let {
                 p.atk += it.atk
                 p.def += it.def
             }
-            PersonRecord.getPersonHPLine().let {
+            PersonRecord.getBaseHPLine().let {
                 if (it > p.HP)
                     p.HP = it
             }
@@ -54,6 +71,16 @@ object FightScene {
             it.maxFloor.run { if (this < mFloor) it.maxFloor = mFloor }
             PersonRecord.storePersonData(it)
         }
+    }
+
+    fun takeDrop(floor: Int, isK: Boolean, monster: MonsterData) = takeDropId(monster, isK).run {
+        if (this > 0)
+            EquipEngine.create(this, if (isK) 2 else 1, floor)
+        else null
+    }
+
+    private fun takeDropId(monster: MonsterData, isK: Boolean) = StaticData.getBaseMonster(monster.mId).drop.run {
+        if (Math.denominatorOf(second, if (isK) 2 else 1)) first else 0
     }
 
 }

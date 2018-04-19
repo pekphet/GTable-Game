@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import cc.fish91.gtable.*
 import cc.fish91.gtable.resource.StaticData
@@ -16,6 +18,10 @@ class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift
     private val mHpTv = view.findViewById<TextView>(R.id.tv_gamefloor_hp)
     private val mUnusedFL = view.findViewById<FrameLayout>(R.id.fl_gamefloor_unused)
     private val mNMonsterFL = view.findViewById<FrameLayout>(R.id.fl_gamefloor_nmst)
+    private val mContentImg = view.findViewById<ImageView>(R.id.img_gamefloor_content)
+    private val mContentLL = view.findViewById<LinearLayout>(R.id.ll_gamefloor_content)
+    private val mMonsterImg = view.findViewById<ImageView>(R.id.img_gamefloor_pic)
+    private val mKMarkImg = view.findViewById<ImageView>(R.id.img_gamefloor_kmark)
     private val mMonsters = monsters
     private val mGifts = gifts
     private val mBuff = buffs
@@ -27,14 +33,18 @@ class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift
         when (data.status) {
             FloorStatus.MONSTER_K -> {
                 dispAll()
-                mTv.text = "K-${StaticData.getBaseMonster(mMonsterK.mId).name}"
+                dispContent(false)
+                mKMarkImg.visibility = View.VISIBLE
+                mMonsterImg.setImageResource(StaticData.getBaseMonster(mMonsterK.mId).iconId)
                 mAtkTv.text = "${mMonsterK.atk}"
                 mDefTv.text = "${mMonsterK.def}"
                 mHpTv.text = "${mMonsterK.HP}"
             }
             FloorStatus.MONSTER -> {
                 dispAll()
+                dispContent(false)
                 mMonsters[data.exId].run {
+                    mMonsterImg.setImageResource(StaticData.getBaseMonster(mId).iconId)
                     mAtkTv.text = "$atk"
                     mDefTv.text = "$def"
                     mHpTv.text = "$HP"
@@ -43,27 +53,37 @@ class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift
             }
             FloorStatus.BUFF -> {
                 hideAll()
+                dispContent(true)
                 mBuff[data.exId].run {
-                    mTv.text = "${StaticData.getBuffInfo(ability).first}\n+ $value"
+                    mContentImg.setImageResource(StaticData.getBuffInfo(ability).first)
+                    mTv.text = "$value"
                 }
             }
             FloorStatus.GIFT -> {
                 hideAll()
+                dispContent(true)
                 mGifts[data.exId].run {
-                    mTv.text = "${StaticData.getGiftInfo(giftType).first}\n+ $value"
+                    mContentImg.setImageResource(StaticData.getGiftInfo(giftType).first)
+                    mTv.text = "$value"
                 }
             }
             FloorStatus.IDLE -> {
                 hideAll()
-                mTv.text = ""
+                dispContent(false)
+                mMonsterImg.visibility = View.GONE
             }
             FloorStatus.STAIR_DN -> {
                 hideAll()
-                mTv.text = "next"
+                dispContent(false)
+                mMonsterImg.setImageResource(R.drawable.t_icon_down)
             }
             FloorStatus.STAIR_UP -> {
                 hideAll()
-                mTv.text = "back"
+                dispContent(false)
+                mMonsterImg.setImageResource(R.drawable.t_icon_up)
+            }
+            FloorStatus.DROP -> {
+
             }
         }
     }
@@ -72,16 +92,37 @@ class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift
         mMonsterK = monsterK
     }
 
+    fun loadEquip(q: Equip?) {
+        if (q == null)  {
+            hideAll()
+            dispContent(false)
+            mMonsterImg.visibility = View.GONE
+            return
+        }
+        hideAll()
+        dispContent(true)
+        mContentImg.setImageResource(q.info.iconId)
+        mTv.text = "+${q.level}"
+    }
+
     override fun getView() = this.view
 
     private fun hideAll() {
+        mKMarkImg.visibility = View.GONE
         mAtkTv.visibility = View.GONE
         mDefTv.visibility = View.GONE
         mHpTv.visibility = View.GONE
     }
+
     private fun dispAll() {
+        mKMarkImg.visibility = View.GONE
         mAtkTv.visibility = View.VISIBLE
         mDefTv.visibility = View.VISIBLE
         mHpTv.visibility = View.VISIBLE
+    }
+
+    private fun dispContent(isDisp: Boolean) {
+        mMonsterImg.visibility = if (isDisp) View.GONE else View.VISIBLE
+        mContentLL.visibility = if (!isDisp) View.GONE else View.VISIBLE
     }
 }

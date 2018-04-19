@@ -20,11 +20,12 @@ class ExampleUnitTest {
     val mArray = arrayOf(0, 0, 0, 0)
     @Test
     fun test() {
-        val ts = System.currentTimeMillis()
-        for (i in 1..10000) {
-            mArray[Math.chance(Pair(0, 20), Pair(1, 30), Pair(2, 40), Pair(3, 10))]++
-        }
-        println("use: ${System.currentTimeMillis() - ts}ms")
-        println("A:${mArray[0] / 10000.0}\nB:${mArray[1] / 10000.0}\nC:${mArray[2] / 10000.0}\nD:${mArray[3] / 10000.0}\n")
+        println((19/10f).toInt())
+//        val ts = System.currentTimeMillis()
+//        for (i in 1..10000) {
+//            mArray[Math.chance(Pair(0, 20), Pair(1, 30), Pair(2, 40), Pair(3, 10))]++
+//        }
+//        println("use: ${System.currentTimeMillis() - ts}ms")
+//        println("A:${mArray[0] / 10000.0}\nB:${mArray[1] / 10000.0}\nC:${mArray[2] / 10000.0}\nD:${mArray[3] / 10000.0}\n")
     }
 }

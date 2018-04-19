@@ -13,8 +13,11 @@ import android.widget.*
 import cc.fish91.gtable.PersonBought
 import cc.fish91.gtable.PersonData
 import cc.fish91.gtable.R
+import cc.fish91.gtable.RoleType
 import cc.fish91.gtable.localdata.PersonRecord
 import cc.fish91.gtable.plugin.dp2px
+import cc.fish91.gtable.plugin.makeStringArray
+import cc.fish91.gtable.plugin.toast
 import cc.fish91.gtable.resource.StaticData
 import cc.fish91.gtable.resource.StaticInfo
 import cc.fish91.gtable.view.Dialogs
@@ -40,6 +43,9 @@ class MainActivity : Activity() {
         flushPersonArea()
         flushUps()
         initSpinner()
+//        Dialogs.ExDialogs.showSelectors(this@MainActivity, "123", "ceshi", RoleType.values().makeStringArray(RoleType::info)){
+//            msg, position -> toast("At $position, Msg: $msg")
+//        }
     }
 
     @Synchronized
@@ -85,7 +91,7 @@ class MainActivity : Activity() {
             tv_main_exp.text = "EXP: ${it.exp} / ${StaticData.getLimitExp(it.level)}"
             tv_main_hp.text = "HP: ${StaticData.getUppedHP(it.HP, mBought.hpLv)}"
             tv_main_atk.text = "ATK: ${StaticData.getUppedAtk(it.atk, mBought.atkLv)}"
-            tv_main_def.text = "DEF: ${StaticData.getUppedHP(it.def, mBought.defLv)}"
+            tv_main_def.text = "DEF: ${StaticData.getUppedDef(it.def, mBought.defLv)}"
             tv_main_gold.text = "GOLD: ${it.gold}"
         }
     }
