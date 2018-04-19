@@ -23,6 +23,12 @@
     <color name="text_eq_less">#eb6564</color>
     <color name="text_eq_more">#65eb54</color>
 
+    <color name="text_eq_rare0">#fff</color>
+    <color name="text_eq_rare1">#4c9fff</color>
+    <color name="text_eq_rare2">#a578e6</color>
+    <color name="text_eq_rare3">#d956d9</color>
+    <color name="text_eq_rare4">#f17030</color>
+
     <color name="text_color_show">#98e7e7</color>
     <color name="bg_color_show">#666</color>
 

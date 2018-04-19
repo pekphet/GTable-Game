@@ -25,7 +25,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="16dp"
-            android:drawableLeft="@drawable/t_icon_a_001"
             android:textColor="@color/text_color_lv"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -42,6 +41,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
+        android:layout_marginTop="16dp"
         android:background="@color/d_common_bg_stroke" />
 
     <LinearLayout

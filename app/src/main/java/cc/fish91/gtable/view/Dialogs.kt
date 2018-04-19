@@ -11,6 +11,7 @@ import cc.fish91.gtable.Equip
 import cc.fish91.gtable.EquipProperty
 import cc.fish91.gtable.Framework
 import cc.fish91.gtable.R
+import cc.fish91.gtable.engine.EquipEngine
 import cc.fish91.gtable.plugin.dp2px
 import cc.fish91.gtable.plugin.showNotEmpty
 
@@ -74,13 +75,22 @@ object Dialogs {
         }
 
 
-        fun showEquip(activity: Activity, ori: Equip?, target: Equip, cmt: (Boolean) -> Unit) {
+        @SuppressLint("SetTextI18n")
+        fun showEquipCompare(activity: Activity, ori: Equip?, target: Equip, cmt: (Boolean) -> Unit) {
             Dialog(activity, R.style.app_dialog).apply {
                 setContentView(R.layout.d_game_equip)
-                findViewById<TextView>(R.id.tv_d_game_name).text = target.info.name
+                findViewById<TextView>(R.id.tv_d_game_name).let {
+                    it.text = "${if (target.level > 0) "+${target.level}" else ""} ${target.info.name}"
+                    it.setTextColor(getRareColor(target.rare))
+                }
                 findViewById<ImageView>(R.id.img_d_game_title).setImageResource(target.info.iconId)
                 findViewById<LinearLayout>(R.id.ll_d_game_equip_content).apply {
-                    target.exProperty.keys.also {
+                    EquipEngine.getMainValue(target).let {
+                        addView(getEquipInfoItem(activity, it.first, it.second,
+                                EquipEngine.getMainValueNullable(it.first, ori?.info, ori?.level
+                                        ?: 0)))
+                    }
+                    target.exProperty.keys.toMutableSet().also {
                         if (ori != null)
                             it.addAll(ori.exProperty.keys)
                     }.forEach {
@@ -96,8 +106,36 @@ object Dialogs {
                     cmt(false)
                     cancel()
                 }
+            }.show()
+        }
 
-
+        fun showEquip(context: Context, eq: Equip, clk: () -> Unit) {
+            Dialog(context, R.style.app_dialog).apply {
+                setContentView(R.layout.d_game_equip)
+                findViewById<TextView>(R.id.tv_d_game_name).let {
+                    it.text = "${if (eq.level > 0) "+${eq.level}" else ""} ${eq.info.name}"
+                    it.setTextColor(getRareColor(eq.rare))
+                }
+                findViewById<ImageView>(R.id.img_d_game_title).setImageResource(eq.info.iconId)
+                findViewById<LinearLayout>(R.id.ll_d_game_equip_content).apply {
+                    EquipEngine.getMainValue(eq).let {
+                        addView(getEquipInfoItem(context, it.first, it.second,
+                                EquipEngine.getMainValueNullable(it.first, null, 0)))
+                    }
+                    eq.exProperty.keys.forEach {
+                        addView(getEquipInfoItem(context, it, eq.exProperty.getV(it)
+                                ?: 0, null), LinearLayoutParamsWW)
+                    }
+                }
+                findViewById<TextView>(R.id.tv_d_ok).apply {
+                    setOnClickListener {
+                        clk()
+                        cancel()
+                    }
+                    text = "关闭"
+                }
+                findViewById<View>(R.id.tv_d_cancel).visibility = View.GONE
+                findViewById<View>(R.id.v_d_p).visibility = View.GONE
             }.show()
         }
 
@@ -122,5 +160,14 @@ object Dialogs {
             }
             setTextSize(TypedValue.COMPLEX_UNIT_PX, Framework._C.dp2px(12f).toFloat())
         }
+
+        private fun getRareColor(rare: Int) = Framework._C.resources.getColor(when (rare) {
+            0 -> R.color.text_eq_rare0
+            1 -> R.color.text_eq_rare1
+            2 -> R.color.text_eq_rare2
+            3 -> R.color.text_eq_rare3
+            4 -> R.color.text_eq_rare4
+            else -> R.color.text_eq_rare4
+        })
     }
 }

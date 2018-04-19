@@ -94,6 +94,9 @@ class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift
 
     fun loadEquip(q: Equip?) {
         if (q == null)  {
+            hideAll()
+            dispContent(false)
+            mMonsterImg.visibility = View.GONE
             return
         }
         hideAll()

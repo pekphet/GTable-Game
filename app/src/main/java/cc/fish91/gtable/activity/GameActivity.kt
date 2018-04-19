@@ -75,6 +75,7 @@ class GameActivity : Activity() {
         mEquips.putNullable(EquipPosition.WEAPON, EquipRecord.getEqW())
         mEquips.putNullable(EquipPosition.ARMOR, EquipRecord.getEqA())
         mEquips.putNullable(EquipPosition.RING, EquipRecord.getEqR())
+        mPersonView.flushEquip(mEquips)
     }
 
     private fun makeFloor(floor: Int) {
@@ -159,15 +160,17 @@ class GameActivity : Activity() {
             mData[position].status = FloorStatus.IDLE
             return
         }
-        Dialogs.ExDialogs.showEquip(this@GameActivity, mEquips[equip.info.position], equip) {
+        Dialogs.ExDialogs.showEquipCompare(this@GameActivity, mEquips[equip.info.position], equip) {
             if (it) {
                 EquipRecord.saveEq(equip)
                 mEquips[equip.info.position] = equip
                 mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
+                mPersonView.flushEquip(mEquips)
             } else {
 
             }
             mData[position].status = FloorStatus.IDLE
+            mAdapter.notifyItemChanged(position)
         }
     }
 
@@ -212,6 +215,7 @@ class GameActivity : Activity() {
 
     private fun changeToDrop(e: Equip, position: Int) {
         mData[position].status = FloorStatus.DROP
+        mDropMap[position] = e
         mAdapter.notifyItemChanged(position)
     }
 
