@@ -34,7 +34,7 @@ fun TextView.showNotEmpty(msg: String) {
 fun Context.dp2px(dp: Float) = (resources.displayMetrics.density * dp + 0.5).toInt()
 
 /****Strings****************/
-fun Int.toMillicentKeep1() = String.format("%.1f", this / 10f)
+fun Int.toMillicentKeep1() = String.format("%.1f%%", this / 10f)
 
 fun Int.max(max: Int) = if (this <= max) this else max
 

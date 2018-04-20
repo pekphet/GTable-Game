@@ -80,6 +80,12 @@ class GameActivity : Activity() {
 
     private fun makeFloor(floor: Int) {
         cleanTmp()
+        if (floor % 10 == 0)
+            mFightData.floorAppend.let {
+                it.atk = 0
+                it.def = 0
+                it.HP = 0
+            }
         FloorDataCreater.create(floor) {
             mPersonView.setFloor(floor)
             mData.addAll(this)
@@ -166,6 +172,7 @@ class GameActivity : Activity() {
                 mEquips[equip.info.position] = equip
                 mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
                 mPersonView.flushEquip(mEquips)
+                mPersonView.load(mPerson)
             } else {
 
             }

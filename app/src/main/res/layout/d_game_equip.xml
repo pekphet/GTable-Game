@@ -72,7 +72,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="保留"
+            android:text="放弃"
             android:textColor="@drawable/text_d_ok_btn_sel"
             android:textSize="16dp"
             android:textStyle="bold" />

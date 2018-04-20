@@ -112,15 +112,15 @@ class MainActivity : Activity() {
     private fun initSpinner() {
         mAdapter = object : ArrayAdapter<String>(this@MainActivity, R.layout.i_sp_main_floor) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup) = LayoutInflater.from(parent.context).inflate(R.layout.i_sp_main_floor, parent, false).also {
-                it.findViewById<TextView>(R.id.text1).text = "${position + 1}F"
+                it.findViewById<TextView>(R.id.text1).text = "${if (position > 0) position * 5 else 1}F"
                 it.setBackgroundResource(android.R.color.transparent)
             }
 
-            override fun getItem(position: Int) = "${position + 1}F"
+            override fun getItem(position: Int) = "${if (position > 0) position * 5 else 1}F"
 
             override fun getItemId(position: Int) = position.toLong()
 
-            override fun getCount() = mPersonData.maxFloor.run { if (this >= 1) this else 1 }
+            override fun getCount() = mPersonData.maxFloor / 5 + 1
         }
         mAdapter.setDropDownViewResource(R.layout.i_sp_main_floor)
         sp_main_skip.adapter = mAdapter
@@ -129,7 +129,7 @@ class MainActivity : Activity() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                mFloor = position + 1
+                mFloor = if (position == 0) 1 else position * 5
             }
         }
     }
