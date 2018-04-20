@@ -65,9 +65,9 @@ class GameActivity : Activity() {
 
     private fun loadPerson() {
         StaticData.statusUpCalc(mPerson, mBought)
-        mPersonView.load(mPerson)
         loadEquips()
         mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
+        mPersonView.load(mPerson)
     }
 
 

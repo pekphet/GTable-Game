@@ -14,6 +14,7 @@ import cc.fish91.gtable.R
 import cc.fish91.gtable.engine.EquipEngine
 import cc.fish91.gtable.plugin.dp2px
 import cc.fish91.gtable.plugin.showNotEmpty
+import cc.fish91.gtable.plugin.toMillicentKeep1
 
 object Dialogs {
 
@@ -149,19 +150,25 @@ object Dialogs {
                 mOri = tar
             when {
                 tar - mOri > 0 -> {
-                    text = "${ep.description} $tar (+${tar - mOri})"
+                    text = "${ep.description} ${getShowValueOfEqP(ep, tar)} (+${tar - mOri})"
                     setTextColor(resources.getColor(R.color.text_eq_more))
                 }
                 tar - mOri == 0 -> {
-                    text = "${ep.description} $tar"
+                    text = "${ep.description} ${getShowValueOfEqP(ep, tar)}"
                     setTextColor(resources.getColor(R.color.text_eq_equal))
                 }
                 tar - mOri < 0 -> {
-                    text = "${ep.description} $tar (-${mOri - tar})"
+                    text = "${ep.description} ${getShowValueOfEqP(ep, tar)} (-${mOri - tar})"
                     setTextColor(resources.getColor(R.color.text_eq_less))
                 }
             }
             setTextSize(TypedValue.COMPLEX_UNIT_PX, Framework._C.dp2px(12f).toFloat())
+        }
+
+        private fun getShowValueOfEqP(ep: EquipProperty, value: Int) = when(ep) {
+            EquipProperty.ATK_PC, EquipProperty.DEF_PC, EquipProperty.HP_PC, EquipProperty.CRITICAL_DMG -> "+$value%"
+            EquipProperty.CRITICAL, EquipProperty.MISS -> "+${value.toMillicentKeep1()}"
+            else -> "$value"
         }
 
         private fun getRareColor(rare: Int) = Framework._C.resources.getColor(when (rare) {

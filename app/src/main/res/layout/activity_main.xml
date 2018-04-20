@@ -35,7 +35,9 @@
             android:text="START"
             android:textColor="@drawable/text_blue_btn_sel"
             android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:overScrollMode="never"
+            android:scrollbars="none"/>
     </LinearLayout>
 
 
