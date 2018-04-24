@@ -203,12 +203,13 @@ object Dialogs {
                         visibility = View.GONE
                     }
                 }
-            }
+            }.show()
         }
 
         private fun getInfoText(ctx: Context, text: String) = TextView(ctx).apply {
             setTextSize(TypedValue.COMPLEX_UNIT_PX, Framework._C.dp2px(12f).toFloat())
             setTextColor(resources.getColor(R.color.text_color_lv))
+            this.text = text
         }
     }
 

@@ -7,11 +7,11 @@ object StaticData {
     /****Static Data**************/
 
     private val mMonsterMap = mutableMapOf(
-            Pair(1, BaseMonster(2, 1, 1, "M-a", 2, 1, R.drawable.t_icon_monster_mashroom, Pair(0x1, 10))),
-            Pair(2, BaseMonster(4, 1, 2, "M-b", 5, 3, R.drawable.t_icon_monster_steelpig, Pair(0x1001, 20))),
-            Pair(3, BaseMonster(1, 3, 1, "M-c", 5, 6, R.drawable.t_icon_monster_star, Pair(0x2001, 25))),
-            Pair(4, BaseMonster(2, 3, 3, "M-d", 5, 6, R.drawable.t_icon_monster_axewood, Pair(0x2001, 25))),
-            Pair(5, BaseMonster(3, 2, 2, "M-e", 5, 6, R.drawable.t_icon_monster_sun, Pair(0x2001, 25)))
+            Pair(1, BaseMonster(2, 1, 1, "花蘑菇", 2, 1, R.drawable.t_icon_monster_mashroom, Pair(0x1, 10))),
+            Pair(2, BaseMonster(4, 1, 2, "钢猪猪", 5, 3, R.drawable.t_icon_monster_steelpig, Pair(0x1001, 20))),
+            Pair(3, BaseMonster(1, 3, 1, "星星怪", 5, 6, R.drawable.t_icon_monster_star, Pair(0x2001, 25))),
+            Pair(4, BaseMonster(2, 3, 3, "斧木妖", 5, 6, R.drawable.t_icon_monster_axewood, Pair(0x2001, 25))),
+            Pair(5, BaseMonster(3, 2, 2, "太阳怪", 5, 6, R.drawable.t_icon_monster_sun, Pair(0x2001, 25)))
     )
 
     private val mAreaMonsterMap = mutableMapOf(
