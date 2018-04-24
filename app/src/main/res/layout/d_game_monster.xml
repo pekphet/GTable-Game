@@ -31,12 +31,21 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_d_game_equip_content"
+        android:id="@+id/ll_d_game_monster_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical"
         android:layout_marginTop="24dp" />
+    
+    <TextView
+        android:id="@+id/tv_game_monster_ex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textSize="10dp"
+        android:textColor="@color/text_color_lv"
+        android:layout_gravity="center_horizontal"/>
 
     <View
         android:layout_width="match_parent"
@@ -55,7 +64,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="替换"
+            android:text="强制攻击"
             android:textColor="@drawable/text_d_ok_btn_sel"
             android:textSize="16dp"
             android:textStyle="bold" />
@@ -72,7 +81,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="放弃"
+            android:text="关闭"
             android:textColor="@drawable/text_d_ok_btn_sel"
             android:textSize="16dp"
             android:textStyle="bold" />

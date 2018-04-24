@@ -7,14 +7,14 @@ import android.content.Context
 import android.util.TypedValue
 import android.view.View
 import android.widget.*
-import cc.fish91.gtable.Equip
-import cc.fish91.gtable.EquipProperty
-import cc.fish91.gtable.Framework
-import cc.fish91.gtable.R
+import cc.fish91.gtable.*
 import cc.fish91.gtable.engine.EquipEngine
 import cc.fish91.gtable.plugin.dp2px
 import cc.fish91.gtable.plugin.showNotEmpty
 import cc.fish91.gtable.plugin.toMillicentKeep1
+import cc.fish91.gtable.plugin.toPercentKeep1
+import cc.fish91.gtable.resource.StaticData
+import org.w3c.dom.Text
 
 object Dialogs {
 
@@ -96,7 +96,7 @@ object Dialogs {
                             it.addAll(ori.exProperty.keys)
                     }.forEach {
                         addView(getEquipInfoItem(activity, it, target.exProperty.getV(it)
-                                ?: 0, ori?.exProperty?.getV(it)?:0), LinearLayoutParamsWW)
+                                ?: 0, ori?.exProperty?.getV(it) ?: 0), LinearLayoutParamsWW)
                     }
                 }
                 findViewById<View>(R.id.tv_d_ok).setOnClickListener {
@@ -165,7 +165,7 @@ object Dialogs {
             setTextSize(TypedValue.COMPLEX_UNIT_PX, Framework._C.dp2px(12f).toFloat())
         }
 
-        private fun getShowValueOfEqP(ep: EquipProperty, value: Int) = when(ep) {
+        private fun getShowValueOfEqP(ep: EquipProperty, value: Int) = when (ep) {
             EquipProperty.ATK_PC, EquipProperty.DEF_PC, EquipProperty.HP_PC, EquipProperty.CRITICAL_DMG -> "+$value%"
             EquipProperty.CRITICAL, EquipProperty.MISS -> "+${value.toMillicentKeep1()}"
             else -> "$value"
@@ -179,5 +179,37 @@ object Dialogs {
             4 -> R.color.text_eq_rare4
             else -> R.color.text_eq_rare4
         })
+
+        fun showMonster(activity: Activity, monster: MonsterData, fightCK: () -> Unit) {
+            Dialog(activity, R.style.app_dialog).apply {
+                val base = StaticData.getBaseMonster(monster.mId)
+                setContentView(R.layout.d_game_monster)
+                findViewById<ImageView>(R.id.img_d_game_title).setImageResource(base.iconId)
+                findViewById<TextView>(R.id.tv_d_game_name).text = base.name
+                findViewById<View>(R.id.tv_d_ok).setOnClickListener {
+                    fightCK()
+                    cancel()
+                }
+                findViewById<View>(R.id.tv_d_cancel).setOnClickListener { cancel() }
+                findViewById<LinearLayout>(R.id.ll_d_game_monster_content).apply {
+                    addView(getInfoText(activity, "攻击力: ${monster.atk}"), LinearLayoutParamsWW)
+                    addView(getInfoText(activity, "防御力: ${monster.def}"), LinearLayoutParamsWW)
+                    addView(getInfoText(activity, "生命值: ${monster.HP}"), LinearLayoutParamsWW)
+                    addView(getInfoText(activity, "可掉落物品: ${StaticData.getBaseEquipInfo(base.drop.first).name}"), LinearLayoutParamsWW)
+                    addView(getInfoText(activity, "装备暴率: ${(1.0 / base.drop.second).toPercentKeep1()}"), LinearLayoutParamsWW)
+                }
+                findViewById<TextView>(R.id.tv_game_monster_ex).apply {
+                    if (base.exEffectId == 0){
+                        visibility = View.GONE
+                    }
+                }
+            }
+        }
+
+        private fun getInfoText(ctx: Context, text: String) = TextView(ctx).apply {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, Framework._C.dp2px(12f).toFloat())
+            setTextColor(resources.getColor(R.color.text_color_lv))
+        }
     }
+
 }

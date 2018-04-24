@@ -33,23 +33,25 @@ class GameActivity : Activity() {
         }
     }
 
-    val mGridLayoutManager by lazy { GridLayoutManager(this@GameActivity, 5) }
-    /**** FLOOR METAS************/
+    private val AREA_SPLIT_FLOORS = 30
+
+    private val mGridLayoutManager by lazy { GridLayoutManager(this@GameActivity, 5) }
+    private /**** FLOOR METAS************/
     val mData = mutableListOf<FloorMeta>()
-    val mMonsters = mutableListOf<MonsterData>()
-    val mBuffs = mutableListOf<Buff>()
-    val mGifts = mutableListOf<Gift>()
-    val mDropMap = mutableMapOf<Int, Equip>()
-    val mEquips = mutableMapOf<EquipPosition, Equip>()
+    private val mMonsters = mutableListOf<MonsterData>()
+    private val mBuffs = mutableListOf<Buff>()
+    private val mGifts = mutableListOf<Gift>()
+    private val mDropMap = mutableMapOf<Int, Equip>()
+    private val mEquips = mutableMapOf<EquipPosition, Equip>()
 
     /****Game Scene Data*********/
-    var mMonsterK = MonsterData(1, 1, 1, 1, 1, 1)
-    var mFloor = 1
-    val mArea = 1
-    val mPerson by lazy { PersonRecord.getPersonData() }
-    val mBought by lazy { PersonRecord.getPersonBought() }
-    val mPersonView by lazy { PersionView(this@GameActivity, mFightData) }
-    val mFightData = FightSceneFinalData()
+    private var mMonsterK = MonsterData(1, 1, 1, 1, 1, 1)
+    private var mFloor = 1
+    private var mArea = 1
+    private val mPerson by lazy { PersonRecord.getPersonData() }
+    private val mBought by lazy { PersonRecord.getPersonBought() }
+    private val mPersonView by lazy { PersionView(this@GameActivity, mFightData) }
+    private val mFightData = FightSceneFinalData()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,6 +82,7 @@ class GameActivity : Activity() {
 
     private fun makeFloor(floor: Int) {
         cleanTmp()
+        mArea = floor / 30 + 1
         if (floor % 10 == 0)
             mFightData.floorAppend.let {
                 it.atk = 0
@@ -87,7 +90,9 @@ class GameActivity : Activity() {
                 it.HP = 0
             }
         FloorDataCreater.create(floor) {
-            mPersonView.setFloor(floor)
+            val tmpMsg = "区域$mArea 第${mFloor - AREA_SPLIT_FLOORS * (mArea - 1)}层"
+            show(tmpMsg)
+            mPersonView.setFloor(tmpMsg)
             mData.addAll(this)
             flushPersonUI()
             mMonsters.addAll(FloorEngine.createMonsters(mArea, floor, FloorDataCreater.getMonsterCount(floor)))
@@ -133,6 +138,24 @@ class GameActivity : Activity() {
                 }
                 holder.itemView.setOnClickListener {
                     doAct(position, this)
+                }
+                holder.itemView.setOnLongClickListener {
+                    doExAct(position, this)
+                    true
+                }
+            }
+        }
+    }
+
+    private fun doExAct(position: Int, data: FloorMeta) {
+        if (!data.isNearMonster && data.isOpened) {
+            open(position, data)
+            when(data.status) {
+                FloorStatus.MONSTER -> Dialogs.ExDialogs.showMonster(this@GameActivity, mMonsters[data.exId]) {
+                    doFight(position, mMonsters[data.exId], false, true)
+                }
+                FloorStatus.MONSTER_K -> Dialogs.ExDialogs.showMonster(this@GameActivity, mMonsterK) {
+                    doFight(position, mMonsterK, true, true)
                 }
             }
         }

@@ -35,8 +35,8 @@ class PersionView(val ctx: Context, val fd: FightSceneFinalData) : LoadableView<
         mTvLv.text = "level: ${data.level}"
     }
 
-    fun setFloor(floor: Int) {
-        mTvFloor.text = "Floor: $floor"
+    fun setFloor(floorMsg: String) {
+        mTvFloor.text = floorMsg
     }
 
     override fun getView() = view

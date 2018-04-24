@@ -9,17 +9,24 @@ object StaticData {
     private val mMonsterMap = mutableMapOf(
             Pair(1, BaseMonster(2, 1, 1, "M-a", 2, 1, R.drawable.t_icon_monster_mashroom, Pair(0x1, 10))),
             Pair(2, BaseMonster(4, 1, 2, "M-b", 5, 3, R.drawable.t_icon_monster_steelpig, Pair(0x1001, 20))),
-            Pair(3, BaseMonster(1, 4, 1, "M-c", 5, 6, R.drawable.t_icon_monster_star, Pair(0x2001, 25)))
+            Pair(3, BaseMonster(1, 3, 1, "M-c", 5, 6, R.drawable.t_icon_monster_star, Pair(0x2001, 25))),
+            Pair(4, BaseMonster(2, 3, 3, "M-d", 5, 6, R.drawable.t_icon_monster_axewood, Pair(0x2001, 25))),
+            Pair(5, BaseMonster(3, 2, 2, "M-e", 5, 6, R.drawable.t_icon_monster_sun, Pair(0x2001, 25)))
     )
 
     private val mAreaMonsterMap = mutableMapOf(
-            Pair(1, listOf(1, 2, 3))
+            Pair(1, listOf(1, 2, 3)),
+            Pair(2, listOf(2, 3, 5)),
+            Pair(3, listOf(3, 4, 5))
     )
 
     private val mEquipInfoMap = mutableMapOf(
             Pair(0x0001, EquipInfo("布衣", EquipPosition.ARMOR, 2, R.drawable.t_icon_a_001, null)),
             Pair(0x1001, EquipInfo("短剑", EquipPosition.WEAPON, 2, R.drawable.t_icon_w_001, null)),
-            Pair(0x2001, EquipInfo("蓝宝石戒指", EquipPosition.RING, 2, R.drawable.t_icon_r_001, null))
+            Pair(0x2001, EquipInfo("蓝宝石戒指", EquipPosition.RING, 2, R.drawable.t_icon_r_001, null)),
+            Pair(0x0002, EquipInfo("木甲", EquipPosition.ARMOR, 4, R.drawable.t_icon_r_001, null)),
+            Pair(0x1002, EquipInfo("长剑", EquipPosition.WEAPON, 4, R.drawable.t_icon_r_001, null)),
+            Pair(0x2002, EquipInfo("蓝魂戒指", EquipPosition.RING, 4, R.drawable.t_icon_r_001, null))
     )
 
 
@@ -27,7 +34,7 @@ object StaticData {
     //  will add CACHE  later!!
     fun getBaseMonster(id: Int) = mMonsterMap[id]!!
 
-    fun getMonsterPool(areaId: Int) = mAreaMonsterMap[areaId]!!
+    fun getMonsterPool(areaId: Int) = if (areaId <= mAreaMonsterMap.size - 1) mAreaMonsterMap[areaId]!! else mAreaMonsterMap[mAreaMonsterMap.size - 1]!!
 
 
     /****Gift ********************/

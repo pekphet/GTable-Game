@@ -100,6 +100,8 @@ class MainActivity : Activity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 201) {
             flushPersonArea()
+            flushUps()
+            mAdapter.notifyDataSetChanged()
             when (resultCode) {
                 1001 -> {           //DUNGEON DEAD
                 }

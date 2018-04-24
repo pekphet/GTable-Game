@@ -35,6 +35,7 @@ fun Context.dp2px(dp: Float) = (resources.displayMetrics.density * dp + 0.5).toI
 
 /****Strings****************/
 fun Int.toMillicentKeep1() = String.format("%.1f%%", this / 10f)
+fun Double.toPercentKeep1() = String.format("%.1f%%", this * 100f)
 
 fun Int.max(max: Int) = if (this <= max) this else max
 
@@ -63,9 +64,15 @@ fun FightSceneFinalData.clear() {
 }
 
 fun FightSceneFinalData.reCalc(person: PersonData, vararg equips: Equip?) {
+    val tempHp = HP
     clear()
     addPersonData(person)
     addPersonData(EquipEngine.calcEquipsAppend(person, *equips))
+    if (tempHp > 0 || tempHp <= HPLine) {
+        HP = tempHp
+    } else {
+        HP = HPLine
+    }
 }
 
 fun FloorBuff.clear() {
