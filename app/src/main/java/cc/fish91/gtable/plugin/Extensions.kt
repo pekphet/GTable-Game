@@ -68,7 +68,7 @@ fun FightSceneFinalData.reCalc(person: PersonData, vararg equips: Equip?) {
     clear()
     addPersonData(person)
     addPersonData(EquipEngine.calcEquipsAppend(person, *equips))
-    if (tempHp > 0 || tempHp <= HPLine) {
+    if (tempHp in 1..HPLine) {
         HP = tempHp
     } else {
         HP = HPLine

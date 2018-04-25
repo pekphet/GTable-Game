@@ -10,8 +10,8 @@ object StaticData {
             Pair(1, BaseMonster(2, 1, 1, "花蘑菇", 2, 1, R.drawable.t_icon_monster_mashroom, Pair(0x1, 10))),
             Pair(2, BaseMonster(4, 1, 2, "钢猪猪", 5, 3, R.drawable.t_icon_monster_steelpig, Pair(0x1001, 20))),
             Pair(3, BaseMonster(1, 3, 1, "星星怪", 5, 6, R.drawable.t_icon_monster_star, Pair(0x2001, 25))),
-            Pair(4, BaseMonster(2, 3, 3, "斧木妖", 5, 6, R.drawable.t_icon_monster_axewood, Pair(0x2001, 25))),
-            Pair(5, BaseMonster(3, 2, 2, "太阳怪", 5, 6, R.drawable.t_icon_monster_sun, Pair(0x2001, 25)))
+            Pair(4, BaseMonster(2, 3, 3, "斧木妖", 5, 6, R.drawable.t_icon_monster_axewood, Pair(0x0002, 25))),
+            Pair(5, BaseMonster(3, 2, 2, "太阳怪", 5, 6, R.drawable.t_icon_monster_sun, Pair(0x1002, 25)))
     )
 
     private val mAreaMonsterMap = mutableMapOf(
@@ -24,8 +24,8 @@ object StaticData {
             Pair(0x0001, EquipInfo("布衣", EquipPosition.ARMOR, 2, R.drawable.t_icon_a_001, null)),
             Pair(0x1001, EquipInfo("短剑", EquipPosition.WEAPON, 2, R.drawable.t_icon_w_001, null)),
             Pair(0x2001, EquipInfo("蓝宝石戒指", EquipPosition.RING, 2, R.drawable.t_icon_r_001, null)),
-            Pair(0x0002, EquipInfo("木甲", EquipPosition.ARMOR, 4, R.drawable.t_icon_r_001, null)),
-            Pair(0x1002, EquipInfo("长剑", EquipPosition.WEAPON, 4, R.drawable.t_icon_r_001, null)),
+            Pair(0x0002, EquipInfo("木甲", EquipPosition.ARMOR, 4, R.drawable.t_icon_a_001, null)),
+            Pair(0x1002, EquipInfo("长剑", EquipPosition.WEAPON, 4, R.drawable.t_icon_w_001, null)),
             Pair(0x2002, EquipInfo("蓝魂戒指", EquipPosition.RING, 4, R.drawable.t_icon_r_001, null))
     )
 

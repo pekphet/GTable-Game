@@ -117,12 +117,11 @@
 
     <ImageView
         android:id="@+id/img_main_info"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
         android:padding="24dp"
-        android:scaleType="fitXY"
+        android:scaleType="center"
         android:src="@drawable/t_icon_question" />
 
     <LinearLayout
