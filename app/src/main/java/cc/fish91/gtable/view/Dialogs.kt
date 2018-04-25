@@ -166,8 +166,8 @@ object Dialogs {
         }
 
         private fun getShowValueOfEqP(ep: EquipProperty, value: Int) = when (ep) {
-            EquipProperty.ATK_PC, EquipProperty.DEF_PC, EquipProperty.HP_PC, EquipProperty.CRITICAL_DMG -> "+$value%"
-            EquipProperty.CRITICAL, EquipProperty.MISS -> "+${value.toMillicentKeep1()}"
+            EquipProperty.CRITICAL_DMG -> "+$value%"
+            EquipProperty.ATK_PC, EquipProperty.DEF_PC, EquipProperty.HP_PC, EquipProperty.CRITICAL, EquipProperty.MISS -> "+${value.toMillicentKeep1()}"
             else -> "$value"
         }
 

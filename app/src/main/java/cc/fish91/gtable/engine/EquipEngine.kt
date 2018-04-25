@@ -11,7 +11,7 @@ object EquipEngine {
     const val CHANGE_RARE_COUNT = 2
     fun create(id: Int, rare: Int, floor: Int) = Math.rand(rare + (floor % CHANGE_LEVEL_COUNT) / CHANGE_RARE_COUNT).let {
         Equip(
-                floor / CHANGE_LEVEL_COUNT,
+                Math.min(floor / CHANGE_LEVEL_COUNT, 50),
                 StaticData.getBaseEquipInfo(id), it).apply {
             for (i in 0..it)
                 EquipProperty.values().getRand().let { exProperty.add(it, getExValue(it, StaticData.getBaseEquipInfo(id), floor / CHANGE_LEVEL_COUNT)) }
@@ -26,8 +26,8 @@ object EquipEngine {
             EquipProperty.DEF_PC -> (level + 1)
             EquipProperty.HP -> this.baseProperty * (level + 1) * 10
             EquipProperty.HP_PC -> (level + 1)
-            EquipProperty.MISS -> (level + 1) * 5
-            EquipProperty.CRITICAL -> (level + 1) * 5
+            EquipProperty.MISS -> (level + 1)
+            EquipProperty.CRITICAL -> (level + 1)
             EquipProperty.CRITICAL_DMG -> (level + 1) * 2
             EquipProperty.HP_RESTORE -> (level + 1)
         }
@@ -57,11 +57,11 @@ object EquipEngine {
         calcEquipEX(*mEquips).forEach {
             when (it.key) {
                 EquipProperty.ATK -> this.atk += it.value.value
-                EquipProperty.ATK_PC -> this.atk += (person.atk * it.value.value / 100f).toInt()
+                EquipProperty.ATK_PC -> this.atk += (person.atk * it.value.value / 1000f).toInt()
                 EquipProperty.DEF -> this.def += it.value.value
-                EquipProperty.DEF_PC -> this.def += (person.def * it.value.value / 100f).toInt()
+                EquipProperty.DEF_PC -> this.def += (person.def * it.value.value / 1000f).toInt()
                 EquipProperty.HP -> this.HP += it.value.value
-                EquipProperty.HP_PC -> this.HP += (person.HP * it.value.value / 100f).toInt()
+                EquipProperty.HP_PC -> this.HP += (person.HP * it.value.value / 1000f).toInt()
                 EquipProperty.MISS -> this.ex.miss += it.value.value
                 EquipProperty.CRITICAL -> this.ex.critical += it.value.value
                 EquipProperty.CRITICAL_DMG -> this.ex.critical_dmg += it.value.value

@@ -57,4 +57,8 @@ object Math {
     fun denominatorOf(den: Int, times: Int = 1) = rand(1, den) == times
     fun percent(weight: Int) = rand(1, 100) in 1..weight
     fun mil_percent(weight: Int) = rand(1, 1000) in 1..weight
+
+    fun limitAdd(origin: Int, increase: Int, limit: Int) = (origin + increase).apply { if (this > limit) limit else this }
+    fun min(origin: Int, sec: Int) = if (origin < sec) origin else sec
+
 }

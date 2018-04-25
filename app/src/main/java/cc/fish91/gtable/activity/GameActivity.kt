@@ -34,9 +34,11 @@ class GameActivity : Activity() {
     }
 
     private val AREA_SPLIT_FLOORS = 30
+    private val KEEP_EQUIP_FLOORS = 40
 
     private val mGridLayoutManager by lazy { GridLayoutManager(this@GameActivity, 5) }
-    private /**** FLOOR METAS************/
+    private
+            /**** FLOOR METAS************/
     val mData = mutableListOf<FloorMeta>()
     private val mMonsters = mutableListOf<MonsterData>()
     private val mBuffs = mutableListOf<Buff>()
@@ -150,7 +152,7 @@ class GameActivity : Activity() {
     private fun doExAct(position: Int, data: FloorMeta) {
         if (!data.isNearMonster && data.isOpened) {
             open(position, data)
-            when(data.status) {
+            when (data.status) {
                 FloorStatus.MONSTER -> Dialogs.ExDialogs.showMonster(this@GameActivity, mMonsters[data.exId]) {
                     doFight(position, mMonsters[data.exId], false, true)
                 }
@@ -191,7 +193,8 @@ class GameActivity : Activity() {
         }
         Dialogs.ExDialogs.showEquipCompare(this@GameActivity, mEquips[equip.info.position], equip) {
             if (it) {
-                EquipRecord.saveEq(equip)
+                if (mFloor <= KEEP_EQUIP_FLOORS || equip.rare >= 3)
+                    EquipRecord.saveEq(equip)
                 mEquips[equip.info.position] = equip
                 mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
                 mPersonView.flushEquip(mEquips)
@@ -230,7 +233,7 @@ class GameActivity : Activity() {
             } else {
                 if (isK)
                     mFightData.buff.keys++
-                mFightData.HP += mFightData.restore
+                mFightData.HP = Math.limitAdd(mFightData.HP, mFightData.restore, mFightData.HPLine)
                 if (FightScene.award(mPerson, monsterData, isK)) {
                     show("等级上升！", 1500)
                     mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
