@@ -26,7 +26,7 @@ class PersionView(val ctx: Context, val fd: FightSceneFinalData) : LoadableView<
 
     @SuppressLint("SetTextI18n")
     override fun load(data: PersonData) {
-        mTvHp.text = " HP: ${fd.HP}${fd.floorAppend.HP.run { if (this <= 0) "" else " +$this" }}"
+        mTvHp.text = " HP: ${fd.HP}/${fd.HPLine} ${fd.floorAppend.HP.run { if (this <= 0) "" else " +$this" }}"
         mTvAtk.text = "ATK: ${fd.atk + fd.floorAppend.atk}${fd.buff.tAtk.run { if (this == 0) "" else if (this < 0) " -$this" else " +$this" }}"
         mTvDef.text = "DEF: ${fd.def + fd.floorAppend.def}${fd.buff.tDef.run { if (this == 0) "" else if (this < 0) " -$this" else " +$this" }}"
         mTvGold.text = "GOLD: ${data.gold}"

@@ -5,6 +5,8 @@ import cc.fish91.gtable.MonsterData
 
 object FightEffects {
     class decreaseDef(val value: Int) : IFightEffect {
+        override fun getInfo() = ""
+
         override fun onFight(person: FightSceneFinalData, monster: MonsterData) {
             monster.def -= value
         }
@@ -24,6 +26,8 @@ object FightEffects {
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData) {
             monster.def += decreased
         }
+
+        override fun getInfo() = ""
 
     }
 
