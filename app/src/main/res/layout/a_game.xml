@@ -2,16 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_color_show"
     android:orientation="vertical">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="504dp">
+        android:layout_width="360dp"
+        android:layout_height="506dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line_gm" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/line_gm" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_game"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="360dp"
+            android:layout_height="504dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="1dp"
             android:overScrollMode="never"
             android:scrollbars="none" />
 

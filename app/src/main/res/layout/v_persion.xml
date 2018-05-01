@@ -103,23 +103,23 @@
 
         <ImageView
             android:id="@+id/img_vperson_eqw"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@color/floor_bg"
             android:scaleType="center" />
 
         <ImageView
             android:id="@+id/img_vperson_eqa"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="8dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="@color/floor_bg"
+            android:layout_marginLeft="8dp"
             android:scaleType="center" />
 
         <ImageView
             android:id="@+id/img_vperson_eqr"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginLeft="8dp"
             android:background="@color/floor_bg"
             android:scaleType="center" />
