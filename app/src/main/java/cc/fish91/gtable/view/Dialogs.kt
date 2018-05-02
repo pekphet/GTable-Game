@@ -180,7 +180,7 @@ object Dialogs {
             else -> R.color.text_eq_rare4
         })
 
-        fun showMonster(activity: Activity, monster: MonsterData, fightCK: () -> Unit) {
+        fun showMonster(activity: Activity, monster: MonsterData, floor: Int, fightCK: () -> Unit) {
             Dialog(activity, R.style.app_dialog).apply {
                 val base = StaticData.getBaseMonster(monster.mId)
                 setContentView(R.layout.d_game_monster)
@@ -199,8 +199,11 @@ object Dialogs {
                     addView(getInfoText(activity, "装备暴率: ${(1.0 / base.drop.second).toPercentKeep1()}"), LinearLayoutParamsWW)
                 }
                 findViewById<TextView>(R.id.tv_game_monster_ex).apply {
-                    if (base.exEffectId == 0){
+                    if (base.exEffectClz == null){
                         visibility = View.GONE
+                    } else {
+                        visibility = View.VISIBLE
+                        text = base.exEffectClz?.objectInstance?.getInfo(floor)?:""
                     }
                 }
             }.show()

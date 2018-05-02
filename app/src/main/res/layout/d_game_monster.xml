@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textSize="10dp"
-        android:textColor="@color/text_color_lv"
+        android:textColor="@color/text_color_atk"
         android:layout_gravity="center_horizontal"/>
 
     <View

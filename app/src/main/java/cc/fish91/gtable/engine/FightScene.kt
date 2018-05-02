@@ -7,9 +7,14 @@ import cc.fish91.gtable.plugin.max
 import cc.fish91.gtable.resource.StaticData
 
 object FightScene {
-    fun fight(m: MonsterData, p: FightSceneFinalData, forceEnd: Boolean = false, vararg effects: IFightEffect): Boolean {
+    fun fight(m: MonsterData, p: FightSceneFinalData, floor: Int, forceEnd: Boolean = false, vararg effects: IFightEffect): Boolean {
+        val mEffects = effects.toMutableList()
+        StaticData.getBaseMonster(m.mId).apply {
+            if (exEffectClz != null)
+                mEffects.add(exEffectClz!!.objectInstance!!)
+        }
         do {
-            effects.map { it.onFight(p, m) }
+            mEffects.map { it.onFight(p, m, floor) }
             m.HP -= (Math.forceMinus(p.atk + p.buff.tAtk + p.floorAppend.atk, m.def) * (if (Math.mil_percent(p.critical)) (p.criticalDmg / 100.0) else 1.0)).toInt()
             if (!Math.mil_percent(p.miss.max(800))) {
                 Math.forceMinus(m.atk, p.def + p.buff.tDef + p.floorAppend.def).let {
@@ -22,7 +27,7 @@ object FightScene {
                     }
                 }
             }
-            effects.map { it.onFightEnd(p, m) }
+            mEffects.map { it.onFightEnd(p, m, floor) }
             if (m.HP <= 0 || p.HP <= 0)
                 return true
         } while (forceEnd)
@@ -55,10 +60,11 @@ object FightScene {
                 p.atk += it.atk
                 p.def += it.def
             }
-            PersonRecord.getBaseHPLine().let {
-                if (it > p.HP)
-                    p.HP = it
-            }
+//            remove restore HP on Levelup(to HPline)
+//            PersonRecord.getBaseHPLine().let {
+//                if (it > p.HP)
+//                    p.HP = it
+//            }
             return true
         }
         return false

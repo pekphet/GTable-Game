@@ -153,10 +153,10 @@ class GameActivity : Activity() {
         if (!data.isNearMonster && data.isOpened) {
             open(position, data)
             when (data.status) {
-                FloorStatus.MONSTER -> Dialogs.ExDialogs.showMonster(this@GameActivity, mMonsters[data.exId]) {
+                FloorStatus.MONSTER -> Dialogs.ExDialogs.showMonster(this@GameActivity, mMonsters[data.exId], mFloor) {
                     doFight(position, mMonsters[data.exId], false, true)
                 }
-                FloorStatus.MONSTER_K -> Dialogs.ExDialogs.showMonster(this@GameActivity, mMonsterK) {
+                FloorStatus.MONSTER_K -> Dialogs.ExDialogs.showMonster(this@GameActivity, mMonsterK, mFloor) {
                     doFight(position, mMonsterK, true, true)
                 }
             }
@@ -223,7 +223,7 @@ class GameActivity : Activity() {
     }
 
     private fun doFight(position: Int, monsterData: MonsterData, isK: Boolean, forceEnd: Boolean = false) {
-        if (FightScene.fight(monsterData, mFightData, forceEnd)) {
+        if (FightScene.fight(monsterData, mFightData, mFloor, forceEnd)) {
             open(position, true)
             if (mFightData.HP <= 0) {
                 toast("died")

@@ -6,6 +6,7 @@ import org.junit.Test
 
 import org.junit.Assert.*
 import java.time.Instant
+import kotlin.reflect.KClass
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -21,11 +22,20 @@ class ExampleUnitTest {
     val mArray = arrayOf(0, 0, 0, 0)
     @Test
     fun test() {
-        val a = AA("text",
-                mutableMapOf(Pair("12", "A"), Pair("14", "F")),
-                mutableMapOf(Pair("x12", listOf("A", "B", "C")), Pair("x14", listOf("D", "F"))))
-        println(Gson().toJson(a))
+        val bClz: KClass<B> = B::class
+
+        val bObj = bClz.objectInstance!!
+        B.ii = 22
+
+        println(bObj.ii)
+
+
+
     }
 
     data class AA(var title: String, val content: MutableMap<String, String>, val exC: MutableMap<String, List<String>>)
+
+    object B {
+        var ii = 11
+    }
 }

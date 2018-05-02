@@ -1,17 +1,19 @@
 package cc.fish91.gtable.resource
 
 import cc.fish91.gtable.*
+import cc.fish91.gtable.engine.FightEffects
+import cc.fish91.gtable.engine.IFightEffect
 
 object StaticData {
 
     /****Static Data**************/
 
     private val mMonsterMap = mutableMapOf(
-            Pair(1, BaseMonster(2, 1, 1, "花蘑菇", 2, 1, R.drawable.t_icon_monster_mashroom, Pair(0x1, 10))),
-            Pair(2, BaseMonster(4, 1, 2, "钢猪猪", 5, 3, R.drawable.t_icon_monster_steelpig, Pair(0x1001, 20))),
-            Pair(3, BaseMonster(1, 3, 1, "星星怪", 5, 6, R.drawable.t_icon_monster_star, Pair(0x2001, 25))),
-            Pair(4, BaseMonster(2, 3, 3, "斧木妖", 5, 6, R.drawable.t_icon_monster_axewood, Pair(0x0002, 25))),
-            Pair(5, BaseMonster(3, 2, 2, "太阳怪", 5, 6, R.drawable.t_icon_monster_sun, Pair(0x1002, 25)))
+            Pair(1, BaseMonster(2, 1, 1, "花蘑菇", 2, 1, R.drawable.t_icon_monster_mashroom, Pair(0x1, 10), FightEffects.CutP10HP::class)),
+            Pair(2, BaseMonster(4, 1, 2, "钢猪猪", 5, 3, R.drawable.t_icon_monster_steelpig, Pair(0x1001, 20), FightEffects.DcsPDef::class)),
+            Pair(3, BaseMonster(1, 3, 1, "星星怪", 5, 6, R.drawable.t_icon_monster_star, Pair(0x2001, 25), FightEffects.DscPAtk::class)),
+            Pair(4, BaseMonster(2, 3, 3, "斧木妖", 5, 6, R.drawable.t_icon_monster_axewood, Pair(0x0002, 25), FightEffects.ClearPArmor::class)),
+            Pair(5, BaseMonster(3, 2, 2, "太阳怪", 5, 6, R.drawable.t_icon_monster_sun, Pair(0x1002, 25), FightEffects.DscFA1Def::class))
     )
 
     private val mAreaMonsterMap = mutableMapOf(
