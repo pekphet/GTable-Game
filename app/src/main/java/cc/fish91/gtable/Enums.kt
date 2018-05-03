@@ -69,7 +69,7 @@ enum class ExEffect {
 
 enum class TaskType(val info: String) {
     KILL_MONSTER("消灭<font color='#ffee33'>[%s]</font>%d只"),
-    UP_FLOORS("%s到达%d层"),
+    UP_FLOORS("到达%d层"),
 }
 
 enum class TaskAwardType(val info: String) {

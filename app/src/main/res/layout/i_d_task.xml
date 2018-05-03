@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_i_d_task"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="40dp"
+    android:minHeight="40dp"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -23,7 +24,7 @@
         android:drawableLeft="@drawable/ticon_award"
         android:drawablePadding="0dp"
         android:text="花蘑菇"
-        android:textColor="@color/text_eq_rare0"
+        android:textColor="@color/text_color_lv"
         android:textSize="13dp" />
 
     <TextView

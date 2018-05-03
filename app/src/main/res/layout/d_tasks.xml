@@ -9,16 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="center_horizontal|bottom"
+        android:text="任务列表"
         android:textColor="@color/text_color_lv"
         android:textSize="18dp"
-        android:textStyle="bold"
-        android:text="任务列表"/>
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/d_common_bg_stroke" />
 
     <LinearLayout
         android:id="@+id/ll_d_task"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         android:orientation="vertical">
 
 

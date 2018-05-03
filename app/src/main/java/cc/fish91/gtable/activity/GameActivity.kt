@@ -70,13 +70,13 @@ class GameActivity : Activity() {
     private fun initTask() {
         PersonRecord.getTasks().run {
             map {
-                if (it.currentValue < mFloor) {
+                if (it.type == TaskType.UP_FLOORS && it.currentValue < mFloor) {
                     it.needValue += mFloor - it.currentValue
                     it.currentValue = mFloor
                 }
             }
             if (size < 3) {
-                for (i in (3 - size)..2) {
+                for (i in 1..(3 - size)) {
                     PersonRecord.storeTask(TaskEngine.create(mPerson.level, mFloor))
                 }
             }
@@ -171,18 +171,18 @@ class GameActivity : Activity() {
         }
     }
 
-    private val mTaskCK: (TaskAward, Boolean) -> Unit = { award, isK ->
-        when (award.type) {
+    private val mTaskCK: (TaskEntity, Boolean) -> Unit = { task, isK ->
+        when (task.award!!.type) {
             TaskAwardType.Exp -> {
-                show("获取${award.aValue}点经验值！")
-                mPerson.exp += award.aValue
+                show("获取${task.award!!.aValue}点经验值！")
+                mPerson.exp += task.award!!.aValue
             }
             TaskAwardType.Gold -> {
-                show("获取${award.aValue}金币！")
-                mPerson.gold += award.aValue
+                show("获取${task.award!!.aValue}金币！")
+                mPerson.gold += task.award!!.aValue
             }
             TaskAwardType.Equip -> {
-                EquipEngine.createByRare(award.aValue, if (isK && Math.percent(5)) 4 else award.rare).run {
+                EquipEngine.createByRare(task.award!!.aValue, if (isK && Math.percent(5)) 4 else task.award!!.rare).run {
                     Dialogs.ExDialogs.showEquipCompare(this@GameActivity, mEquips[info.position], this) {
                         if (it) {
                             if (mFloor <= KEEP_EQUIP_FLOORS || rare >= 3)
@@ -196,6 +196,8 @@ class GameActivity : Activity() {
                 }
             }
         }
+        mTasks.remove(task)
+        PersonRecord.storeTasks(mTasks)
     }
 
     private fun doExAct(position: Int, data: FloorMeta) {
@@ -276,7 +278,7 @@ class GameActivity : Activity() {
             open(position, true)
             if (mFightData.HP <= 0) {
                 toast("died")
-                FightScene.failed(mPerson, mFloor)
+                FightScene.failed(mPerson, mTasks, mFloor)
                 setResult(1001)
                 finish()
             } else {
@@ -348,13 +350,13 @@ class GameActivity : Activity() {
 
     override fun onBackPressed() {
         setResult(1002)
-        FightScene.failed(mPerson, mFloor)
+        FightScene.failed(mPerson, mTasks, mFloor)
         super.onBackPressed()
     }
 
     private fun interrupt() {
         Dialogs.question(this@GameActivity, "确定返回主城？") {
-            FightScene.failed(mPerson, mFloor)
+            FightScene.failed(mPerson, mTasks, mFloor)
             finish()
         }
     }

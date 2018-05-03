@@ -21,7 +21,7 @@ object TaskEngine {
                         StaticData.getMonsterPool(startFloor / 30 + 1).getRand(),
                         Math.percent(K_MONSTER_TASK_CHANCE_PC)).apply {
                     if (this.isK)
-                        this.needValue = (this.needValue / 9).limitAtLeast(3)
+                        this.needValue = (this.needValue / 8).limitAtLeast(3)
                     award = createAward(this)
                 }
             }
@@ -35,7 +35,7 @@ object TaskEngine {
     }
 
     fun checkMonster(task: List<TaskEntity>, monsterId: Int, isK: Boolean) = task.map { check(it, -1, monsterId, isK) }
-    fun checkFloor(task: List<TaskEntity>, floor: Int) = task.map { check(it, floor, -1 ,false) }
+    fun checkFloor(task: List<TaskEntity>, floor: Int) = task.map { check(it, floor, -1, false) }
 
     private fun check(task: TaskEntity, floor: Int, monsterId: Int, isK: Boolean) {
         when (task.type) {
@@ -82,7 +82,7 @@ object TaskEngine {
             }
 
 
-    private fun getMonsterTaskNeed(pLevel: Int) = Math.wavePc((5 + pLevel * 3).limitAtMost(60), 20)
+    private fun getMonsterTaskNeed(pLevel: Int) = Math.wavePc((5 + pLevel * 2).limitAtMost(60), 20)
     private fun getFloorTaskNeed() = Math.wave(7, 3)
 
     private fun getEquipIdByFloor(floor: Int): Int {

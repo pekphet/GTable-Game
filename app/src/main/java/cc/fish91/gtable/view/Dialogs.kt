@@ -207,17 +207,15 @@ object Dialogs {
             this.text = text
         }
 
-        fun showTasks(activity: Activity, tasks: List<TaskEntity>, onTaskComplete: (TaskAward, Boolean) -> Unit) {
+        fun showTasks(activity: Activity, tasks: List<TaskEntity>, onTaskComplete: (TaskEntity, Boolean) -> Unit) {
             Dialog(activity, R.style.app_dialog).apply {
                 setContentView(R.layout.d_tasks)
                 findViewById<View>(R.id.tv_d_ok).setOnClickListener { dismiss() }
-                findViewById<LinearLayout>(R.id.ll_i_d_task).let { ll ->
+                findViewById<LinearLayout>(R.id.ll_d_task).let { ll ->
                     for (t in tasks)
-                        ll.addView(TaskView(activity, t).getView { award, isk ->
-                            run {
-                                dismiss()
-                                onTaskComplete(award, isk)
-                            }
+                        ll.addView(TaskView(activity, t).getView {
+                            dismiss()
+                            onTaskComplete(t, t.isK)
                         })
                 }
             }.show()

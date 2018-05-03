@@ -17,8 +17,11 @@ class TaskView(val ctx: Context, val task: TaskEntity) {
     private val mTvProg = mView.findViewById<TextView>(R.id.tv_i_d_task_prog)
 
     @SuppressLint("SetTextI18n")
-    fun getView(onComplete: (TaskAward, Boolean) -> Unit): View {
-        mTvInfo.text = Html.fromHtml(String.format(task.type.info, "${StaticData.getBaseMonster(task.monsterId).name}${if (task.isK) "Boss" else ""}", task.needValue))
+    fun getView(onComplete: () -> Unit): View {
+        mTvInfo.text = when (task.type) {
+            TaskType.KILL_MONSTER -> Html.fromHtml(String.format(task.type.info, "${StaticData.getBaseMonster(task.monsterId).name}${if (task.isK) "Boss" else ""}", task.needValue))
+            TaskType.UP_FLOORS -> String.format(task.type.info, task.needValue)
+        }
         mTvAward.text = task.award!!.type.info
         if (task.award!!.type == TaskAwardType.Equip) {
             mTvAward.setTextColor(getRareColor(task.award!!.rare))
@@ -34,7 +37,7 @@ class TaskView(val ctx: Context, val task: TaskEntity) {
         }
         if (task.currentValue >= task.needValue) {
             mView.setOnClickListener {
-                onComplete(task.award!!, task.isK)
+                onComplete()
                 mView.setOnClickListener {}
             }
         }
