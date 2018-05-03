@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_below="@+id/tv_vperson_floor"
-        android:layout_marginLeft="24dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical">
 
@@ -95,6 +95,39 @@
         android:textSize="12dp" />
 
     <LinearLayout
+        android:id="@+id/ll_vperson_equip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_vperson_eqw"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@color/floor_bg"
+            android:scaleType="center" />
+
+        <ImageView
+            android:id="@+id/img_vperson_eqa"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="8dp"
+            android:background="@color/floor_bg"
+            android:scaleType="center" />
+
+        <ImageView
+            android:id="@+id/img_vperson_eqr"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="8dp"
+            android:background="@color/floor_bg"
+            android:scaleType="center" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -102,27 +135,19 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/img_vperson_eqw"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@color/floor_bg"
-            android:scaleType="center" />
+            android:id="@+id/img_vperson_person"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:scaleType="center"
+            android:src="@drawable/t_icon_person" />
 
         <ImageView
-            android:id="@+id/img_vperson_eqa"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@color/floor_bg"
-            android:layout_marginLeft="8dp"
-            android:scaleType="center" />
-
-        <ImageView
-            android:id="@+id/img_vperson_eqr"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginLeft="8dp"
-            android:background="@color/floor_bg"
-            android:scaleType="center" />
+            android:id="@+id/img_vperson_quest"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="16dp"
+            android:scaleType="center"
+            android:src="@drawable/t_icon_quest" />
     </LinearLayout>
 
 

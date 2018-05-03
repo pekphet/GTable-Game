@@ -27,3 +27,6 @@ data class EquipInfo(var name: String, var position: EquipPosition, var baseProp
 
 data class FightSceneFinalData(var HP: Int = 0, var HPLine: Int = 0, var atk: Int = 0, var def: Int = 0, var critical: Int = 0, var criticalDmg: Int = 0, var miss: Int = 0, var restore: Int = 0, val buff: FloorBuff = FloorBuff(), val floorAppend: FloorAppend = FloorAppend())
 data class FloorAppend(var HP: Int = 0, var atk: Int = 0, var def: Int = 0)
+
+data class TaskEntity(val startFloor: Int, var needValue: Int, var currentValue: Int, val type: TaskType, val monsterId: Int = 0, val isK: Boolean = false, var award: TaskAward? = null)
+data class TaskAward(val aValue: Int, val level: Int, val rare: Int, val type: TaskAwardType)

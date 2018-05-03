@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.*
 import cc.fish91.gtable.*
 import cc.fish91.gtable.engine.EquipEngine
+import cc.fish91.gtable.engine.EquipEngine.getRareColor
 import cc.fish91.gtable.plugin.dp2px
 import cc.fish91.gtable.plugin.showNotEmpty
 import cc.fish91.gtable.plugin.toMillicentKeep1
@@ -171,15 +172,6 @@ object Dialogs {
             else -> "$value"
         }
 
-        private fun getRareColor(rare: Int) = Framework._C.resources.getColor(when (rare) {
-            0 -> R.color.text_eq_rare0
-            1 -> R.color.text_eq_rare1
-            2 -> R.color.text_eq_rare2
-            3 -> R.color.text_eq_rare3
-            4 -> R.color.text_eq_rare4
-            else -> R.color.text_eq_rare4
-        })
-
         fun showMonster(activity: Activity, monster: MonsterData, floor: Int, fightCK: () -> Unit) {
             Dialog(activity, R.style.app_dialog).apply {
                 val base = StaticData.getBaseMonster(monster.mId)
@@ -199,11 +191,11 @@ object Dialogs {
                     addView(getInfoText(activity, "装备暴率: ${(1.0 / base.drop.second).toPercentKeep1()}"), LinearLayoutParamsWW)
                 }
                 findViewById<TextView>(R.id.tv_game_monster_ex).apply {
-                    if (base.exEffectClz == null){
+                    if (base.exEffectClz == null) {
                         visibility = View.GONE
                     } else {
                         visibility = View.VISIBLE
-                        text = base.exEffectClz?.objectInstance?.getInfo(floor)?:""
+                        text = base.exEffectClz?.objectInstance?.getInfo(floor) ?: ""
                     }
                 }
             }.show()
@@ -214,6 +206,21 @@ object Dialogs {
             setTextColor(resources.getColor(R.color.text_color_lv))
             this.text = text
         }
-    }
 
+        fun showTasks(activity: Activity, tasks: List<TaskEntity>, onTaskComplete: (TaskAward, Boolean) -> Unit) {
+            Dialog(activity, R.style.app_dialog).apply {
+                setContentView(R.layout.d_tasks)
+                findViewById<View>(R.id.tv_d_ok).setOnClickListener { dismiss() }
+                findViewById<LinearLayout>(R.id.ll_i_d_task).let { ll ->
+                    for (t in tasks)
+                        ll.addView(TaskView(activity, t).getView { award, isk ->
+                            run {
+                                dismiss()
+                                onTaskComplete(award, isk)
+                            }
+                        })
+                }
+            }.show()
+        }
+    }
 }

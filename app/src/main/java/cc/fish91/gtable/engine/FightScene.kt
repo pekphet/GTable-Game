@@ -65,6 +65,16 @@ object FightScene {
 //                if (it > p.HP)
 //                    p.HP = it
 //            }
+            //restore 20% OF HPLINE HP
+            PersonRecord.getBaseHPLine().let { line ->
+                {
+                    if (p.HP < line * 0.8) {
+                        p.HP += (line * 0.2).toInt()
+                    }
+                }
+            }
+
+
             return true
         }
         return false

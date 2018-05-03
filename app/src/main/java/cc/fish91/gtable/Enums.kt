@@ -66,3 +66,14 @@ enum class ExEffect {
     CUT_20,
     KILL,
 }
+
+enum class TaskType(val info: String) {
+    KILL_MONSTER("消灭<font color='#ffee33'>[%s]</font>%d只"),
+    UP_FLOORS("%s到达%d层"),
+}
+
+enum class TaskAwardType(val info: String) {
+    Equip("装备"),
+    Gold("金币"),
+    Exp("经验值"),
+}

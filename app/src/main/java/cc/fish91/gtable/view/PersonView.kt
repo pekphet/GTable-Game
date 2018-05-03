@@ -44,15 +44,27 @@ class PersionView(val ctx: Context, val fd: FightSceneFinalData) : LoadableView<
     fun flushEquip(map: Map<EquipPosition, Equip>) {
         map[EquipPosition.WEAPON]?.apply {
             mImgEqW.setImageResource(info.iconId)
-            mImgEqW.setOnClickListener { Dialogs.ExDialogs.showEquip(ctx, this){} }
+            mImgEqW.setOnClickListener { Dialogs.ExDialogs.showEquip(ctx, this) {} }
         }
         map[EquipPosition.ARMOR]?.apply {
             mImgEqA.setImageResource(info.iconId)
-            mImgEqA.setOnClickListener { Dialogs.ExDialogs.showEquip(ctx, this){} }
+            mImgEqA.setOnClickListener { Dialogs.ExDialogs.showEquip(ctx, this) {} }
         }
         map[EquipPosition.RING]?.apply {
             mImgEqR.setImageResource(info.iconId)
-            mImgEqR.setOnClickListener { Dialogs.ExDialogs.showEquip(ctx, this){} }
+            mImgEqR.setOnClickListener { Dialogs.ExDialogs.showEquip(ctx, this) {} }
+        }
+    }
+
+    fun setOnQuestClick(clk: () -> Unit) {
+        view.findViewById<ImageView>(R.id.img_vperson_quest).setOnClickListener {
+            clk()
+        }
+    }
+
+    fun setOnPersonClick(clk: () -> Unit) {
+        view.findViewById<ImageView>(R.id.img_vperson_person).setOnClickListener {
+            clk()
         }
     }
 

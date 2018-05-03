@@ -7,6 +7,10 @@ object Math {
     private val mRand = Random()
     fun rand(from: Int, to: Int) = mRand.nextInt(to - from + 1) + from
     fun rand(size: Int) = rand(0, size)
+    fun wavePc(origin: Int, pc: Int) = rand(origin - roundPercentDelta(origin, pc), origin + roundPercentDelta(origin, pc))
+    fun wave(origin: Int, delta: Int) = rand(origin - delta.limitAtMost(origin), origin + roundPercentDelta(origin, origin))
+
+    private fun roundPercentDelta(origin: Int, pc: Int) = (origin * pc / 100).limitAtLeast(1).limitAtMost(origin)
 
     fun getNearBlocks(position: Int) = mutableListOf<Int>().apply {
         if (position > 4)
@@ -56,11 +60,11 @@ object Math {
 
     // 求分式概率  den为分母 times为分子
     fun denominatorOf(den: Int, times: Int = 1) = rand(1, den) == times
-    
+
     fun percent(weight: Int) = if (weight < 1) false else rand(1, 100) in 1..weight
     fun mil_percent(weight: Int) = if (weight < 1) false else rand(1, 1000) in 1..weight
 
-    fun limitAdd(origin: Int, increase: Int, limit: Int) = (origin + increase).apply { if (this > limit) limit else this }
+    fun limitAdd(origin: Int, increase: Int, limit: Int) = (origin + increase).run { if (this >= limit) limit else this }
     fun min(origin: Int, sec: Int) = if (origin < sec) origin else sec
 
 }

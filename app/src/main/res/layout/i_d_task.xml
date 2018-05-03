@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_i_d_task"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_i_d_task_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="消灭[花蘑菇]100只"
+        android:textColor="@color/text_color_atk"
+        android:textSize="13dp" />
+
+    <TextView
+        android:id="@+id/tv_i_d_task_award"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableLeft="@drawable/ticon_award"
+        android:drawablePadding="0dp"
+        android:text="花蘑菇"
+        android:textColor="@color/text_eq_rare0"
+        android:textSize="13dp" />
+
+    <TextView
+        android:id="@+id/tv_i_d_task_prog"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="(120/210)"
+        android:textColor="@color/text_color_lv"
+        android:textSize="13dp" />
+</LinearLayout>

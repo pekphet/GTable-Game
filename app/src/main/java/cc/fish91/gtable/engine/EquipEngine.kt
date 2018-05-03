@@ -4,19 +4,24 @@ import cc.fish91.gtable.*
 import cc.fish91.gtable.plugin.AddableMutableMap
 import cc.fish91.gtable.plugin.Math
 import cc.fish91.gtable.plugin.getRand
+import cc.fish91.gtable.plugin.limitAtMost
 import cc.fish91.gtable.resource.StaticData
 
 object EquipEngine {
     const val CHANGE_LEVEL_COUNT = 5
     const val CHANGE_RARE_COUNT = 2
-    fun create(id: Int, rare: Int, floor: Int) = Math.rand(rare + (floor % CHANGE_LEVEL_COUNT) / CHANGE_RARE_COUNT).let {
+    const val EQUIP_LEVEL_LIMIT = 50
+
+    fun create(id: Int, rare: Int, floor: Int, from: Int = 0, limit: Int = 4) = Math.rand(from, (rare + (floor % CHANGE_LEVEL_COUNT) / CHANGE_RARE_COUNT).limitAtMost(limit)).let {
         Equip(
-                Math.min(floor / CHANGE_LEVEL_COUNT, 50),
+                Math.min(floor / CHANGE_LEVEL_COUNT, EQUIP_LEVEL_LIMIT),
                 StaticData.getBaseEquipInfo(id), it).apply {
             for (i in 0..it)
                 EquipProperty.values().getRand().let { exProperty.add(it, getExValue(it, StaticData.getBaseEquipInfo(id), floor / CHANGE_LEVEL_COUNT)) }
         }
     }
+
+    fun createByRare(id: Int, rare: Int) = create(id, rare, 0, rare)
 
     private fun getExValue(ep: EquipProperty, info: EquipInfo, level: Int) = info.run {
         when (ep) {
@@ -69,4 +74,13 @@ object EquipEngine {
             }
         }
     }
+
+    fun getRareColor(rare: Int) = Framework._C.resources.getColor(when (rare) {
+        0 -> R.color.text_eq_rare0
+        1 -> R.color.text_eq_rare1
+        2 -> R.color.text_eq_rare2
+        3 -> R.color.text_eq_rare3
+        4 -> R.color.text_eq_rare4
+        else -> R.color.text_eq_rare4
+    })
 }

@@ -8,9 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.Adapter
 import android.view.ViewGroup
 import cc.fish91.gtable.*
-import cc.fish91.gtable.engine.FightScene
-import cc.fish91.gtable.engine.FloorDataCreater
-import cc.fish91.gtable.engine.FloorEngine
+import cc.fish91.gtable.engine.*
 import cc.fish91.gtable.localdata.EquipRecord
 import cc.fish91.gtable.localdata.PersonRecord
 import cc.fish91.gtable.plugin.*
@@ -45,6 +43,7 @@ class GameActivity : Activity() {
     private val mGifts = mutableListOf<Gift>()
     private val mDropMap = mutableMapOf<Int, Equip>()
     private val mEquips = mutableMapOf<EquipPosition, Equip>()
+    private val mTasks = mutableListOf<TaskEntity>()
 
     /****Game Scene Data*********/
     private var mMonsterK = MonsterData(1, 1, 1, 1, 1, 1)
@@ -62,9 +61,28 @@ class GameActivity : Activity() {
         mFloor = intent.getIntExtra(GAME_FLOOR_KEY, 1)
         makeFloor(mFloor)
         loadPerson()
+        initTask()
         fl_game_persons.addView(mPersonView.getView())
         rv_game.layoutManager = mGridLayoutManager
         rv_game.adapter = mAdapter
+    }
+
+    private fun initTask() {
+        PersonRecord.getTasks().run {
+            map {
+                if (it.currentValue < mFloor) {
+                    it.needValue += mFloor - it.currentValue
+                    it.currentValue = mFloor
+                }
+            }
+            if (size < 3) {
+                for (i in (3 - size)..2) {
+                    PersonRecord.storeTask(TaskEngine.create(mPerson.level, mFloor))
+                }
+            }
+        }
+        mTasks.clear()
+        mTasks.addAll(PersonRecord.getTasks())
     }
 
     private fun loadPerson() {
@@ -72,8 +90,11 @@ class GameActivity : Activity() {
         loadEquips()
         mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
         mPersonView.load(mPerson)
+        mPersonView.setOnPersonClick { show("功能设计中。。还没开发") }
+        mPersonView.setOnQuestClick {
+            Dialogs.ExDialogs.showTasks(this@GameActivity, mTasks, mTaskCK)
+        }
     }
-
 
     private fun loadEquips() {
         mEquips.putNullable(EquipPosition.WEAPON, EquipRecord.getEqW())
@@ -83,6 +104,7 @@ class GameActivity : Activity() {
     }
 
     private fun makeFloor(floor: Int) {
+        TaskEngine.checkFloor(mTasks, floor)
         cleanTmp()
         mArea = floor / 30 + 1
         if (floor % 10 == 0)
@@ -144,6 +166,33 @@ class GameActivity : Activity() {
                 holder.itemView.setOnLongClickListener {
                     doExAct(position, this)
                     true
+                }
+            }
+        }
+    }
+
+    private val mTaskCK: (TaskAward, Boolean) -> Unit = { award, isK ->
+        when (award.type) {
+            TaskAwardType.Exp -> {
+                show("获取${award.aValue}点经验值！")
+                mPerson.exp += award.aValue
+            }
+            TaskAwardType.Gold -> {
+                show("获取${award.aValue}金币！")
+                mPerson.gold += award.aValue
+            }
+            TaskAwardType.Equip -> {
+                EquipEngine.createByRare(award.aValue, if (isK && Math.percent(5)) 4 else award.rare).run {
+                    Dialogs.ExDialogs.showEquipCompare(this@GameActivity, mEquips[info.position], this) {
+                        if (it) {
+                            if (mFloor <= KEEP_EQUIP_FLOORS || rare >= 3)
+                                EquipRecord.saveEq(this)
+                            mEquips[info.position] = this
+                            mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
+                            mPersonView.flushEquip(mEquips)
+                            mPersonView.load(mPerson)
+                        }
+                    }
                 }
             }
         }
@@ -234,6 +283,7 @@ class GameActivity : Activity() {
                 if (isK)
                     mFightData.buff.keys++
                 mFightData.HP = Math.limitAdd(mFightData.HP, mFightData.restore, mFightData.HPLine)
+                TaskEngine.checkMonster(mTasks, monsterData.mId, isK)
                 if (FightScene.award(mPerson, monsterData, isK)) {
                     show("等级上升！", 1500)
                     mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
