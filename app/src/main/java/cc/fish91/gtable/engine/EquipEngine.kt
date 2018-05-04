@@ -17,7 +17,7 @@ object EquipEngine {
                 Math.min(floor / CHANGE_LEVEL_COUNT, EQUIP_LEVEL_LIMIT),
                 StaticData.getBaseEquipInfo(id), it).apply {
             for (i in 0..it)
-                EquipProperty.values().getRand().let { exProperty.add(it, getExValue(it, StaticData.getBaseEquipInfo(id), floor / CHANGE_LEVEL_COUNT)) }
+                EquipProperty.values().getRand().let { exProperty.add(it, getExValue(it, StaticData.getBaseEquipInfo(id), (floor / CHANGE_LEVEL_COUNT).limitAtMost(50))) }
         }
     }
 
@@ -26,13 +26,13 @@ object EquipEngine {
     private fun getExValue(ep: EquipProperty, info: EquipInfo, level: Int) = info.run {
         when (ep) {
             EquipProperty.ATK -> this.baseProperty * (level + 1)
-            EquipProperty.ATK_PC -> (level + 1)
+            EquipProperty.ATK_PC -> (level + 1) * 7
             EquipProperty.DEF -> this.baseProperty * (level + 1)
-            EquipProperty.DEF_PC -> (level + 1)
+            EquipProperty.DEF_PC -> (level + 1) * 7
             EquipProperty.HP -> this.baseProperty * (level + 1) * 10
-            EquipProperty.HP_PC -> (level + 1)
-            EquipProperty.MISS -> (level + 1)
-            EquipProperty.CRITICAL -> (level + 1)
+            EquipProperty.HP_PC -> (level + 1) * 7
+            EquipProperty.MISS -> (level + 1) * 2
+            EquipProperty.CRITICAL -> (level + 1) * 2
             EquipProperty.CRITICAL_DMG -> (level + 1) * 2
             EquipProperty.HP_RESTORE -> (level + 1)
         }

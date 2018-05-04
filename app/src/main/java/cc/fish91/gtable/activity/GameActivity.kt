@@ -1,6 +1,7 @@
 package cc.fish91.gtable.activity
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -90,7 +91,11 @@ class GameActivity : Activity() {
         loadEquips()
         mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
         mPersonView.load(mPerson)
-        mPersonView.setOnPersonClick { show("功能设计中。。还没开发") }
+        mPersonView.setOnPersonClick {
+            Dialogs.question(this@GameActivity, "delete user data??"){
+                PersonRecord.clearData()
+            }
+        }
         mPersonView.setOnQuestClick {
             Dialogs.ExDialogs.showTasks(this@GameActivity, mTasks, mTaskCK)
         }

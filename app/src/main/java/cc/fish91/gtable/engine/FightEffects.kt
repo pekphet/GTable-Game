@@ -2,6 +2,7 @@ package cc.fish91.gtable.engine
 
 import cc.fish91.gtable.FightSceneFinalData
 import cc.fish91.gtable.MonsterData
+import cc.fish91.gtable.plugin.limitAtLeast
 
 object FightEffects {
 
@@ -107,6 +108,45 @@ object FightEffects {
 
         override fun getInfo(floor: Int) = "[腐蚀] 每回合降低防御力1点，每10层清空"
     }
+
+    object CopyPAtk : IFightEffect {
+
+        override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
+            monster.atk = person.atk
+        }
+
+        override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
+
+        }
+
+        override fun getInfo(floor: Int) = "[镜像攻击] 攻击力变为对方攻击力"
+    }
+
+    object CopyPDef : IFightEffect {
+
+        override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
+            monster.def = person.def
+        }
+
+        override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
+
+        }
+
+        override fun getInfo(floor: Int) = "[镜像防御] 防御力变为对方防御力"
+    }
+
+    object RebP10Atk : IFightEffect {
+        override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
+            person.HP -= (person.atk * 10 / 100).limitAtLeast(1)
+        }
+
+        override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
+        }
+
+        override fun getInfo(floor: Int) = "[反弹] 反弹对方攻击力10%的伤害，无视防御"
+
+    }
+
 
 
 }

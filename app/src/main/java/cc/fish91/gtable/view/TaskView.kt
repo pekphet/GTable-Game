@@ -31,7 +31,7 @@ class TaskView(val ctx: Context, val task: TaskEntity) {
                 text = "${task.currentValue} / ${task.needValue}"
                 setTextColor(Framework._C.resources.getColor(R.color.text_eq_less))
             } else {
-                text = "已完成"
+                text = "获取奖励"
                 setTextColor(Framework._C.resources.getColor(R.color.text_eq_more))
             }
         }

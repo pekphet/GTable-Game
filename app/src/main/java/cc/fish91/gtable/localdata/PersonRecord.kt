@@ -114,4 +114,16 @@ object PersonRecord {
         }
     }
 
+    fun clearData() {
+        SP_HANDLE.edit()
+                .putString(PERSON_BASE_BOUGHT, "")
+                .apply()
+        SP_HANDLE.edit()
+                .putString(PERSON_TASK, "")
+                .apply()
+        SP_HANDLE.edit()
+                .putString(PERSON_BASE_KEY, "")
+                .apply()
+    }
+
 }
