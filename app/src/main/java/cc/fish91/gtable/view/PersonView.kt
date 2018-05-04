@@ -43,15 +43,15 @@ class PersionView(val ctx: Context, val fd: FightSceneFinalData) : LoadableView<
 
     fun flushEquip(map: Map<EquipPosition, Equip>) {
         map[EquipPosition.WEAPON]?.apply {
-            mImgEqW.setImageResource(info.iconId)
+            mImgEqW.setImageResource(StaticData.getBaseEquipInfo(info.id).iconId)
             mImgEqW.setOnClickListener { Dialogs.ExDialogs.showEquip(ctx, this) {} }
         }
         map[EquipPosition.ARMOR]?.apply {
-            mImgEqA.setImageResource(info.iconId)
+            mImgEqA.setImageResource(StaticData.getBaseEquipInfo(info.id).iconId)
             mImgEqA.setOnClickListener { Dialogs.ExDialogs.showEquip(ctx, this) {} }
         }
         map[EquipPosition.RING]?.apply {
-            mImgEqR.setImageResource(info.iconId)
+            mImgEqR.setImageResource(StaticData.getBaseEquipInfo(info.id).iconId)
             mImgEqR.setOnClickListener { Dialogs.ExDialogs.showEquip(ctx, this) {} }
         }
     }

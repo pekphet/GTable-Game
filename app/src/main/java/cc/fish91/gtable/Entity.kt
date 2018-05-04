@@ -23,7 +23,7 @@ data class PersonBought(var atkLv: Int, var defLv: Int, var hpLv: Int)
 
 data class Equip(var level: Int, val info: EquipInfo, var rare: Int, val exProperty: AddableMutableMap<EquipProperty> = AddableMutableMap())
 
-data class EquipInfo(var name: String, var position: EquipPosition, var baseProperty: Int, var iconId: Int, var extra: Pair<ExEffect, Int>?)
+data class EquipInfo(var id: Int, var name: String, var position: EquipPosition, var baseProperty: Int, var iconId: Int, var extra: Pair<ExEffect, Int>?)
 
 data class FightSceneFinalData(var HP: Int = 0, var HPLine: Int = 0, var atk: Int = 0, var def: Int = 0, var critical: Int = 0, var criticalDmg: Int = 0, var miss: Int = 0, var restore: Int = 0, val buff: FloorBuff = FloorBuff(), val floorAppend: FloorAppend = FloorAppend())
 data class FloorAppend(var HP: Int = 0, var atk: Int = 0, var def: Int = 0)

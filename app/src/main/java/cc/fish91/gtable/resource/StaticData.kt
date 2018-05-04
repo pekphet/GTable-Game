@@ -23,12 +23,12 @@ object StaticData {
     )
 
     private val mEquipInfoMap = mutableMapOf(
-            Pair(0x0001, EquipInfo("布衣", EquipPosition.ARMOR, 2, R.drawable.t_icon_a_001, null)),
-            Pair(0x1001, EquipInfo("短剑", EquipPosition.WEAPON, 2, R.drawable.t_icon_w_001, null)),
-            Pair(0x2001, EquipInfo("蓝宝石戒指", EquipPosition.RING, 2, R.drawable.t_icon_r_001, null)),
-            Pair(0x0002, EquipInfo("木甲", EquipPosition.ARMOR, 4, R.drawable.t_icon_a_002, null)),
-            Pair(0x1002, EquipInfo("长剑", EquipPosition.WEAPON, 4, R.drawable.t_icon_w_002, null)),
-            Pair(0x2002, EquipInfo("蓝魂戒指", EquipPosition.RING, 4, R.drawable.t_icon_r_002, null))
+            Pair(0x0001, EquipInfo(0x0001, "布衣", EquipPosition.ARMOR, 2, R.drawable.t_icon_a_001, null)),
+            Pair(0x1001, EquipInfo(0x1001, "短剑", EquipPosition.WEAPON, 2, R.drawable.t_icon_w_001, null)),
+            Pair(0x2001, EquipInfo(0x2001, "蓝宝石戒指", EquipPosition.RING, 2, R.drawable.t_icon_r_001, null)),
+            Pair(0x0002, EquipInfo(0x0002, "木甲", EquipPosition.ARMOR, 4, R.drawable.t_icon_a_002, null)),
+            Pair(0x1002, EquipInfo(0x1002, "长剑", EquipPosition.WEAPON, 4, R.drawable.t_icon_w_002, null)),
+            Pair(0x2002, EquipInfo(0x2002, "蓝魂戒指", EquipPosition.RING, 4, R.drawable.t_icon_r_002, null))
     )
 
 
