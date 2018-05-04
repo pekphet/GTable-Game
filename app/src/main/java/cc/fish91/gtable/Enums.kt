@@ -1,12 +1,16 @@
 package cc.fish91.gtable
 
-enum class RoleType(val info: String) {
-    BEGINNER("初心者"),
-    KNIGHT("骑士"),
-    ROGUE("暗杀者"),
-    FIGHTER("格斗家"),
-    HUNTER("猎人"),
-    NEC("死灵术士"),
+import cc.fish91.gtable.engine.FightEffects
+import cc.fish91.gtable.engine.IFightEffect
+import kotlin.reflect.KClass
+
+enum class RoleType(val info: String, val pSkill: KClass<out IFightEffect>) {
+    BEGINNER("初心者", FightEffects.NANSkill::class),
+    KNIGHT("骑士", FightEffects.KNIGHTPSkill::class),
+    ROGUE("暗杀者", FightEffects.ROGUEPSkill::class),
+    FIGHTER("格斗家", FightEffects.FighterPSkill::class),
+    HUNTER("猎人", FightEffects.NANSkill::class),
+    NEC("死灵术士", FightEffects.NECPSkill::class),
 }
 
 enum class FloorStatus {

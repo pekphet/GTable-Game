@@ -37,7 +37,7 @@ class MainActivity : Activity() {
             GameActivity.start(this@MainActivity, mFloor)
         }
         img_main_info.setOnClickListener {
-            Dialogs.show(this@MainActivity, "游戏说明", StaticInfo.APP_INFO_D) {}
+            Dialogs.show(this@MainActivity, "游戏说明", "${StaticInfo.APP_INFO_D}\n版本号：${packageManager.getPackageInfo(packageName, 0).versionName}") {}
         }
 
         flushPersonArea()
@@ -87,7 +87,7 @@ class MainActivity : Activity() {
         mBought = PersonRecord.getPersonBought()
         PersonRecord.getPersonData().let {
             mPersonData = it
-            tv_main_lv.text = "Lv: ${it.level}"
+            tv_main_lv.text = "[${it.roleType.info}] Lv: ${it.level}"
             tv_main_exp.text = "EXP: ${it.exp} / ${StaticData.getLimitExp(it.level)}"
             tv_main_hp.text = "HP: ${StaticData.getUppedHP(it.HP, mBought.hpLv)}"
             tv_main_atk.text = "ATK: ${StaticData.getUppedAtk(it.atk, mBought.atkLv)}"

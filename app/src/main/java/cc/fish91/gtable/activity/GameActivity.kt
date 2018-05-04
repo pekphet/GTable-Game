@@ -16,6 +16,7 @@ import cc.fish91.gtable.plugin.*
 import cc.fish91.gtable.plugin.Math.getNear9Blocks
 import cc.fish91.gtable.plugin.Math.getNearBlocks
 import cc.fish91.gtable.resource.StaticData
+import cc.fish91.gtable.resource.StaticData.CHANGE_ROLE_TYPE_1
 import cc.fish91.gtable.view.Dialogs
 import cc.fish91.gtable.view.FloorView
 import cc.fish91.gtable.view.PersionView
@@ -54,6 +55,7 @@ class GameActivity : Activity() {
     private val mBought by lazy { PersonRecord.getPersonBought() }
     private val mPersonView by lazy { PersionView(this@GameActivity, mFightData) }
     private val mFightData = FightSceneFinalData()
+    private lateinit var mRoleTypePSkill: IFightEffect
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,8 +94,9 @@ class GameActivity : Activity() {
         mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
         mPersonView.load(mPerson)
         mPersonView.setOnPersonClick {
-            Dialogs.question(this@GameActivity, "delete user data??"){
+            Dialogs.question(this@GameActivity, "删除角色信息（保留装备）??\n\n人物技能${mPerson.roleType.pSkill.objectInstance!!.getInfo(0)}") {
                 PersonRecord.clearData()
+                finish()
             }
         }
         mPersonView.setOnQuestClick {
@@ -187,7 +190,7 @@ class GameActivity : Activity() {
                 mPerson.gold += task.award!!.aValue
             }
             TaskAwardType.Equip -> {
-                EquipEngine.createByRare(task.award!!.aValue, if (isK && Math.percent(5)) 4 else task.award!!.rare).run {
+                EquipEngine.createByRare(task.award!!.aValue, task.award!!.level, if (isK && Math.percent(5)) 4 else task.award!!.rare).run {
                     Dialogs.ExDialogs.showEquipCompare(this@GameActivity, mEquips[info.position], this) {
                         if (it) {
                             if (mFloor <= KEEP_EQUIP_FLOORS || rare >= 3)
@@ -294,6 +297,9 @@ class GameActivity : Activity() {
                 if (FightScene.award(mPerson, monsterData, isK)) {
                     show("等级上升！", 1500)
                     mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
+                    if (mPerson.level >= CHANGE_ROLE_TYPE_1 && mPerson.roleType == RoleType.BEGINNER) {
+                        doRoleType()
+                    }
                 }
                 FightScene.takeDrop(mFloor, isK, monsterData).let {
                     if (it != null)
@@ -304,6 +310,18 @@ class GameActivity : Activity() {
             }
         }
         flushPersonUI()
+    }
+
+    private fun doRoleType() {
+        PersonRecord.getEnabledRoleType1().run {
+            Dialogs.ExDialogs.showSelectors(this@GameActivity, "人物转职", "选择想要转的职业,转职后会退出副本", this.map { "${it.info}\n${it.pSkill.objectInstance!!.getInfo(0)}" }) { info, pos ->
+                run {
+                    PersonRecord.changeRoleType1(this[pos], mPerson.gold)
+                    toast("转职成功！")
+                    finish()
+                }
+            }
+        }
     }
 
     private fun changeToDrop(e: Equip, position: Int) {

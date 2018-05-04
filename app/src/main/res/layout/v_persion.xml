@@ -83,16 +83,15 @@
         android:textColor="@color/text_color_lv"
         android:textSize="12dp" />
 
-    <TextView
-        android:id="@+id/tv_vperson_keys"
+    <ImageView
+        android:id="@+id/img_vperson_keys"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_vperson_gold"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/text_color_lv"
-        android:textSize="12dp" />
+        android:padding="8dp"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:src="@drawable/t_icon_p_key"/>
 
     <LinearLayout
         android:id="@+id/ll_vperson_equip"

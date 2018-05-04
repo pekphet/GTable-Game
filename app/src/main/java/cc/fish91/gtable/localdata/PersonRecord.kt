@@ -1,10 +1,7 @@
 package cc.fish91.gtable.localdata
 
 import android.content.Context
-import cc.fish91.gtable.Framework
-import cc.fish91.gtable.PersonBought
-import cc.fish91.gtable.PersonData
-import cc.fish91.gtable.TaskEntity
+import cc.fish91.gtable.*
 import cc.fish91.gtable.engine.TaskEngine
 import cc.fish91.gtable.resource.StaticData
 import com.google.gson.reflect.TypeToken
@@ -22,7 +19,7 @@ object PersonRecord {
 
     fun getPersonData(): PersonData = SP_HANDLE.getString(PERSON_BASE_KEY, "").run {
         if (this.isBlank())
-            PersonData(100, 2, 2, 0, 1, 0)
+            StaticData.getPersonInit(RoleType.BEGINNER)
         else
             Framework._G.fromJson(this, PersonData::class.java)
     }
@@ -124,6 +121,12 @@ object PersonRecord {
         SP_HANDLE.edit()
                 .putString(PERSON_BASE_KEY, "")
                 .apply()
+    }
+
+    /****ROLE TYPE!*****************/
+    fun getEnabledRoleType1() = arrayOf(RoleType.FIGHTER, RoleType.ROGUE, RoleType.KNIGHT, RoleType.NEC)
+    fun changeRoleType1(type: RoleType, gold: Int) {
+        storePersonData(StaticData.getPersonInit(type, gold))
     }
 
 }

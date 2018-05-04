@@ -51,6 +51,8 @@ object Dialogs {
         fun showSelectors(activity: Activity, title: String, content: String, selectors: List<String>, callback: (String, Int) -> Unit) {
             Dialog(activity, R.style.app_dialog).apply {
                 setContentView(R.layout.d_selector)
+                setCancelable(true)
+                setCanceledOnTouchOutside(true)
                 var mTextColor = activity.resources.getColor(R.color.text_color_lv)
                 var mTextSize = 0f
                 findViewById<TextView>(R.id.tv_d_content).apply {
@@ -64,6 +66,7 @@ object Dialogs {
                             setTextSize(TypedValue.COMPLEX_UNIT_PX, activity.dp2px(10f).toFloat())
                             setTextColor(mTextColor)
                             text = it
+                            setPadding(0, 0, 0, activity.dp2px(4f))
                         }, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                     }
                     (getChildAt(0) as RadioButton).isChecked = true
@@ -85,7 +88,7 @@ object Dialogs {
                     it.text = "${if (target.level > 0) "+${target.level}" else ""} ${target.info.name}"
                     it.setTextColor(getRareColor(target.rare))
                 }
-                findViewById<ImageView>(R.id.img_d_game_title).setImageResource(target.info.iconId)
+                findViewById<ImageView>(R.id.img_d_game_title).setImageResource(StaticData.getBaseEquipInfo(target.info.id).iconId)
                 findViewById<LinearLayout>(R.id.ll_d_game_equip_content).apply {
                     EquipEngine.getMainValue(target).let {
                         addView(getEquipInfoItem(activity, it.first, it.second,
@@ -119,7 +122,7 @@ object Dialogs {
                     it.text = "${if (eq.level > 0) "+${eq.level}" else ""} ${eq.info.name}"
                     it.setTextColor(getRareColor(eq.rare))
                 }
-                findViewById<ImageView>(R.id.img_d_game_title).setImageResource(eq.info.iconId)
+                findViewById<ImageView>(R.id.img_d_game_title).setImageResource(StaticData.getBaseEquipInfo(eq.info.id).iconId)
                 findViewById<LinearLayout>(R.id.ll_d_game_equip_content).apply {
                     EquipEngine.getMainValue(eq).let {
                         addView(getEquipInfoItem(context, it.first, it.second,

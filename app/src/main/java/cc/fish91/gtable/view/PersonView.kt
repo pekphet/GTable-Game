@@ -17,7 +17,7 @@ class PersionView(val ctx: Context, val fd: FightSceneFinalData) : LoadableView<
     private val mTvAtk = view.findViewById<TextView>(R.id.tv_vperson_atk)
     private val mTvDef = view.findViewById<TextView>(R.id.tv_vperson_def)
     private val mTvGold = view.findViewById<TextView>(R.id.tv_vperson_gold)
-    private val mTvKeys = view.findViewById<TextView>(R.id.tv_vperson_keys)
+    private val mImgKey = view.findViewById<ImageView>(R.id.img_vperson_keys)
     private val mTvLv = view.findViewById<TextView>(R.id.tv_vperson_lv)
     private val mTvExp = view.findViewById<TextView>(R.id.tv_vperson_exp)
     private val mImgEqW = view.findViewById<ImageView>(R.id.img_vperson_eqw)
@@ -30,9 +30,9 @@ class PersionView(val ctx: Context, val fd: FightSceneFinalData) : LoadableView<
         mTvAtk.text = "ATK: ${fd.atk + fd.floorAppend.atk}${fd.buff.tAtk.run { if (this == 0) "" else if (this < 0) " -$this" else " +$this" }}"
         mTvDef.text = "DEF: ${fd.def + fd.floorAppend.def}${fd.buff.tDef.run { if (this == 0) "" else if (this < 0) " -$this" else " +$this" }}"
         mTvGold.text = "GOLD: ${data.gold}"
-        mTvKeys.text = "KEYS: ${fd.buff.keys}"
-        mTvExp.text = "exp: ${data.exp} / ${StaticData.getLimitExp(data.level)}"
-        mTvLv.text = "level: ${data.level}"
+        mImgKey.visibility = if (fd.buff.keys > 0) View.VISIBLE else View.GONE
+        mTvExp.text = "Exp: ${data.exp} / ${StaticData.getLimitExp(data.level)}"
+        mTvLv.text = "[${data.roleType.info}] Lv: ${data.level}"
     }
 
     fun setFloor(floorMsg: String) {

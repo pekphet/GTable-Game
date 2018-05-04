@@ -17,11 +17,11 @@ object EquipEngine {
                 Math.min(floor / CHANGE_LEVEL_COUNT, EQUIP_LEVEL_LIMIT),
                 StaticData.getBaseEquipInfo(id), it).apply {
             for (i in 0..it)
-                EquipProperty.values().getRand().let { exProperty.add(it, getExValue(it, StaticData.getBaseEquipInfo(id), (floor / CHANGE_LEVEL_COUNT).limitAtMost(50))) }
+                EquipProperty.values().getRand().let { exProperty.add(it, getExValue(it, StaticData.getBaseEquipInfo(id), (floor / CHANGE_LEVEL_COUNT).limitAtMost(60))) }
         }
     }
 
-    fun createByRare(id: Int, rare: Int) = create(id, rare, 0, rare)
+    fun createByRare(id: Int, level: Int, rare: Int) = create(id, rare, level * 5 + 4, rare)
 
     private fun getExValue(ep: EquipProperty, info: EquipInfo, level: Int) = info.run {
         when (ep) {

@@ -10,8 +10,8 @@ android {
         applicationId "cc.fish91.gtable"
         minSdkVersion 18
         targetSdkVersion 27
-        versionCode 8200
-        versionName "0.8.2-Demo"
+        versionCode 8300
+        versionName "0.8.3-Demo"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
