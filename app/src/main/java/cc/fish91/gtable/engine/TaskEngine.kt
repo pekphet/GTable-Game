@@ -48,18 +48,18 @@ object TaskEngine {
         val type = getRandAwardType(task.type)
         return when (task.type) {
             TaskType.KILL_MONSTER -> when (type) {
-                TaskAwardType.Equip -> TaskAward(StaticData.getBaseMonster(task.monsterId).drop.first,
-                        Math.wave((task.startFloor / EquipEngine.CHANGE_LEVEL_COUNT + 1).limitAtMost(EQUIP_LEVEL_LIMIT).limitAtLeast(0), 2),
+                TaskAwardType.Equip -> TaskAward(StaticData.getBaseMonster(task.monsterId).drop[0].first,
+                        Math.wave((task.startFloor / EquipEngine.CHANGE_LEVEL_COUNT + 1).limitAtLeast(0), 2),
                         if (task.isK) 3 else 2, TaskAwardType.Equip)
-                TaskAwardType.Gold -> TaskAward(task.needValue * 20, 0, 0, TaskAwardType.Gold)
-                TaskAwardType.Exp -> TaskAward(task.needValue * 20, 0, 0, TaskAwardType.Exp)
+                TaskAwardType.Gold -> TaskAward((task.needValue + task.startFloor * 3) * 20, 0, 0, TaskAwardType.Gold)
+                TaskAwardType.Exp -> TaskAward((task.needValue + task.startFloor * 3) * 20, 0, 0, TaskAwardType.Exp)
             }
             TaskType.UP_FLOORS -> when (type) {
                 TaskAwardType.Equip -> TaskAward(getEquipIdByFloor(task.startFloor),
                         Math.wave((task.startFloor / EquipEngine.CHANGE_LEVEL_COUNT + 2).limitAtMost(EQUIP_LEVEL_LIMIT), 2),
                         2, TaskAwardType.Equip)
-                TaskAwardType.Gold -> TaskAward(task.needValue * 50, 0, 0, TaskAwardType.Gold)
-                TaskAwardType.Exp -> TaskAward(task.needValue * 50, 0, 0, TaskAwardType.Exp)
+                TaskAwardType.Gold -> TaskAward((task.needValue * 3 + task.startFloor * 10) * 20, 0, 0, TaskAwardType.Gold)
+                TaskAwardType.Exp -> TaskAward((task.needValue * 3 + task.startFloor * 10) * 20, 0, 0, TaskAwardType.Exp)
             }
         }
 
@@ -83,14 +83,9 @@ object TaskEngine {
 
 
     private fun getMonsterTaskNeed(pLevel: Int) = Math.wavePc((5 + pLevel * 2).limitAtMost(60), 20)
-    private fun getFloorTaskNeed() = Math.wave(7, 3)
+    private fun getFloorTaskNeed() = Math.wave(6, 3)
 
     private fun getEquipIdByFloor(floor: Int) =
-        StaticData.getDropEquipsOfArea(((floor / 30) + 1).limitAtMost(StaticData.DEFAULT_MONSTER_AREA)).getRand()
-//        if (floor <= 30) {
-//            return listOf(0x1, 0x1001, 0x2001).getRand()
-//        } else {
-//            return StaticData.getAllEquips().toList().getRand()
-//        }
+            StaticData.getDropEquipsOfArea(((floor / 30) + 1).limitAtMost(StaticData.DEFAULT_MONSTER_AREA)).getRand()
 
 }

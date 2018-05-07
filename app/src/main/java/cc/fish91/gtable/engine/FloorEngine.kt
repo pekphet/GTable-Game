@@ -21,8 +21,8 @@ object FloorEngine {    //Floor start with 0
                 this.baseHP * (1 + floor) + Math.rand(floor),
                 this.baseAtk * (1 + floor) + Math.rand(floor / 2),
                 this.baseDef * (1 + floor) + Math.rand(floor / 2),
-                this.baseExp * (1 + floor) + Math.rand(floor),
-                Math.rand(this.baseGold *3), id)
+                Math.rand(this.baseExp * (floor + 5) / 3),
+                Math.rand(this.baseGold * (floor + 5) / 3), id)
     }
 
 

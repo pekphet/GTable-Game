@@ -15,7 +15,7 @@ data class MonsterData(var HP: Int, var atk: Int, var def: Int, var exp: Int, va
 data class Buff(var ability: BuffAbility, var value: Int)
 data class Gift(var giftType: Gifts, var value: Int)
 
-data class BaseMonster(var baseHP: Int, var baseAtk: Int, var baseDef: Int, var name: String, var baseExp: Int, var baseGold: Int, var iconId: Int, var drop: Pair<Int, Int>, var exEffectClz: KClass<out IFightEffect>? = null)
+data class BaseMonster(var baseHP: Int, var baseAtk: Int, var baseDef: Int, var name: String, var baseExp: Int, var baseGold: Int, var iconId: Int, var drop: Array<Pair<Int, Int>>, var exEffectClz: KClass<out IFightEffect>? = null)
 
 data class FloorBuff(var tAtk: Int = 0, var tDef: Int = 0, var tArmor: Int = 0, var keys: Int = 0)
 
@@ -23,7 +23,7 @@ data class PersonBought(var atkLv: Int, var defLv: Int, var hpLv: Int)
 
 data class Equip(var level: Int, val info: EquipInfo, var rare: Int, val exProperty: AddableMutableMap<EquipProperty> = AddableMutableMap())
 
-data class EquipInfo(var id: Int = 0x0001, var name: String, var position: EquipPosition, var baseProperty: Int, var iconId: Int, var extra: Pair<ExEffect, Int>?)
+data class EquipInfo(var id: Int = 0x0001, var name: String, var position: EquipPosition, var baseProperty: Int, var iconId: Int, var sell: Int = 0, var baseLevel: Int = 0, var extra: Pair<ExEffect, Int>?)
 
 data class FightSceneFinalData(var HP: Int = 0, var HPLine: Int = 0, var atk: Int = 0, var def: Int = 0, var critical: Int = 0, var criticalDmg: Int = 0, var miss: Int = 0, var restore: Int = 0, val buff: FloorBuff = FloorBuff(), val floorAppend: FloorAppend = FloorAppend())
 data class FloorAppend(var HP: Int = 0, var atk: Int = 0, var def: Int = 0)

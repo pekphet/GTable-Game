@@ -62,9 +62,13 @@ class PersionView(val ctx: Context, val fd: FightSceneFinalData) : LoadableView<
         }
     }
 
-    fun setOnPersonClick(clk: () -> Unit) {
+    fun setOnPersonClick(clk: () -> Unit, longClk: () -> Unit) {
         view.findViewById<ImageView>(R.id.img_vperson_person).setOnClickListener {
             clk()
+        }
+        view.findViewById<View>(R.id.img_vperson_person).setOnLongClickListener {
+            longClk()
+            true
         }
     }
 

@@ -37,15 +37,15 @@ enum class Gifts(val desc: String) {
 }
 
 enum class EquipProperty(val description: String) {
-    HP_RESTORE("生命回复"),
+    HP_RESTORE("回复力"),
     ATK("攻击力"),
     DEF("防御力"),
-    HP("生命值"),
+    HP("体力值"),
     ATK_PC("攻击力追加"),
     DEF_PC("防御力追加"),
-    HP_PC("生命值追加"),
+    HP_PC("体力值追加"),
     CRITICAL("暴击率"),
-    CRITICAL_DMG("暴击伤害比率"),
+    CRITICAL_DMG("暴伤率"),
     MISS("闪避率")
 
 }

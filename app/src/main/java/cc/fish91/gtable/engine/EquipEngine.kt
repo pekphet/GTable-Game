@@ -13,15 +13,17 @@ object EquipEngine {
     const val EQUIP_LEVEL_LIMIT = 50
 
     fun create(id: Int, rare: Int, floor: Int, from: Int = 0, limit: Int = 4) = Math.rand(from, (rare + (floor % CHANGE_LEVEL_COUNT) / CHANGE_RARE_COUNT).limitAtMost(limit)).let {
-        Equip(
-                Math.min(floor / CHANGE_LEVEL_COUNT, EQUIP_LEVEL_LIMIT),
-                StaticData.getBaseEquipInfo(id), it).apply {
-            for (i in 0..it)
-                EquipProperty.values().getRand().let { exProperty.add(it, getExValue(it, StaticData.getBaseEquipInfo(id), (floor / CHANGE_LEVEL_COUNT).limitAtMost(60))) }
+        StaticData.getBaseEquipInfo(id).let { info ->
+            Equip(
+                    Math.min(floor / CHANGE_LEVEL_COUNT, EQUIP_LEVEL_LIMIT + info.baseLevel),
+                    info, it).apply {
+                for (i in 0..it)
+                    EquipProperty.values().getRand().let { exProperty.add(it, getExValue(it, info, (floor / CHANGE_LEVEL_COUNT).limitAtMost(EQUIP_LEVEL_LIMIT + info.baseLevel + 1))) }
+            }
         }
     }
 
-    fun createByRare(id: Int, level: Int, rare: Int) = create(id, rare, level * 5 + 4, rare)
+    fun createByRare(id: Int, level: Int, rare: Int) = create(id, rare, level * 5 + 4, rare, rare)
 
     private fun getExValue(ep: EquipProperty, info: EquipInfo, level: Int) = info.run {
         when (ep) {
@@ -34,7 +36,7 @@ object EquipEngine {
             EquipProperty.MISS -> (level + 1) * 2
             EquipProperty.CRITICAL -> (level + 1) * 2
             EquipProperty.CRITICAL_DMG -> (level + 1) * 2
-            EquipProperty.HP_RESTORE -> (level + 1)
+            EquipProperty.HP_RESTORE -> ((level + 1) / 2).coerceAtLeast(1)
         }
     }
 

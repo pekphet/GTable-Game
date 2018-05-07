@@ -70,6 +70,8 @@ object FightScene {
                 {
                     if (p.HP < line * 0.8) {
                         p.HP += (line * 0.2).toInt()
+                    } else {
+                        p.HP = line
                     }
                 }
             }
@@ -96,7 +98,7 @@ object FightScene {
         else null
     }
 
-    private fun takeDropId(monster: MonsterData, isK: Boolean) = StaticData.getBaseMonster(monster.mId).drop.run {
+    private fun takeDropId(monster: MonsterData, isK: Boolean) = StaticData.getBaseMonster(monster.mId).drop[0].run {
         if (Math.denominatorOf(second, if (isK) 2 else 1)) first else 0
     }
 

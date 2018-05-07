@@ -94,8 +94,10 @@ class GameActivity : Activity() {
         loadEquips()
         mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
         mPersonView.load(mPerson)
-        mPersonView.setOnPersonClick {
-            Dialogs.question(this@GameActivity, "删除角色信息（保留装备）??\n\n人物技能${mPerson.roleType.pSkill.objectInstance!!.getInfo(0)}") {
+        mPersonView.setOnPersonClick({
+            Dialogs.ExDialogs.showPerson(this@GameActivity, mFightData, mPerson.roleType)
+        }) {
+            Dialogs.questionSmall(this@GameActivity, "删除角色信息（保留装备）??") {
                 PersonRecord.clearData()
                 finish()
             }
@@ -191,7 +193,10 @@ class GameActivity : Activity() {
                 mPerson.gold += task.award!!.aValue
             }
             TaskAwardType.Equip -> {
-                EquipEngine.createByRare(task.award!!.aValue, task.award!!.level, if (isK && Math.percent(5)) 4 else task.award!!.rare).run {
+                EquipEngine.createByRare(task.award!!.aValue, task.award!!.level, if (isK && Math.percent(5)) {
+                    show("超稀有装备！！")
+                    4
+                } else task.award!!.rare).run {
                     Dialogs.ExDialogs.showEquipCompare(this@GameActivity, mEquips[info.position], this) {
                         if (it) {
                             if (mFloor <= KEEP_EQUIP_FLOORS || rare >= 3)
@@ -200,6 +205,11 @@ class GameActivity : Activity() {
                             mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
                             mPersonView.flushEquip(mEquips)
                             mPersonView.load(mPerson)
+                        } else {
+                            (rare * info.sell).let {
+                                mPerson.gold += it
+                                show("获取${it}金币！")
+                            }
                         }
                     }
                 }
@@ -260,7 +270,8 @@ class GameActivity : Activity() {
                 mPersonView.flushEquip(mEquips)
                 mPersonView.load(mPerson)
             } else {
-
+                mPerson.gold += equip.info.sell * equip.rare
+                show("获取${equip.info.sell * equip.rare}金币！")
             }
             mData[position].status = FloorStatus.IDLE
             mAdapter.notifyItemChanged(position)
@@ -379,7 +390,7 @@ class GameActivity : Activity() {
     }
 
     private fun interrupt() {
-        Dialogs.question(this@GameActivity, "确定返回主城？") {
+        Dialogs.questionSmall(this@GameActivity, "确定返回主城？") {
             FightScene.failed(mPerson, mTasks, mFloor)
             finish()
         }

@@ -42,8 +42,8 @@ object PersonRecord {
             it.HP += this.HP
             it.atk += this.atk
             it.def += this.def
-            storePersonData(it)
             mHpLine += this.HP
+            storePersonData(it)
         }
     }
 

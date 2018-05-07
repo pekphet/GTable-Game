@@ -14,26 +14,15 @@
         android:textSize="18dp"
         android:textStyle="bold" />
 
-    <ScrollView
+
+    <TextView
+        android:id="@+id/tv_d_content"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:overScrollMode="never"
-        android:scrollbars="none">
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tv_d_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/text_color_atk"
-                android:textSize="14dp" />
-        </FrameLayout>
-    </ScrollView>
+        android:gravity="center"
+        android:textColor="@color/text_color_atk"
+        android:textSize="14dp" />
 
     <View
         android:layout_width="match_parent"

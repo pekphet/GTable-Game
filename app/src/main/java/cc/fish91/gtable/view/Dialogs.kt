@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.text.Html
 import android.util.TypedValue
 import android.view.View
 import android.widget.*
 import cc.fish91.gtable.*
 import cc.fish91.gtable.engine.EquipEngine
 import cc.fish91.gtable.engine.EquipEngine.getRareColor
+import cc.fish91.gtable.plugin.Math
 import cc.fish91.gtable.plugin.dp2px
 import cc.fish91.gtable.plugin.showNotEmpty
 import cc.fish91.gtable.plugin.toMillicentKeep1
@@ -19,9 +21,9 @@ import org.w3c.dom.Text
 
 object Dialogs {
 
-    fun show(activity: Activity, title: String = "", msg: String, hasCancel: Boolean, ok: () -> Unit, cancel: () -> Unit) {
+    fun show(activity: Activity, title: String = "", msg: String, isSmall: Boolean = false, hasCancel: Boolean, ok: () -> Unit, cancel: () -> Unit) {
         Dialog(activity, R.style.app_dialog).apply {
-            setContentView(R.layout.d_common)
+            setContentView(if (isSmall) R.layout.d_common_small else R.layout.d_common)
             findViewById<TextView>(R.id.tv_d_title).showNotEmpty(title)
             findViewById<TextView>(R.id.tv_d_content).text = msg
             findViewById<TextView>(R.id.tv_d_ok).setOnClickListener {
@@ -40,10 +42,15 @@ object Dialogs {
         }.show()
     }
 
-    fun show(activity: Activity, title: String = "", msg: String, ok: () -> Unit) = show(activity, title, msg, false, ok) {}
+    fun show(activity: Activity, title: String = "", msg: String, ok: () -> Unit) = show(activity, title, msg, false, false, ok) {}
 
-    fun question(activity: Activity, msg: String, ok: () -> Unit) = show(activity, "", msg, true, ok) {}
+    fun question(activity: Activity, msg: String, ok: () -> Unit) = show(activity, "", msg, false, true, ok) {}
 
+    fun showSmall(activity: Activity, title: String = "", msg: String, ok: () -> Unit) = show(activity, title, msg, true, false, ok) {}
+
+    fun showSmall(activity: Activity, title: String = "", msg: String, hasCancel: Boolean, ok: () -> Unit, cancel: () -> Unit) = show(activity, title, msg, true, hasCancel, ok, cancel)
+
+    fun questionSmall(activity: Activity, msg: String, ok: () -> Unit) = show(activity, "", msg, true, true, ok) {}
 
     object ExDialogs {
         private val LinearLayoutParamsWW = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -85,7 +92,7 @@ object Dialogs {
             Dialog(activity, R.style.app_dialog).apply {
                 setContentView(R.layout.d_game_equip)
                 findViewById<TextView>(R.id.tv_d_game_name).let {
-                    it.text = "${if (target.level > 0) "+${target.level}" else ""} ${target.info.name}"
+                    it.text = "${if (target.level - target.info.baseLevel > 0) "+${target.level - target.info.baseLevel}" else ""} ${target.info.name}"
                     it.setTextColor(getRareColor(target.rare))
                 }
                 findViewById<ImageView>(R.id.img_d_game_title).setImageResource(StaticData.getBaseEquipInfo(target.info.id).iconId)
@@ -119,7 +126,7 @@ object Dialogs {
             Dialog(context, R.style.app_dialog).apply {
                 setContentView(R.layout.d_game_equip)
                 findViewById<TextView>(R.id.tv_d_game_name).let {
-                    it.text = "${if (eq.level > 0) "+${eq.level}" else ""} ${eq.info.name}"
+                    it.text = "${if (eq.level - eq.info.baseLevel > 0) "+${eq.level - eq.info.baseLevel}" else ""} ${eq.info.name}"
                     it.setTextColor(getRareColor(eq.rare))
                 }
                 findViewById<ImageView>(R.id.img_d_game_title).setImageResource(StaticData.getBaseEquipInfo(eq.info.id).iconId)
@@ -190,8 +197,8 @@ object Dialogs {
                     addView(getInfoText(activity, "攻击力: ${monster.atk}"), LinearLayoutParamsWW)
                     addView(getInfoText(activity, "防御力: ${monster.def}"), LinearLayoutParamsWW)
                     addView(getInfoText(activity, "生命值: ${monster.HP}"), LinearLayoutParamsWW)
-                    addView(getInfoText(activity, "可掉落物品: ${StaticData.getBaseEquipInfo(base.drop.first).name}"), LinearLayoutParamsWW)
-                    addView(getInfoText(activity, "装备暴率: ${(1.0 / base.drop.second).toPercentKeep1()}"), LinearLayoutParamsWW)
+                    addView(getInfoText(activity, "可掉落物品: ${StaticData.getBaseEquipInfo(base.drop[0].first).name}"), LinearLayoutParamsWW)
+                    addView(getInfoText(activity, "装备暴率: ${(1.0 / base.drop[0].second).toPercentKeep1()}"), LinearLayoutParamsWW)
                 }
                 findViewById<TextView>(R.id.tv_game_monster_ex).apply {
                     if (base.exEffectClz == null) {
@@ -204,7 +211,7 @@ object Dialogs {
             }.show()
         }
 
-        private fun getInfoText(ctx: Context, text: String) = TextView(ctx).apply {
+        private fun getInfoText(ctx: Context, text: CharSequence, colorId: Int = R.color.text_color_lv) = TextView(ctx).apply {
             setTextSize(TypedValue.COMPLEX_UNIT_PX, Framework._C.dp2px(12f).toFloat())
             setTextColor(resources.getColor(R.color.text_color_lv))
             this.text = text
@@ -220,6 +227,24 @@ object Dialogs {
                             dismiss()
                             onTaskComplete(t, t.isK)
                         })
+                }
+            }.show()
+        }
+
+        fun showPerson(activity: Activity, info: FightSceneFinalData, roleType: RoleType) {
+            Dialog(activity, R.style.app_dialog).apply {
+                setContentView(R.layout.d_tasks)
+                findViewById<TextView>(R.id.tv_d_title).text = "人物信息"
+                findViewById<View>(R.id.tv_d_ok).setOnClickListener { dismiss() }
+                findViewById<LinearLayout>(R.id.ll_d_task).run {
+                    addView(getInfoText(activity, Html.fromHtml("体力值: ${info.HP} / ${info.HPLine} <font color='#4c9fff'> (+ ${info.floorAppend.HP}})</font>")))
+                    addView(getInfoText(activity, Html.fromHtml("攻击力: ${info.atk} +${info.floorAppend.atk} <font color='#4c9fff'>( ${info.buff.tAtk.run { if (this >= 0) " +$this" else " -$this" }})</font>")))
+                    addView(getInfoText(activity, Html.fromHtml("防御力: ${info.def} +${info.floorAppend.def} <font color='#4c9fff'>( ${info.buff.tDef.run { if (this >= 0) " +$this" else " -$this" }})</font>")))
+                    addView(getInfoText(activity, "回复力: ${info.restore}"))
+                    addView(getInfoText(activity, "暴击率: ${info.critical.toMillicentKeep1()}"))
+                    addView(getInfoText(activity, "暴伤率: ${info.criticalDmg}%"))
+                    addView(getInfoText(activity, "闪避率: ${info.miss.toMillicentKeep1()}"))
+                    addView(getInfoText(activity, "\n${roleType.pSkill.objectInstance!!.getInfo(0)}"))
                 }
             }.show()
         }

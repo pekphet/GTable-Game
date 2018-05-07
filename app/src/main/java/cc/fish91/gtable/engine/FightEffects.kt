@@ -54,23 +54,23 @@ object FightEffects {
         override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
             if (person.HP * 1f / person.HPLine <= 0.3) {
                 adder = (person.atk * 0.3).toInt()
-                person.atk += adder
-                person.def += adder
+                person.floorAppend.atk += adder
+                person.floorAppend.def += adder
             }
         }
 
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
-            person.atk -= adder
-            person.def -= adder
-            if (adder > 0) person.HP += (person.def * 0.02).toInt()
+            person.floorAppend.atk -= adder
+            person.floorAppend.def -= adder
+            if (adder > 0) person.HP += (person.def * 0.05).toInt()
         }
 
-        override fun getInfo(floor: Int) = "[格斗家爆发] 体力值小于30%时爆发潜能，根据攻击力提升攻防，每次攻击根据防御力回复生命值"
+        override fun getInfo(floor: Int) = "[战斗爆发] 体力值小于30%时爆发潜能，根据攻击力提升攻防，每次攻击根据防御力回复生命值"
     }
 
     object KNIGHTPSkill : IFightEffect {
         override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
-            monster.HP -= (person.def * 0.3).toInt() * if (Math.mil_percent(person.critical)) person.criticalDmg / 100 else 1
+            monster.HP -= (((person.def + person.floorAppend.def + person.buff.tDef) * 0.3f) * if (Math.mil_percent(person.critical)) person.criticalDmg / 100f + 1f else 1f).toInt()
         }
 
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
@@ -78,7 +78,7 @@ object FightEffects {
                 person.buff.tDef += 1
         }
 
-        override fun getInfo(floor: Int) = "[骑士精神] 每次攻击造成防御力30%的神圣伤害，体力值小于50%时每次攻击结束提升1点防御BUFF"
+        override fun getInfo(floor: Int) = "[骑士惩戒] 每次攻击造成防御力30%的神圣伤害，体力值小于50%时每次攻击结束提升1点防御BUFF"
     }
 
     object ROGUEPSkill : IFightEffect {
@@ -92,26 +92,27 @@ object FightEffects {
                 monster.HP = -1
         }
 
-        override fun getInfo(floor: Int) = "[暗杀] 攻击强大对手时削减对方体力值，对弱小的对手攻击结束时有几率秒杀"
+        override fun getInfo(floor: Int) = "[暗影瞬杀] 攻击强大对手时削减对方体力值，对弱小的对手攻击结束时有几率秒杀"
     }
 
     object NECPSkill : IFightEffect {
         override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
-            person.HP -= (person.HPLine * 0.05).toInt()
+            person.HP -= (person.HP * 0.05).toInt()
             if (person.HP < monster.HP)
-                monster.HP -= person.HPLine - person.HP
-
+                monster.HP -= ((person.HPLine - person.HP) * if (Math.mil_percent(person.critical)) person.criticalDmg / 100f + 1f else 1f).toInt()
         }
 
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
             if (person.HP < monster.HP) {
-                person.HP = (person.HP + (person.HPLine * 0.08).toInt()).limitAtMost(person.HPLine)
+                person.HP = (person.HP + (person.HPLine * 0.05).toInt()).limitAtMost(person.HPLine)
+            } else if (monster.HP < 0) {
+                person.floorAppend.HP += 1
             } else {
                 monster.HP -= person.HPLine - person.HP
             }
         }
 
-        override fun getInfo(floor: Int) = "[血爆] 每次攻击付出体力值给对方造成伤害，结束时根据敌人状况进行二次攻击或者回复体力"
+        override fun getInfo(floor: Int) = "[幽魂血爆] 每次攻击付出体力值给对方造成伤害，结束时根据敌人状况进行二次攻击或者回复体力"
     }
 
 
@@ -125,7 +126,7 @@ object FightEffects {
             person.def += floor / 2
         }
 
-        override fun getInfo(floor: Int) = "[恐惧] 降低对手${floor / 2}点防御"
+        override fun getInfo(floor: Int) = "[恐惧] 无视对手${floor / 2}点防御"
     }
 
     object DscPAtk : IFightEffect {
@@ -137,7 +138,7 @@ object FightEffects {
             person.atk += floor / 2
         }
 
-        override fun getInfo(floor: Int) = "[坚韧] 降低对手${floor / 2}点攻击"
+        override fun getInfo(floor: Int) = "[坚韧] 无视对手${floor / 2}点攻击"
 
     }
 
@@ -167,25 +168,29 @@ object FightEffects {
 
     object DscFA5Atk : IFightEffect {
         override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
-            person.floorAppend.atk -= 5
+            if ((person.buff.tAtk) * -1 <= person.atk) {
+                person.buff.tAtk -= 3
+            }
         }
 
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
         }
 
-        override fun getInfo(floor: Int) = "[震慑] 每回合降低攻击力5点，每10层清空"
+        override fun getInfo(floor: Int) = "[震慑] 每回合降低攻击力3点, 当前层有效"
 
     }
 
     object DscFA1Def : IFightEffect {
         override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
-            person.floorAppend.def -= 1
+            if ((person.buff.tDef) * -1 <= person.def) {
+                person.buff.tDef -= 3
+            }
         }
 
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
         }
 
-        override fun getInfo(floor: Int) = "[腐蚀] 每回合降低防御力1点，每10层清空"
+        override fun getInfo(floor: Int) = "[腐蚀] 每回合降低防御力3点，当前层有效"
     }
 
     object CopyPAtk : IFightEffect {
