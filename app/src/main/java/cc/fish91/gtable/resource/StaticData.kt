@@ -6,7 +6,7 @@ import cc.fish91.gtable.engine.IFightEffect
 
 object StaticData {
     const val DEFAULT_MONSTER_AREA = 7
-    const val CHANGE_ROLE_TYPE_1 = 2
+    const val CHANGE_ROLE_TYPE_1 = 30
 
     /****Static Data**************/
 

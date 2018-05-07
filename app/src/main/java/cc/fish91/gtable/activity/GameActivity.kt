@@ -90,6 +90,7 @@ class GameActivity : Activity() {
 
     private fun loadPerson() {
         StaticData.statusUpCalc(mPerson, mBought)
+        mRoleTypePSkill = mPerson.roleType.pSkill.objectInstance!!
         loadEquips()
         mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
         mPersonView.load(mPerson)
@@ -282,7 +283,7 @@ class GameActivity : Activity() {
     }
 
     private fun doFight(position: Int, monsterData: MonsterData, isK: Boolean, forceEnd: Boolean = false) {
-        if (FightScene.fight(monsterData, mFightData, mFloor, forceEnd)) {
+        if (FightScene.fight(monsterData, mFightData, mFloor, forceEnd, mRoleTypePSkill)) {
             open(position, true)
             if (mFightData.HP <= 0) {
                 toast("died")

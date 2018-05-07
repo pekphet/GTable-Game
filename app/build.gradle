@@ -11,7 +11,7 @@ android {
         minSdkVersion 18
         targetSdkVersion 27
         versionCode 8300
-        versionName "0.8.3-Demo"
+        versionName "0.8.3B-Demo"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
