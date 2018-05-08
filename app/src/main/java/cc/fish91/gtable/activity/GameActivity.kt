@@ -110,7 +110,7 @@ class GameActivity : Activity() {
         mEquips.putNullable(EquipPosition.ARMOR, EquipRecord.getEqA())
         mEquips.putNullable(EquipPosition.RING, EquipRecord.getEqR())
         mFightData.suit = EquipEngine.getSuitById(EquipEngine.checkSuit(*(mEquips.values.toTypedArray())))
-        mPersonView.flushEquip(mEquips)
+        mPersonView.flushEquip(mEquips, mFightData.suit != null)
     }
 
     private fun makeFloor(floor: Int) {
@@ -135,7 +135,7 @@ class GameActivity : Activity() {
                     FloorStatus.BUFF -> mBuffs.add(FloorEngine.createBuff(mArea, floor))
                     FloorStatus.GIFT -> mGifts.add(FloorEngine.createGift(mArea, floor))
                     FloorStatus.MONSTER_K -> mMonsterK = FloorEngine.createMonsters(mArea, floor, 1)[0].changeToKing()
-                    FloorStatus.MONSTER_SP -> mMonsterSP = FloorEngine.createMonster(StaticData.getRandSPMonsterId(), mFloor)
+                    FloorStatus.MONSTER_SP -> mMonsterSP = FloorEngine.createMonster(StaticData.getRandSPMonsterId(), floor)
                     else -> {
                     }
                 }
@@ -160,7 +160,7 @@ class GameActivity : Activity() {
     }
 
     val mAdapter = object : Adapter<FloorVH>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FloorVH(parent, mMonsters, mGifts, mBuffs, mMonsterK, mDropMap)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FloorVH(parent, mMonsters, mGifts, mBuffs, mMonsterK, mMonsterSP, mDropMap)
 
         override fun getItemCount() = 5 * 7
 
@@ -202,8 +202,9 @@ class GameActivity : Activity() {
                             if (mFloor <= KEEP_EQUIP_FLOORS || rare >= 3)
                                 EquipRecord.saveEq(this)
                             mEquips[info.position] = this
+                            mFightData.suit = EquipEngine.getSuitById(EquipEngine.checkSuit(*(mEquips.values.toTypedArray())))
                             mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
-                            mPersonView.flushEquip(mEquips)
+                            mPersonView.flushEquip(mEquips, mFightData.suit != null)
                             mPersonView.load(mPerson)
                         } else {
                             (rare * info.sell).let {
@@ -238,7 +239,7 @@ class GameActivity : Activity() {
             open(position, data)
             when (data.status) {
                 FloorStatus.MONSTER_K -> doFight(position, mMonsterK, true)
-                FloorStatus.MONSTER_SP -> doFight(position, mMonsterK, false)
+                FloorStatus.MONSTER_SP -> doFight(position, mMonsterSP, false)
                 FloorStatus.MONSTER -> doFight(position, mMonsters[data.exId], false)
                 FloorStatus.STAIR_DN -> if (mFightData.buff.keys > 0) makeFloor(++mFloor) else show("缺少钥匙")
                 FloorStatus.STAIR_UP -> {
@@ -267,8 +268,9 @@ class GameActivity : Activity() {
                 if (mFloor <= KEEP_EQUIP_FLOORS || equip.rare >= 3)
                     EquipRecord.saveEq(equip)
                 mEquips[equip.info.position] = equip
+                mFightData.suit = EquipEngine.getSuitById(EquipEngine.checkSuit(*(mEquips.values.toTypedArray())))
                 mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
-                mPersonView.flushEquip(mEquips)
+                mPersonView.flushEquip(mEquips, mFightData.suit != null)
                 mPersonView.load(mPerson)
             } else {
                 mPerson.gold += equip.info.sell * equip.rare
@@ -400,7 +402,7 @@ class GameActivity : Activity() {
 
 
 class FloorVH(val floorView: FloorView, val dropMap: Map<Int, Equip>) : RecyclerView.ViewHolder(floorView.getView()) {
-    constructor(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift>, buffs: List<Buff>, monsterK: MonsterData, dropMap: Map<Int, Equip>) : this(FloorView(parent, monsters, gifts, buffs, monsterK), dropMap)
+    constructor(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift>, buffs: List<Buff>, monsterK: MonsterData, monsterSP: MonsterData, dropMap: Map<Int, Equip>) : this(FloorView(parent, monsters, gifts, buffs, monsterK, monsterSP), dropMap)
 
     fun changeMonsterK(monsterK: MonsterData) = floorView.changeMonsterK(monsterK)
     fun load(data: FloorMeta) = floorView.load(data)

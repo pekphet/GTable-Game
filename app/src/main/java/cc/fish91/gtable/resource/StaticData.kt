@@ -12,7 +12,7 @@ object StaticData {
     const val AREA_SPLIT_FLOORS = 30
     const val KEEP_EQUIP_FLOORS = 40
 
-    const val GET_SP_WEIGHT = 60
+    const val GET_SP_WEIGHT = 30
 
     const val EQ_RARE_TOP = 6
     const val EQ_RARE_WHITE = 0
@@ -42,24 +42,24 @@ object StaticData {
     )
 
     private val mSPMonsters = mapOf(
-            Pair(0x3001, BaseMonster(5, 5, 5, "魂·蓝蜗牛", 20, 20, R.drawable.t_icon_monster_bluewn,
-                    arrayOf(Pair(0x3001, 45)), FightEffects.CutP10HP::class)),
-            Pair(0x3002, BaseMonster(5, 6, 4, "魂·红蜗牛", 20, 20, R.drawable.t_icon_monster_redwn,
-                    arrayOf(Pair(0x3002, 15)), FightEffects.DcsPDef::class)),
-            Pair(0x3003, BaseMonster(5, 7, 3, "魂·花蘑菇", 20, 20, R.drawable.t_icon_monster_mashroom,
-                    arrayOf(Pair(0x3003, 15)), FightEffects.DscPAtk::class)),
-            Pair(0x3004, BaseMonster(6, 4, 5, "魂·绿水灵", 20, 20, R.drawable.t_icon_monster_gball,
-                    arrayOf(Pair(0x3001, 15)), FightEffects.CutP10HP::class)),
-            Pair(0x3005, BaseMonster(6, 5, 4, "魂·蓝水灵", 20, 20, R.drawable.t_icon_monster_bball,
-                    arrayOf(Pair(0x3002, 15)), FightEffects.DcsPDef::class)),
-            Pair(0x3006, BaseMonster(6, 3, 6, "魂·钢猪猪", 20, 20, R.drawable.t_icon_monster_steelpig,
-                    arrayOf(Pair(0x3003, 15)), FightEffects.DscPAtk::class)),
-            Pair(0x3007, BaseMonster(4, 6, 5, "魂·星光精灵", 20, 20, R.drawable.t_icon_monster_star,
-                    arrayOf(Pair(0x3001, 15)), FightEffects.ClearPArmor::class)),
-            Pair(0x3008, BaseMonster(4, 5, 6, "魂·月光精灵", 20, 20, R.drawable.t_icon_monster_moon,
-                    arrayOf(Pair(0x3002, 15)), FightEffects.CopyPAtk::class)),
-            Pair(0x3009, BaseMonster(4, 6, 6, "魂·日光精灵", 20, 20, R.drawable.t_icon_monster_sun,
-                    arrayOf(Pair(0x3003, 15)), FightEffects.CopyPDef::class))
+            Pair(0x3001, BaseMonster(10, 10, 10, "魂·蓝蜗牛", 20, 20, R.drawable.t_icon_monster_bluewn,
+                    arrayOf(Pair(0x3001, 2)), FightEffects.CutP10HP::class)),
+            Pair(0x3002, BaseMonster(11, 14, 8, "魂·红蜗牛", 20, 20, R.drawable.t_icon_monster_redwn,
+                    arrayOf(Pair(0x3002, 2)), FightEffects.DcsPDef::class)),
+            Pair(0x3003, BaseMonster(10, 14, 7, "魂·花蘑菇", 20, 20, R.drawable.t_icon_monster_mashroom,
+                    arrayOf(Pair(0x3003, 2)), FightEffects.DscPAtk::class)),
+            Pair(0x3004, BaseMonster(12, 9, 10, "魂·绿水灵", 20, 20, R.drawable.t_icon_monster_gball,
+                    arrayOf(Pair(0x3001, 2)), FightEffects.CutP10HP::class)),
+            Pair(0x3005, BaseMonster(13, 11, 7, "魂·蓝水灵", 20, 20, R.drawable.t_icon_monster_bball,
+                    arrayOf(Pair(0x3002, 2)), FightEffects.DcsPDef::class)),
+            Pair(0x3006, BaseMonster(12, 6, 12, "魂·钢猪猪", 20, 20, R.drawable.t_icon_monster_steelpig,
+                    arrayOf(Pair(0x3003, 2)), FightEffects.DscPAtk::class)),
+            Pair(0x3007, BaseMonster(8, 12, 11, "魂·星光精灵", 20, 20, R.drawable.t_icon_monster_star,
+                    arrayOf(Pair(0x3001, 2)), FightEffects.ClearPArmor::class)),
+            Pair(0x3008, BaseMonster(8, 10, 12, "魂·月光精灵", 20, 20, R.drawable.t_icon_monster_moon,
+                    arrayOf(Pair(0x3002, 2)), FightEffects.CopyPAtk::class)),
+            Pair(0x3009, BaseMonster(8, 12, 12, "魂·日光精灵", 20, 20, R.drawable.t_icon_monster_sun,
+                    arrayOf(Pair(0x3003, 2)), FightEffects.CopyPDef::class))
     )
 
     private val mAreaMonsterMap = mutableMapOf(
@@ -116,7 +116,7 @@ object StaticData {
     }
 
     fun getRandSPMonsterId() = mSPMonsters.keys.toList().getRand()
-    fun getRandSPEquip() = mSPEquipInfoMap.keys.toList().getRand()
+    fun getRandSPEquip() = mSPEquipInfoMap.keys.filter { it >= 0x4000 }.toList().getRand()
 
     /****Gift ********************/
     fun getGiftInfo(gift: Gifts) = when (gift) {
@@ -170,7 +170,7 @@ object StaticData {
 
     /****Equip Area**********************/
 
-    fun getBaseEquipInfo(id: Int) = mEquipInfoMap[id]!!
+    fun getBaseEquipInfo(id: Int) = mEquipInfoMap[id]?: mSPEquipInfoMap[id]!!
 
     fun getAllEquips() = mEquipInfoMap.keys
 

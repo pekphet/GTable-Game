@@ -10,7 +10,7 @@ import android.widget.TextView
 import cc.fish91.gtable.*
 import cc.fish91.gtable.resource.StaticData
 
-class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift>, buffs: List<Buff>, monsterK: MonsterData) : LoadableView<FloorMeta> {
+class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift>, buffs: List<Buff>, monsterK: MonsterData, monsterSP: MonsterData) : LoadableView<FloorMeta> {
     private val view = LayoutInflater.from(parent.context).inflate(R.layout.v_floor_meta, parent, false)
     private val mTv = view.findViewById<TextView>(R.id.tv_gamefloor_content)
     private val mAtkTv = view.findViewById<TextView>(R.id.tv_gamefloor_atk)
@@ -26,6 +26,7 @@ class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift
     private val mGifts = gifts
     private val mBuff = buffs
     private var mMonsterK = monsterK
+    private var mMonsterSP = monsterSP
 
     override fun load(data: FloorMeta) {
         mUnusedFL.visibility = if (data.isOpened) View.GONE else View.VISIBLE
@@ -46,10 +47,10 @@ class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift
                 dispContent(false)
                 mKMarkImg.visibility = View.VISIBLE
                 mKMarkImg.setImageResource(R.drawable.ticon_award)
-                mMonsterImg.setImageResource(StaticData.getBaseMonster(mMonsterK.mId).iconId)
-                mAtkTv.text = "${mMonsterK.atk}"
-                mDefTv.text = "${mMonsterK.def}"
-                mHpTv.text = "${mMonsterK.HP}"
+                mMonsterImg.setImageResource(StaticData.getBaseMonster(mMonsterSP.mId).iconId)
+                mAtkTv.text = "${mMonsterSP.atk}"
+                mDefTv.text = "${mMonsterSP.def}"
+                mHpTv.text = "${mMonsterSP.HP}"
             }
             FloorStatus.MONSTER -> {
                 dispAll()

@@ -1,5 +1,6 @@
 package cc.fish91.gtable.engine
 
+import android.util.Log
 import cc.fish91.gtable.*
 import cc.fish91.gtable.localdata.PersonRecord
 import cc.fish91.gtable.plugin.Math
@@ -99,18 +100,19 @@ object FightScene {
             else null
         } else {
         takeDropId(monster, false).run {
-            if (this != 0) {
-                EquipEngine.createByRare(this, (floor + 1) / 5, StaticData.EQ_RARE_SINGLE_SP)
-            } else if (Math.percent(StaticData.GET_SP_WEIGHT)) {
-                EquipEngine.createByRare(StaticData.getRandSPEquip(), (floor + 1) / 5, StaticData.EQ_RARE_SINGLE_SP)
-            } else {
-                null
+            when {
+                this != 0 -> EquipEngine.createByRare(this, (floor + 1) / 5, StaticData.EQ_RARE_SINGLE_SP)
+                Math.percent(StaticData.GET_SP_WEIGHT) -> EquipEngine.createByRare(StaticData.getRandSPEquip(), (floor + 1) / 5, StaticData.EQ_RARE_SUIT)
+                else -> null
             }
         }
     }
 
-    private fun takeDropId(monster: MonsterData, isK: Boolean) = StaticData.getBaseMonster(monster.mId).drop[0].run {
-        if (Math.denominatorOf(second, if (isK) 2 else 1)) first else 0
+    private fun takeDropId(monster: MonsterData, isK: Boolean): Int {
+        Log.e("take drop", "id =${monster.mId}, monster=${StaticData.getBaseMonster(monster.mId)}")
+        return StaticData.getBaseMonster(monster.mId).drop[0].run {
+            if (Math.denominatorOf(second, if (isK) 2 else 1)) first else 0
+        }
     }
 
 }

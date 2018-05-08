@@ -88,7 +88,7 @@ object Dialogs {
 
 
         @SuppressLint("SetTextI18n")
-        fun showEquipCompare(activity: Activity, ori: Equip?, target: Equip, suitId: Int = -1, isSuit: Boolean = false, cmt: (Boolean) -> Unit) {
+        fun showEquipCompare(activity: Activity, ori: Equip?, target: Equip, isSuit: Boolean = false, cmt: (Boolean) -> Unit) {
             Dialog(activity, R.style.app_dialog).apply {
                 setContentView(R.layout.d_game_equip)
                 findViewById<TextView>(R.id.tv_d_game_name).let {
@@ -112,10 +112,10 @@ object Dialogs {
                     if (target.info.extra != null) {
                         addView(getInfoText(context, EquipEngine.getEquipEffectInfo(target.info.extra!!), R.color.text_color_atk))
                     }
-
-                    if (suitId >= 1) {
-                        addView(getInfoText(context, "\n${EquipEngine.getSuitById(suitId)?.info
-                                ?: ""}", if (isSuit) R.color.text_suit_enable else R.color.text_suit_unable))
+                    if (target.info.id >= 0x4000) {
+                        addView(getInfoText(context, "                        "))
+                        addView(getInfoText(context, EquipEngine.getSuitById(target.info.id and 0xff)?.info
+                                ?: "", if (isSuit) R.color.text_suit_enable else R.color.text_suit_unable))
                     }
                 }
                 findViewById<View>(R.id.tv_d_ok).setOnClickListener {
@@ -130,7 +130,7 @@ object Dialogs {
         }
 
         @SuppressLint("SetTextI18n")
-        fun showEquip(context: Context, eq: Equip, suitId: Int = -1, isSuit: Boolean = false, clk: () -> Unit) {
+        fun showEquip(context: Context, eq: Equip, isSuit: Boolean = false, clk: () -> Unit) {
             Dialog(context, R.style.app_dialog).apply {
                 setContentView(R.layout.d_game_equip)
                 findViewById<TextView>(R.id.tv_d_game_name).let {
@@ -152,9 +152,10 @@ object Dialogs {
                         addView(getInfoText(context, EquipEngine.getEquipEffectInfo(eq.info.extra!!), R.color.text_color_atk))
                     }
 
-                    if (suitId >= 1) {
-                        addView(getInfoText(context, "\n${EquipEngine.getSuitById(suitId)?.info
-                                ?: ""}", if (isSuit) R.color.text_suit_enable else R.color.text_suit_unable))
+                    if (eq.info.id >= 0x4000) {
+                        addView(getInfoText(context, "                        "))
+                        addView(getInfoText(context, EquipEngine.getSuitById(eq.info.id and 0xff)?.info
+                                ?: "", if (isSuit) R.color.text_suit_enable else R.color.text_suit_unable))
                     }
                 }
                 findViewById<TextView>(R.id.tv_d_ok).apply {
@@ -230,7 +231,7 @@ object Dialogs {
 
         private fun getInfoText(ctx: Context, text: CharSequence, colorId: Int = R.color.text_color_lv) = TextView(ctx).apply {
             setTextSize(TypedValue.COMPLEX_UNIT_PX, Framework._C.dp2px(12f).toFloat())
-            setTextColor(resources.getColor(R.color.text_color_lv))
+            setTextColor(resources.getColor(colorId))
             this.text = text
         }
 

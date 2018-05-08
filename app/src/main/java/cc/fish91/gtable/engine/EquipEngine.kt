@@ -12,7 +12,7 @@ object EquipEngine {
     fun create(id: Int, rare: Int, floor: Int, from: Int = 0, limit: Int = StaticData.EQ_RARE_EPIC) = Math.rand(from, (rare + (floor % CHANGE_LEVEL_COUNT) / CHANGE_RARE_COUNT).limitAtMost(limit)).let {
         StaticData.getBaseEquipInfo(id).let { info ->
             Equip(
-                    Math.min(floor / CHANGE_LEVEL_COUNT, EQUIP_LEVEL_LIMIT + info.baseLevel),
+                    Math.min(floor / CHANGE_LEVEL_COUNT, if (id in 0x3000..0x4000) 150 else if (id > 0x4000) 200 else EQUIP_LEVEL_LIMIT + info.baseLevel),
                     info, it).apply {
                 for (i in 0..it)
                     EquipProperty.values().getRand().let { exProperty.add(it, getExValue(it, info, (floor / CHANGE_LEVEL_COUNT).limitAtMost(EQUIP_LEVEL_LIMIT + info.baseLevel + 1))) }
