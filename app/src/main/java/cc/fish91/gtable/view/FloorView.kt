@@ -35,6 +35,17 @@ class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift
                 dispAll()
                 dispContent(false)
                 mKMarkImg.visibility = View.VISIBLE
+                mKMarkImg.setImageResource(R.drawable.t_icon_mark_king)
+                mMonsterImg.setImageResource(StaticData.getBaseMonster(mMonsterK.mId).iconId)
+                mAtkTv.text = "${mMonsterK.atk}"
+                mDefTv.text = "${mMonsterK.def}"
+                mHpTv.text = "${mMonsterK.HP}"
+            }
+            FloorStatus.MONSTER_SP -> {
+                dispAll()
+                dispContent(false)
+                mKMarkImg.visibility = View.VISIBLE
+                mKMarkImg.setImageResource(R.drawable.ticon_award)
                 mMonsterImg.setImageResource(StaticData.getBaseMonster(mMonsterK.mId).iconId)
                 mAtkTv.text = "${mMonsterK.atk}"
                 mDefTv.text = "${mMonsterK.def}"

@@ -28,6 +28,11 @@
     <color name="text_eq_rare2">#a578e6</color>
     <color name="text_eq_rare3">#d956d9</color>
     <color name="text_eq_rare4">#f17030</color>
+    <color name="text_eq_rare5">#65eb54</color>
+    <color name="text_eq_rare6">#eb5554</color>
+
+    <color name="text_suit_enable">#65eb54</color>
+    <color name="text_suit_unable">#bbb</color>
 
     <color name="text_color_show">#98e7e7</color>
     <color name="bg_color_show">#666</color>

@@ -1,10 +1,7 @@
 package cc.fish91.gtable.engine
 
 import cc.fish91.gtable.*
-import cc.fish91.gtable.plugin.AddableMutableMap
-import cc.fish91.gtable.plugin.Math
-import cc.fish91.gtable.plugin.getRand
-import cc.fish91.gtable.plugin.limitAtMost
+import cc.fish91.gtable.plugin.*
 import cc.fish91.gtable.resource.StaticData
 
 object EquipEngine {
@@ -12,7 +9,7 @@ object EquipEngine {
     const val CHANGE_RARE_COUNT = 2
     const val EQUIP_LEVEL_LIMIT = 50
 
-    fun create(id: Int, rare: Int, floor: Int, from: Int = 0, limit: Int = 4) = Math.rand(from, (rare + (floor % CHANGE_LEVEL_COUNT) / CHANGE_RARE_COUNT).limitAtMost(limit)).let {
+    fun create(id: Int, rare: Int, floor: Int, from: Int = 0, limit: Int = StaticData.EQ_RARE_EPIC) = Math.rand(from, (rare + (floor % CHANGE_LEVEL_COUNT) / CHANGE_RARE_COUNT).limitAtMost(limit)).let {
         StaticData.getBaseEquipInfo(id).let { info ->
             Equip(
                     Math.min(floor / CHANGE_LEVEL_COUNT, EQUIP_LEVEL_LIMIT + info.baseLevel),
@@ -75,6 +72,49 @@ object EquipEngine {
                 EquipProperty.HP_RESTORE -> this.ex.restore += it.value.value
             }
         }
+        addSuit(this, checkSuit(*mEquips))
+    }
+
+    fun checkSuit(vararg es: Equip?): Int {
+        if (es.size == 3
+                && es.filter { it?.rare == StaticData.EQ_RARE_SUIT }.size == 3
+                && ((es[0]!!.info.id and 0xff) == (es[1]!!.info.id and 0xff)) && ((es[0]!!.info.id and 0xff) == (es[2]!!.info.id and 0xff))) {
+            return es[0]!!.info.id and 0xff
+        }
+        return -1
+    }
+
+    fun hasSuit(vararg es: Equip?) = checkSuit(*es) != -1
+
+
+    private fun addSuit(p: PersonData, suitId: Int) {
+        when (suitId) {
+            1 -> p.run {
+                p.atk += (p.atk * 0.5).toInt()
+                p.ex.critical += 300
+                p.ex.critical_dmg += 200
+                p.ex.miss += 200
+            }
+            2 -> p.run {
+                p.def += (p.def * 0.5).toInt()
+                p.atk -= (p.atk * 0.5).toInt()
+                p.ex.miss += 200
+                p.HP += (p.HP * 1.0).toInt()
+            }
+            3 -> p.run {
+                p.atk += (p.atk * 0.7).toInt()
+                p.def += (p.def * 0.7).toInt()
+                p.ex.restore += 10
+                p.ex.critical += 200
+            }
+            4 -> p.run {
+                p.HP += (p.HP * 0.5).toInt()
+                p.ex.restore -= 30
+                p.ex.miss += 300
+                p.ex.critical += 200
+                p.ex.critical_dmg += 150
+            }
+        }
     }
 
     fun getRareColor(rare: Int) = Framework._C.resources.getColor(when (rare) {
@@ -83,6 +123,15 @@ object EquipEngine {
         2 -> R.color.text_eq_rare2
         3 -> R.color.text_eq_rare3
         4 -> R.color.text_eq_rare4
+        5 -> R.color.text_eq_rare5
+        6 -> R.color.text_eq_rare6
         else -> R.color.text_eq_rare4
     })
+
+    fun getSuitById(id: Int) = EquipSuit.values().filter { it.id == id }.run { if (size > 0) this[0] else null }
+
+    fun getEquipEffectInfo(effect: Pair<ExEffect, Int>) = when (effect) {
+        ExEffect.CRITICAL_UP, ExEffect.MISS_UP -> String.format(effect.first.info, effect.second.toMillicentKeep1())
+        else -> String.format(effect.first.info, effect.second)
+    }
 }

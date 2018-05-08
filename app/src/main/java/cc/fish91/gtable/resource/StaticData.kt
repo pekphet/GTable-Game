@@ -3,10 +3,26 @@ package cc.fish91.gtable.resource
 import cc.fish91.gtable.*
 import cc.fish91.gtable.engine.FightEffects
 import cc.fish91.gtable.engine.IFightEffect
+import cc.fish91.gtable.plugin.getRand
 
 object StaticData {
+    /****CONSTANTS**************/
     const val DEFAULT_MONSTER_AREA = 7
     const val CHANGE_ROLE_TYPE_1 = 30
+    const val AREA_SPLIT_FLOORS = 30
+    const val KEEP_EQUIP_FLOORS = 40
+
+    const val GET_SP_WEIGHT = 60
+
+    const val EQ_RARE_TOP = 6
+    const val EQ_RARE_WHITE = 0
+    const val EQ_RARE_BLUE = 1
+    const val EQ_RARE_RARE = 2
+    const val EQ_RARE_ART = 3
+    const val EQ_RARE_EPIC = 4
+    const val EQ_RARE_SUIT = 5
+    const val EQ_RARE_SINGLE_SP = 6
+
 
     /****Static Data**************/
 
@@ -25,13 +41,25 @@ object StaticData {
 
     )
 
-    private val mBossMonsters = listOf(
-            BaseMonster(2, 1, 1, "蓝蜗牛", 5, 6, R.drawable.t_icon_monster_bluewn, arrayOf(Pair(0x0001, 15)), FightEffects.CutP10HP::class),
-            BaseMonster(2, 1, 1, "蓝蜗牛", 5, 6, R.drawable.t_icon_monster_bluewn, arrayOf(Pair(0x0001, 15)), FightEffects.CutP10HP::class),
-            BaseMonster(2, 1, 1, "蓝蜗牛", 5, 6, R.drawable.t_icon_monster_bluewn, arrayOf(Pair(0x0001, 15)), FightEffects.CutP10HP::class),
-            BaseMonster(2, 1, 1, "蓝蜗牛", 5, 6, R.drawable.t_icon_monster_bluewn, arrayOf(Pair(0x0001, 15)), FightEffects.CutP10HP::class),
-            BaseMonster(2, 1, 1, "蓝蜗牛", 5, 6, R.drawable.t_icon_monster_bluewn, arrayOf(Pair(0x0001, 15)), FightEffects.CutP10HP::class),
-            BaseMonster(2, 1, 1, "蓝蜗牛", 5, 6, R.drawable.t_icon_monster_bluewn, arrayOf(Pair(0x0001, 15)), FightEffects.CutP10HP::class)
+    private val mSPMonsters = mapOf(
+            Pair(0x3001, BaseMonster(5, 5, 5, "魂·蓝蜗牛", 20, 20, R.drawable.t_icon_monster_bluewn,
+                    arrayOf(Pair(0x3001, 45)), FightEffects.CutP10HP::class)),
+            Pair(0x3002, BaseMonster(5, 6, 4, "魂·红蜗牛", 20, 20, R.drawable.t_icon_monster_redwn,
+                    arrayOf(Pair(0x3002, 15)), FightEffects.DcsPDef::class)),
+            Pair(0x3003, BaseMonster(5, 7, 3, "魂·花蘑菇", 20, 20, R.drawable.t_icon_monster_mashroom,
+                    arrayOf(Pair(0x3003, 15)), FightEffects.DscPAtk::class)),
+            Pair(0x3004, BaseMonster(6, 4, 5, "魂·绿水灵", 20, 20, R.drawable.t_icon_monster_gball,
+                    arrayOf(Pair(0x3001, 15)), FightEffects.CutP10HP::class)),
+            Pair(0x3005, BaseMonster(6, 5, 4, "魂·蓝水灵", 20, 20, R.drawable.t_icon_monster_bball,
+                    arrayOf(Pair(0x3002, 15)), FightEffects.DcsPDef::class)),
+            Pair(0x3006, BaseMonster(6, 3, 6, "魂·钢猪猪", 20, 20, R.drawable.t_icon_monster_steelpig,
+                    arrayOf(Pair(0x3003, 15)), FightEffects.DscPAtk::class)),
+            Pair(0x3007, BaseMonster(4, 6, 5, "魂·星光精灵", 20, 20, R.drawable.t_icon_monster_star,
+                    arrayOf(Pair(0x3001, 15)), FightEffects.ClearPArmor::class)),
+            Pair(0x3008, BaseMonster(4, 5, 6, "魂·月光精灵", 20, 20, R.drawable.t_icon_monster_moon,
+                    arrayOf(Pair(0x3002, 15)), FightEffects.CopyPAtk::class)),
+            Pair(0x3009, BaseMonster(4, 6, 6, "魂·日光精灵", 20, 20, R.drawable.t_icon_monster_sun,
+                    arrayOf(Pair(0x3003, 15)), FightEffects.CopyPDef::class))
     )
 
     private val mAreaMonsterMap = mutableMapOf(
@@ -56,10 +84,29 @@ object StaticData {
             Pair(0x2003, EquipInfo(0x2003, "灵犀之心", EquipPosition.RING, 8, R.drawable.t_icon_r_003, 150, 24, null))
     )
 
+    private val mSPEquipInfoMap = mutableMapOf(
+            Pair(0x4001, EquipInfo(0x4001, "刺心咒甲", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 200, 0, null)),
+            Pair(0x4101, EquipInfo(0x4101, "刺心咒刃", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 200, 0, null)),
+            Pair(0x4201, EquipInfo(0x4201, "刺心咒戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 200, 0, null)),
+            Pair(0x4002, EquipInfo(0x4002, "圣御战甲", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 200, 0, null)),
+            Pair(0x4102, EquipInfo(0x4102, "圣御佩剑", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 200, 0, null)),
+            Pair(0x4202, EquipInfo(0x4202, "圣御魂戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 200, 0, null)),
+            Pair(0x4003, EquipInfo(0x4003, "狂暴披风", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 200, 0, null)),
+            Pair(0x4103, EquipInfo(0x4103, "狂暴拳套", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 200, 0, null)),
+            Pair(0x4203, EquipInfo(0x4203, "狂暴之戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 200, 0, null)),
+            Pair(0x4004, EquipInfo(0x4004, "祭祀长袍", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 200, 0, null)),
+            Pair(0x4104, EquipInfo(0x4104, "血之法杖", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 200, 0, null)),
+            Pair(0x4204, EquipInfo(0x4204, "暗影魔戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 200, 0, null)),
+
+            Pair(0x3001, EquipInfo(0x3001, "能量战甲", EquipPosition.ARMOR, 14, R.drawable.t_icon_a_002, 300, 0, null)),
+            Pair(0x3002, EquipInfo(0x3002, "妖刀-瞬斩", EquipPosition.WEAPON, 14, R.drawable.t_icon_w_002, 300, 0, Pair(ExEffect.CUT_20, 20))),
+            Pair(0x3003, EquipInfo(0x3003, "闪耀之戒", EquipPosition.RING, 14, R.drawable.t_icon_w_002, 300, 0, null))
+    )
+
 
     /****Monster****************/
     //  will add CACHE  later!!
-    fun getBaseMonster(id: Int) = mMonsterMap[id]!!
+    fun getBaseMonster(id: Int) = mMonsterMap[id]?: mSPMonsters[id]!!
 
     fun getMonsterPool(areaId: Int) = mAreaMonsterMap[areaId]
             ?: mAreaMonsterMap[DEFAULT_MONSTER_AREA]!!
@@ -67,6 +114,9 @@ object StaticData {
     fun getDropEquipsOfArea(areaId: Int) = getMonsterPool(areaId).map {
         mMonsterMap[it]?.drop?.get(0)?.first ?: 0x0001
     }
+
+    fun getRandSPMonsterId() = mSPMonsters.keys.toList().getRand()
+    fun getRandSPEquip() = mSPEquipInfoMap.keys.toList().getRand()
 
     /****Gift ********************/
     fun getGiftInfo(gift: Gifts) = when (gift) {

@@ -16,7 +16,7 @@ object FloorEngine {    //Floor start with 0
         }
     }
 
-    private fun createMonster(id: Int, floor: Int) = StaticData.getBaseMonster(id).run {
+    fun createMonster(id: Int, floor: Int) = StaticData.getBaseMonster(id).run {
         MonsterData(
                 this.baseHP * (1 + floor) + Math.rand(floor),
                 this.baseAtk * (1 + floor) + Math.rand(floor / 2),
@@ -24,7 +24,6 @@ object FloorEngine {    //Floor start with 0
                 Math.rand(this.baseExp * (floor + 5) / 3),
                 Math.rand(this.baseGold * (floor + 5) / 3), id)
     }
-
 
     fun createGift(area: Int, floor: Int) = getGift(Gifts.values().getRand(), floor)
 

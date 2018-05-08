@@ -88,7 +88,7 @@ object Dialogs {
 
 
         @SuppressLint("SetTextI18n")
-        fun showEquipCompare(activity: Activity, ori: Equip?, target: Equip, cmt: (Boolean) -> Unit) {
+        fun showEquipCompare(activity: Activity, ori: Equip?, target: Equip, suitId: Int = -1, isSuit: Boolean = false, cmt: (Boolean) -> Unit) {
             Dialog(activity, R.style.app_dialog).apply {
                 setContentView(R.layout.d_game_equip)
                 findViewById<TextView>(R.id.tv_d_game_name).let {
@@ -109,6 +109,14 @@ object Dialogs {
                         addView(getEquipInfoItem(activity, it, target.exProperty.getV(it)
                                 ?: 0, ori?.exProperty?.getV(it) ?: 0), LinearLayoutParamsWW)
                     }
+                    if (target.info.extra != null) {
+                        addView(getInfoText(context, EquipEngine.getEquipEffectInfo(target.info.extra!!), R.color.text_color_atk))
+                    }
+
+                    if (suitId >= 1) {
+                        addView(getInfoText(context, "\n${EquipEngine.getSuitById(suitId)?.info
+                                ?: ""}", if (isSuit) R.color.text_suit_enable else R.color.text_suit_unable))
+                    }
                 }
                 findViewById<View>(R.id.tv_d_ok).setOnClickListener {
                     cmt(true)
@@ -122,7 +130,7 @@ object Dialogs {
         }
 
         @SuppressLint("SetTextI18n")
-        fun showEquip(context: Context, eq: Equip, clk: () -> Unit) {
+        fun showEquip(context: Context, eq: Equip, suitId: Int = -1, isSuit: Boolean = false, clk: () -> Unit) {
             Dialog(context, R.style.app_dialog).apply {
                 setContentView(R.layout.d_game_equip)
                 findViewById<TextView>(R.id.tv_d_game_name).let {
@@ -138,6 +146,15 @@ object Dialogs {
                     eq.exProperty.keys.forEach {
                         addView(getEquipInfoItem(context, it, eq.exProperty.getV(it)
                                 ?: 0, null), LinearLayoutParamsWW)
+                    }
+
+                    if (eq.info.extra != null) {
+                        addView(getInfoText(context, EquipEngine.getEquipEffectInfo(eq.info.extra!!), R.color.text_color_atk))
+                    }
+
+                    if (suitId >= 1) {
+                        addView(getInfoText(context, "\n${EquipEngine.getSuitById(suitId)?.info
+                                ?: ""}", if (isSuit) R.color.text_suit_enable else R.color.text_suit_unable))
                     }
                 }
                 findViewById<TextView>(R.id.tv_d_ok).apply {
@@ -237,7 +254,7 @@ object Dialogs {
                 findViewById<TextView>(R.id.tv_d_title).text = "人物信息"
                 findViewById<View>(R.id.tv_d_ok).setOnClickListener { dismiss() }
                 findViewById<LinearLayout>(R.id.ll_d_task).run {
-                    addView(getInfoText(activity, Html.fromHtml("体力值: ${info.HP} / ${info.HPLine} <font color='#4c9fff'> (+ ${info.floorAppend.HP}})</font>")))
+                    addView(getInfoText(activity, Html.fromHtml("体力值: ${info.HP} / ${info.HPLine} <font color='#4c9fff'> (+ ${info.floorAppend.HP})</font>")))
                     addView(getInfoText(activity, Html.fromHtml("攻击力: ${info.atk} +${info.floorAppend.atk} <font color='#4c9fff'>( ${info.buff.tAtk.run { if (this >= 0) " +$this" else " -$this" }})</font>")))
                     addView(getInfoText(activity, Html.fromHtml("防御力: ${info.def} +${info.floorAppend.def} <font color='#4c9fff'>( ${info.buff.tDef.run { if (this >= 0) " +$this" else " -$this" }})</font>")))
                     addView(getInfoText(activity, "回复力: ${info.restore}"))

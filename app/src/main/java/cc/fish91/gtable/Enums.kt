@@ -20,6 +20,7 @@ enum class FloorStatus {
     STAIR_UP,
     STAIR_DN,
     MONSTER_K,
+    MONSTER_SP,
     BUFF,
     DROP,
 }
@@ -56,19 +57,20 @@ enum class EquipPosition(val desc: String) {
     RING("戒指"),
 }
 
-enum class ExEffect {
-    ATK_UP,
-    DEF_UP,
-    HP_UP,
-    ATK_UP_PC,
-    DEF_UP_PC,
-    HP_UP_PC,
-    CRITICAL_UP,
-    CRITICAL_DMG_UP,
-    HP_RESTORE,
-    CUT_10,
-    CUT_20,
-    KILL,
+enum class ExEffect(val info: String) {
+    ATK_UP("攻击力提升%d点"),
+    DEF_UP("防御力提升%d点"),
+    HP_UP("体力值提升%d点"),
+    ATK_UP_PC("攻击力提升%d%%"),
+    DEF_UP_PC("防御力提升%d%%"),
+    HP_UP_PC("体力值提升%d%%"),
+    CRITICAL_UP("暴击率提升%s"),
+    MISS_UP("闪避率提升%s"),
+    CRITICAL_DMG_UP("暴伤率提升%d%%"),
+    HP_RESTORE("回复力提升%d点"),
+    CUT_10("攻击时%d%%几率削减10%体力值"),
+    CUT_20("攻击时%d%%几率削减20%体力值"),
+    KILL("攻击时%d%%几率秒杀"),
 }
 
 enum class TaskType(val info: String) {
@@ -80,4 +82,11 @@ enum class TaskAwardType(val info: String) {
     Equip("装备"),
     Gold("金币"),
     Exp("经验值"),
+}
+
+enum class EquipSuit(val id: Int, val info: String) {
+    ROGUE_SUIT_1(1, "【刺心套装】属性介绍：略。。略略略"),
+    KNIGHT_SUIT_1(2, "【圣御套装】属性介绍：略。。略略略"),
+    FIGHTER_SUIT_1(3, "【狂暴套装】属性介绍：略。。略略略"),
+    NEC_SUIT_1(4, "【血祭套装】属性介绍：略。。略略略"),
 }

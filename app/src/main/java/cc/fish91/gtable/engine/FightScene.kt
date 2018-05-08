@@ -92,10 +92,21 @@ object FightScene {
         }
     }
 
-    fun takeDrop(floor: Int, isK: Boolean, monster: MonsterData) = takeDropId(monster, isK).run {
-        if (this > 0)
-            EquipEngine.create(this, if (isK) 2 else 1, floor)
-        else null
+    fun takeDrop(floor: Int, isK: Boolean, isSP: Boolean = false, monster: MonsterData) = if (!isSP)
+        takeDropId(monster, isK).run {
+            if (this > 0)
+                EquipEngine.create(this, if (isK) 2 else 1, floor)
+            else null
+        } else {
+        takeDropId(monster, false).run {
+            if (this != 0) {
+                EquipEngine.createByRare(this, (floor + 1) / 5, StaticData.EQ_RARE_SINGLE_SP)
+            } else if (Math.percent(StaticData.GET_SP_WEIGHT)) {
+                EquipEngine.createByRare(StaticData.getRandSPEquip(), (floor + 1) / 5, StaticData.EQ_RARE_SINGLE_SP)
+            } else {
+                null
+            }
+        }
     }
 
     private fun takeDropId(monster: MonsterData, isK: Boolean) = StaticData.getBaseMonster(monster.mId).drop[0].run {

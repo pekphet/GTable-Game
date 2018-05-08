@@ -1,7 +1,6 @@
 package cc.fish91.gtable.activity
 
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -16,7 +15,9 @@ import cc.fish91.gtable.plugin.*
 import cc.fish91.gtable.plugin.Math.getNear9Blocks
 import cc.fish91.gtable.plugin.Math.getNearBlocks
 import cc.fish91.gtable.resource.StaticData
+import cc.fish91.gtable.resource.StaticData.AREA_SPLIT_FLOORS
 import cc.fish91.gtable.resource.StaticData.CHANGE_ROLE_TYPE_1
+import cc.fish91.gtable.resource.StaticData.KEEP_EQUIP_FLOORS
 import cc.fish91.gtable.view.Dialogs
 import cc.fish91.gtable.view.FloorView
 import cc.fish91.gtable.view.PersionView
@@ -33,13 +34,9 @@ class GameActivity : Activity() {
         }
     }
 
-    private val AREA_SPLIT_FLOORS = 30
-    private val KEEP_EQUIP_FLOORS = 40
-
     private val mGridLayoutManager by lazy { GridLayoutManager(this@GameActivity, 5) }
-    private
-            /**** FLOOR METAS************/
-    val mData = mutableListOf<FloorMeta>()
+    /**** FLOOR METAS************/
+    private val mData = mutableListOf<FloorMeta>()
     private val mMonsters = mutableListOf<MonsterData>()
     private val mBuffs = mutableListOf<Buff>()
     private val mGifts = mutableListOf<Gift>()
@@ -49,6 +46,7 @@ class GameActivity : Activity() {
 
     /****Game Scene Data*********/
     private var mMonsterK = MonsterData(1, 1, 1, 1, 1, 1)
+    private var mMonsterSP = MonsterData(1, 1, 1, 1, 1, 1)
     private var mFloor = 1
     private var mArea = 1
     private val mPerson by lazy { PersonRecord.getPersonData() }
@@ -111,13 +109,14 @@ class GameActivity : Activity() {
         mEquips.putNullable(EquipPosition.WEAPON, EquipRecord.getEqW())
         mEquips.putNullable(EquipPosition.ARMOR, EquipRecord.getEqA())
         mEquips.putNullable(EquipPosition.RING, EquipRecord.getEqR())
+        mFightData.suit = EquipEngine.getSuitById(EquipEngine.checkSuit(*(mEquips.values.toTypedArray())))
         mPersonView.flushEquip(mEquips)
     }
 
     private fun makeFloor(floor: Int) {
         TaskEngine.checkFloor(mTasks, floor)
         cleanTmp()
-        mArea = floor / 30 + 1
+        mArea = floor / StaticData.AREA_SPLIT_FLOORS + 1
         if (floor % 10 == 0)
             mFightData.floorAppend.let {
                 it.atk = 0
@@ -136,6 +135,7 @@ class GameActivity : Activity() {
                     FloorStatus.BUFF -> mBuffs.add(FloorEngine.createBuff(mArea, floor))
                     FloorStatus.GIFT -> mGifts.add(FloorEngine.createGift(mArea, floor))
                     FloorStatus.MONSTER_K -> mMonsterK = FloorEngine.createMonsters(mArea, floor, 1)[0].changeToKing()
+                    FloorStatus.MONSTER_SP -> mMonsterSP = FloorEngine.createMonster(StaticData.getRandSPMonsterId(), mFloor)
                     else -> {
                     }
                 }
@@ -238,6 +238,7 @@ class GameActivity : Activity() {
             open(position, data)
             when (data.status) {
                 FloorStatus.MONSTER_K -> doFight(position, mMonsterK, true)
+                FloorStatus.MONSTER_SP -> doFight(position, mMonsterK, false)
                 FloorStatus.MONSTER -> doFight(position, mMonsters[data.exId], false)
                 FloorStatus.STAIR_DN -> if (mFightData.buff.keys > 0) makeFloor(++mFloor) else show("缺少钥匙")
                 FloorStatus.STAIR_UP -> {
@@ -304,7 +305,7 @@ class GameActivity : Activity() {
             } else {
                 if (isK)
                     mFightData.buff.keys++
-                mFightData.HP = Math.limitAdd(mFightData.HP, mFightData.restore, mFightData.HPLine)
+                mFightData.HP = if (mFightData.HP + mFightData.restore > 0) Math.limitAdd(mFightData.HP, mFightData.restore, mFightData.HPLine) else 5
                 TaskEngine.checkMonster(mTasks, monsterData.mId, isK)
                 if (FightScene.award(mPerson, monsterData, isK)) {
                     show("等级上升！", 1500)
@@ -313,7 +314,7 @@ class GameActivity : Activity() {
                         doRoleType()
                     }
                 }
-                FightScene.takeDrop(mFloor, isK, monsterData).let {
+                FightScene.takeDrop(mFloor, isK, mData[position].status == FloorStatus.MONSTER_SP, monsterData).let {
                     if (it != null)
                         changeToDrop(it, position)
                     else
