@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.text.Html
 import android.util.TypedValue
 import android.view.View
@@ -21,7 +23,7 @@ import org.w3c.dom.Text
 
 object Dialogs {
 
-    fun show(activity: Activity, title: String = "", msg: String, isSmall: Boolean = false, hasCancel: Boolean, ok: () -> Unit, cancel: () -> Unit) {
+    fun show(activity: Activity, title: String = "", msg: CharSequence, isSmall: Boolean = false, hasCancel: Boolean, ok: () -> Unit, cancel: () -> Unit) {
         Dialog(activity, R.style.app_dialog).apply {
             setContentView(if (isSmall) R.layout.d_common_small else R.layout.d_common)
             findViewById<TextView>(R.id.tv_d_title).showNotEmpty(title)
@@ -44,13 +46,13 @@ object Dialogs {
 
     fun show(activity: Activity, title: String = "", msg: String, ok: () -> Unit) = show(activity, title, msg, false, false, ok) {}
 
-    fun question(activity: Activity, msg: String, ok: () -> Unit) = show(activity, "", msg, false, true, ok) {}
+    fun question(activity: Activity, msg: CharSequence, ok: () -> Unit) = show(activity, "", msg, false, true, ok) {}
 
     fun showSmall(activity: Activity, title: String = "", msg: String, ok: () -> Unit) = show(activity, title, msg, true, false, ok) {}
 
     fun showSmall(activity: Activity, title: String = "", msg: String, hasCancel: Boolean, ok: () -> Unit, cancel: () -> Unit) = show(activity, title, msg, true, hasCancel, ok, cancel)
 
-    fun questionSmall(activity: Activity, msg: String, ok: () -> Unit) = show(activity, "", msg, true, true, ok) {}
+    fun questionSmall(activity: Activity, msg: CharSequence, ok: () -> Unit) = show(activity, "", msg, true, true, ok) {}
 
     object ExDialogs {
         private val LinearLayoutParamsWW = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -265,6 +267,18 @@ object Dialogs {
                     addView(getInfoText(activity, "\n${roleType.pSkill.objectInstance!!.getInfo(0)}"))
                 }
             }.show()
+        }
+    }
+
+    object AppDialog {
+        fun showUpdate(activity: Activity, wikiUrl: String, downloadUrl: String) {
+            questionSmall(activity, "发现新版本，是否更新？\n") {
+                activity.startActivity(Intent().apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    action = Intent.ACTION_VIEW
+                    data = Uri.parse(downloadUrl)
+                })
+            }
         }
     }
 }

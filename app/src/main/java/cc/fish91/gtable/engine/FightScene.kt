@@ -101,7 +101,7 @@ object FightScene {
         } else {
         takeDropId(monster, false).run {
             when {
-                this != 0 -> EquipEngine.createByRare(this, (floor + 1) / 5, StaticData.EQ_RARE_SINGLE_SP)
+                this != 0 -> EquipEngine.createByRare(this, (floor + 6) / 5, StaticData.EQ_RARE_SINGLE_SP)
                 Math.percent(StaticData.GET_SP_WEIGHT) -> EquipEngine.createByRare(StaticData.getRandSPEquip(), (floor + 1) / 5, StaticData.EQ_RARE_SUIT)
                 else -> null
             }

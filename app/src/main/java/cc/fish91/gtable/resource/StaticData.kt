@@ -76,31 +76,31 @@ object StaticData {
             Pair(0x0001, EquipInfo(0x0001, "布衣", EquipPosition.ARMOR, 2, R.drawable.t_icon_a_001, 50, 0, null)),
             Pair(0x1001, EquipInfo(0x1001, "短剑", EquipPosition.WEAPON, 2, R.drawable.t_icon_w_001, 50, 0, null)),
             Pair(0x2001, EquipInfo(0x2001, "蓝宝石戒指", EquipPosition.RING, 2, R.drawable.t_icon_r_001, 50, 0, null)),
-            Pair(0x0002, EquipInfo(0x0002, "木甲", EquipPosition.ARMOR, 4, R.drawable.t_icon_a_002, 100, 12, null)),
-            Pair(0x1002, EquipInfo(0x1002, "长剑", EquipPosition.WEAPON, 4, R.drawable.t_icon_w_002, 100, 18, null)),
-            Pair(0x2002, EquipInfo(0x2002, "蓝魂戒指", EquipPosition.RING, 4, R.drawable.t_icon_r_002, 100, 6, null)),
-            Pair(0x0003, EquipInfo(0x0003, "铁甲", EquipPosition.ARMOR, 8, R.drawable.t_icon_a_003, 150, 36, null)),
-            Pair(0x1003, EquipInfo(0x1003, "巨剑", EquipPosition.WEAPON, 8, R.drawable.t_icon_w_003, 150, 30, null)),
-            Pair(0x2003, EquipInfo(0x2003, "灵犀之心", EquipPosition.RING, 8, R.drawable.t_icon_r_003, 150, 24, null))
+            Pair(0x0002, EquipInfo(0x0002, "木甲", EquipPosition.ARMOR, 4, R.drawable.t_icon_a_002, 70, 12, null)),
+            Pair(0x1002, EquipInfo(0x1002, "长剑", EquipPosition.WEAPON, 4, R.drawable.t_icon_w_002, 70, 18, null)),
+            Pair(0x2002, EquipInfo(0x2002, "蓝魂戒指", EquipPosition.RING, 4, R.drawable.t_icon_r_002, 70, 6, null)),
+            Pair(0x0003, EquipInfo(0x0003, "铁甲", EquipPosition.ARMOR, 8, R.drawable.t_icon_a_003, 100, 36, null)),
+            Pair(0x1003, EquipInfo(0x1003, "巨剑", EquipPosition.WEAPON, 8, R.drawable.t_icon_w_003, 100, 30, null)),
+            Pair(0x2003, EquipInfo(0x2003, "灵犀之心", EquipPosition.RING, 8, R.drawable.t_icon_r_003, 100, 24, null))
     )
 
     private val mSPEquipInfoMap = mutableMapOf(
-            Pair(0x4001, EquipInfo(0x4001, "刺心咒甲", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 200, 0, null)),
-            Pair(0x4101, EquipInfo(0x4101, "刺心咒刃", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 200, 0, null)),
-            Pair(0x4201, EquipInfo(0x4201, "刺心咒戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 200, 0, null)),
-            Pair(0x4002, EquipInfo(0x4002, "圣御战甲", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 200, 0, null)),
-            Pair(0x4102, EquipInfo(0x4102, "圣御佩剑", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 200, 0, null)),
-            Pair(0x4202, EquipInfo(0x4202, "圣御魂戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 200, 0, null)),
-            Pair(0x4003, EquipInfo(0x4003, "狂暴披风", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 200, 0, null)),
-            Pair(0x4103, EquipInfo(0x4103, "狂暴拳套", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 200, 0, null)),
-            Pair(0x4203, EquipInfo(0x4203, "狂暴之戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 200, 0, null)),
-            Pair(0x4004, EquipInfo(0x4004, "祭祀长袍", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 200, 0, null)),
-            Pair(0x4104, EquipInfo(0x4104, "血之法杖", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 200, 0, null)),
-            Pair(0x4204, EquipInfo(0x4204, "暗影魔戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 200, 0, null)),
+            Pair(0x4001, EquipInfo(0x4001, "刺心咒甲", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 120, 0, null)),
+            Pair(0x4101, EquipInfo(0x4101, "刺心咒刃", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 120, 0, null)),
+            Pair(0x4201, EquipInfo(0x4201, "刺心咒戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 120, 0, null)),
+            Pair(0x4002, EquipInfo(0x4002, "圣御战甲", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 120, 0, null)),
+            Pair(0x4102, EquipInfo(0x4102, "圣御佩剑", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 120, 0, null)),
+            Pair(0x4202, EquipInfo(0x4202, "圣御魂戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 120, 0, null)),
+            Pair(0x4003, EquipInfo(0x4003, "狂暴披风", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 120, 0, null)),
+            Pair(0x4103, EquipInfo(0x4103, "狂暴拳套", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 120, 0, null)),
+            Pair(0x4203, EquipInfo(0x4203, "狂暴之戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 120, 0, null)),
+            Pair(0x4004, EquipInfo(0x4004, "祭祀长袍", EquipPosition.ARMOR, 10, R.drawable.t_icon_a_003, 120, 0, null)),
+            Pair(0x4104, EquipInfo(0x4104, "血之法杖", EquipPosition.WEAPON, 10, R.drawable.t_icon_w_003, 120, 0, null)),
+            Pair(0x4204, EquipInfo(0x4204, "暗影魔戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 120, 0, null)),
 
-            Pair(0x3001, EquipInfo(0x3001, "能量战甲", EquipPosition.ARMOR, 14, R.drawable.t_icon_a_002, 300, 0, null)),
-            Pair(0x3002, EquipInfo(0x3002, "妖刀-瞬斩", EquipPosition.WEAPON, 14, R.drawable.t_icon_w_002, 300, 0, Pair(ExEffect.CUT_20, 20))),
-            Pair(0x3003, EquipInfo(0x3003, "闪耀之戒", EquipPosition.RING, 14, R.drawable.t_icon_w_002, 300, 0, null))
+            Pair(0x3001, EquipInfo(0x3001, "能量战甲", EquipPosition.ARMOR, 14, R.drawable.t_icon_a_002, 150, 0, null)),
+            Pair(0x3002, EquipInfo(0x3002, "妖刀-瞬斩", EquipPosition.WEAPON, 14, R.drawable.t_icon_w_002, 150, 0, Pair(ExEffect.CUT_20, 20))),
+            Pair(0x3003, EquipInfo(0x3003, "闪耀之戒", EquipPosition.RING, 14, R.drawable.t_icon_r_002, 150, 0, null))
     )
 
 
@@ -154,9 +154,9 @@ object StaticData {
 
     fun getUPFee(currentLevel: Int) = 300 * currentLevel + 100
 
-    fun getUppedAtk(originAtk: Int, atkLv: Int) = (originAtk * (1 + 0.1 * atkLv) + atkLv * 2).toInt()
-    fun getUppedDef(originDef: Int, defLv: Int) = (originDef * (1 + 0.1 * defLv) + defLv * 2).toInt()
-    fun getUppedHP(originHP: Int, hpLv: Int) = (originHP * (1 + 0.1 * hpLv) + hpLv * 20).toInt()
+    fun getUppedAtk(originAtk: Int, atkLv: Int) = (originAtk * (1 + 0.02 * atkLv) + atkLv * 2).toInt()
+    fun getUppedDef(originDef: Int, defLv: Int) = (originDef * (1 + 0.02 * defLv) + defLv * 2).toInt()
+    fun getUppedHP(originHP: Int, hpLv: Int) = (originHP * (1 + 0.02 * hpLv) + hpLv * 20).toInt()
 
     fun getLimitExp(level: Int) = level * level * 15
 
@@ -170,7 +170,7 @@ object StaticData {
 
     /****Equip Area**********************/
 
-    fun getBaseEquipInfo(id: Int) = mEquipInfoMap[id]?: mSPEquipInfoMap[id]!!
+    fun getBaseEquipInfo(id: Int) = mEquipInfoMap[id]?: mSPEquipInfoMap[id]?: mEquipInfoMap[0x0001]!!
 
     fun getAllEquips() = mEquipInfoMap.keys
 

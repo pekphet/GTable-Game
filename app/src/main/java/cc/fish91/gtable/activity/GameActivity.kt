@@ -230,6 +230,9 @@ class GameActivity : Activity() {
                 FloorStatus.MONSTER_K -> Dialogs.ExDialogs.showMonster(this@GameActivity, mMonsterK, mFloor) {
                     doFight(position, mMonsterK, true, true)
                 }
+                FloorStatus.MONSTER_SP -> Dialogs.ExDialogs.showMonster(this@GameActivity, mMonsterSP, mFloor) {
+                    doFight(position, mMonsterSP, false, true)
+                }
             }
         }
     }

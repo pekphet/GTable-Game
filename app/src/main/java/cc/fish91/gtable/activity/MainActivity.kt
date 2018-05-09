@@ -15,6 +15,7 @@ import cc.fish91.gtable.PersonData
 import cc.fish91.gtable.R
 import cc.fish91.gtable.RoleType
 import cc.fish91.gtable.localdata.PersonRecord
+import cc.fish91.gtable.net.NetManager
 import cc.fish91.gtable.plugin.dp2px
 import cc.fish91.gtable.plugin.makeStringArray
 import cc.fish91.gtable.plugin.toast
@@ -40,12 +41,17 @@ class MainActivity : Activity() {
             Dialogs.show(this@MainActivity, "游戏说明", "${StaticInfo.APP_INFO_D}\n版本号：${packageManager.getPackageInfo(packageName, 0).versionName}") {}
         }
 
+        checkVer()
         flushPersonArea()
         flushUps()
         initSpinner()
 //        Dialogs.ExDialogs.showSelectors(this@MainActivity, "123", "ceshi", RoleType.values().makeStringArray(RoleType::info)){
 //            msg, position -> toast("At $position, Msg: $msg")
 //        }
+    }
+
+    private fun checkVer() {
+        NetManager.checkVersion { wikiUrl, downloadUrl -> Dialogs.AppDialog.showUpdate(this@MainActivity, wikiUrl, downloadUrl) }
     }
 
     @Synchronized

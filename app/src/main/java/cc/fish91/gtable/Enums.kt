@@ -68,8 +68,8 @@ enum class ExEffect(val info: String) {
     MISS_UP("闪避率提升%s"),
     CRITICAL_DMG_UP("暴伤率提升%d%%"),
     HP_RESTORE("回复力提升%d点"),
-    CUT_10("攻击时%d%%几率削减10%体力值"),
-    CUT_20("攻击时%d%%几率削减20%体力值"),
+    CUT_10("攻击时%d%%几率削减10%%体力值"),
+    CUT_20("攻击时%d%%几率削减20%%体力值"),
     KILL("攻击时%d%%几率秒杀"),
 }
 
@@ -87,6 +87,6 @@ enum class TaskAwardType(val info: String) {
 enum class EquipSuit(val id: Int, val info: String) {
     ROGUE_SUIT_1(1, "【刺心套装】\n增加50%攻击力\n增加30%暴击率\n增加200%暴击伤害\n增加20%闪避率"),
     KNIGHT_SUIT_1(2, "【圣御套装】\n提升50%防御力\n降低50%攻击力\n回避率提升20%\n体力值提升100%"),
-    FIGHTER_SUIT_1(3, "【狂暴套装】\n提升自身70%攻击力与防御力\n回复力提升10点\n暴击率提升20%"),
+    FIGHTER_SUIT_1(3, "【狂暴套装】\n提升70%攻击与防御力\n回复力提升10点\n暴击率提升20%"),
     NEC_SUIT_1(4, "【血祭套装】\n体力值提升50%\n回复力降低30点\n回避率提升30%\n暴击率提升20%\n暴击伤害提升150%"),
 }

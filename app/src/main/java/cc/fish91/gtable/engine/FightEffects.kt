@@ -52,6 +52,7 @@ object FightEffects {
     object FighterPSkill : IFightEffect {
         var adder = 0
         override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
+            adder = 0
             if (person.HP * 1f / person.HPLine <= 0.3) {
                 adder = (person.atk * 0.3).toInt()
                 person.floorAppend.atk += adder
@@ -62,7 +63,7 @@ object FightEffects {
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
             person.floorAppend.atk -= adder
             person.floorAppend.def -= adder
-            if (adder > 0) person.HP += (person.def * 0.05).toInt()
+            if (adder > 0) person.HP += (person.def * 0.05).toInt().limitAtMost(person.HPLine)
         }
 
         override fun getInfo(floor: Int) = "[战斗爆发] 体力值小于30%时爆发潜能，根据攻击力提升攻防，每次攻击根据防御力回复生命值"
