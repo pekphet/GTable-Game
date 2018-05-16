@@ -2,6 +2,7 @@ package cc.fish91.gtable.activity
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.TypedValue
@@ -26,6 +27,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : Activity() {
 
+    companion object {
+        fun start(ctx: Context) {
+            ctx.startActivity(Intent(ctx, MainActivity::class.java))
+        }
+    }
+
     lateinit var mAdapter: ArrayAdapter<String>
     lateinit var mPersonData: PersonData
     lateinit var mBought: PersonBought
@@ -40,8 +47,9 @@ class MainActivity : Activity() {
         img_main_info.setOnClickListener {
             Dialogs.show(this@MainActivity, "游戏说明", "${StaticInfo.APP_INFO_D}\n版本号：${packageManager.getPackageInfo(packageName, 0).versionName}") {}
         }
-
-        checkVer()
+        tv_main_toplist.setOnClickListener {
+            startActivity(Intent(this@MainActivity, TopListActivity::class.java))
+        }
         flushPersonArea()
         flushUps()
         initSpinner()
@@ -50,8 +58,29 @@ class MainActivity : Activity() {
 //        }
     }
 
-    private fun checkVer() {
-        NetManager.checkVersion { wikiUrl, downloadUrl -> Dialogs.AppDialog.showUpdate(this@MainActivity, wikiUrl, downloadUrl) }
+    private fun checkName() {
+        if (mPersonData.name.isEmpty()) {
+            Dialogs.edit(this@MainActivity, "请输入角色名字", { name ->
+                if (name.length > 8) {
+                    toast("名字需要在8个字以内")
+                    checkName()
+                } else {
+                    NetManager.checkName(name) {
+                        if (it) {
+                            mPersonData.name = name
+                            PersonRecord.storePersonData(mPersonData)
+                            toast("新建用户成功")
+                            flushPersonArea()
+                        } else {
+                            toast("用户已经存在")
+                            checkName()
+                        }
+                    }
+                }
+            }){
+                finish()
+            }
+        }
     }
 
     @Synchronized
@@ -93,12 +122,13 @@ class MainActivity : Activity() {
         mBought = PersonRecord.getPersonBought()
         PersonRecord.getPersonData().let {
             mPersonData = it
-            tv_main_lv.text = "[${it.roleType.info}] Lv: ${it.level}"
-            tv_main_exp.text = "EXP: ${it.exp} / ${StaticData.getLimitExp(it.level)}"
-            tv_main_hp.text = "HP: ${StaticData.getUppedHP(it.HP, mBought.hpLv)}"
-            tv_main_atk.text = "ATK: ${StaticData.getUppedAtk(it.atk, mBought.atkLv)}"
-            tv_main_def.text = "DEF: ${StaticData.getUppedDef(it.def, mBought.defLv)}"
-            tv_main_gold.text = "GOLD: ${it.gold}"
+            checkName()
+            tv_main_lv.text = "[${it.roleType.info}]  ${it.name}  等级: ${it.level}"
+            tv_main_exp.text = "经验值: ${it.exp} / ${StaticData.getLimitExp(it.level)}"
+            tv_main_hp.text = "体力值: ${StaticData.getUppedHP(it.HP, mBought.hpLv)}"
+            tv_main_atk.text = "攻击力: ${StaticData.getUppedAtk(it.atk, mBought.atkLv)}"
+            tv_main_def.text = "防御力: ${StaticData.getUppedDef(it.def, mBought.defLv)}"
+            tv_main_gold.text = "金币: ${it.gold}"
         }
     }
 
@@ -110,8 +140,12 @@ class MainActivity : Activity() {
             mAdapter.notifyDataSetChanged()
             when (resultCode) {
                 1001 -> {           //DUNGEON DEAD
+                    NetManager.storeInfoEquip(0)
                 }
                 1002 -> {           //PRESS BACK
+                }
+                1003 -> {           //Interrupt
+                    NetManager.storeInfoEquip(0)
                 }
             }
         }

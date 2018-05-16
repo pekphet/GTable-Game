@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_margin="16dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_tl_ft"
+                android:layout_width="72dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_bg_blue_blk24_sel"
+                android:gravity="center"
+                android:text="格斗家"
+                android:textColor="@color/text_color_lv"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_tl_knt"
+                android:layout_width="72dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_bg_blue_blk24_sel"
+                android:gravity="center"
+                android:text="骑 士"
+                android:textColor="@color/text_color_lv"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_tl_rog"
+                android:layout_width="72dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_bg_blue_blk24_sel"
+                android:gravity="center"
+                android:text="暗杀者"
+                android:textColor="@color/text_color_lv"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_tl_nec"
+                android:layout_width="72dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_bg_blue_blk24_sel"
+                android:gravity="center"
+                android:text="死 灵"
+                android:textColor="@color/text_color_lv"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_toplist"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="24dp"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+
+</LinearLayout>

@@ -99,14 +99,14 @@ object StaticData {
             Pair(0x4204, EquipInfo(0x4204, "暗影魔戒", EquipPosition.RING, 10, R.drawable.t_icon_r_003, 120, 0, null)),
 
             Pair(0x3001, EquipInfo(0x3001, "能量战甲", EquipPosition.ARMOR, 14, R.drawable.t_icon_a_002, 150, 0, null)),
-            Pair(0x3002, EquipInfo(0x3002, "妖刀-瞬斩", EquipPosition.WEAPON, 14, R.drawable.t_icon_w_002, 150, 0, Pair(ExEffect.CUT_20, 20))),
+            Pair(0x3002, EquipInfo(0x3002, "妖刀-瞬斩", EquipPosition.WEAPON, 14, R.drawable.t_icon_w_002, 150, 0, null)),
             Pair(0x3003, EquipInfo(0x3003, "闪耀之戒", EquipPosition.RING, 14, R.drawable.t_icon_r_002, 150, 0, null))
     )
 
 
     /****Monster****************/
     //  will add CACHE  later!!
-    fun getBaseMonster(id: Int) = mMonsterMap[id]?: mSPMonsters[id]!!
+    fun getBaseMonster(id: Int) = mMonsterMap[id] ?: mSPMonsters[id]!!
 
     fun getMonsterPool(areaId: Int) = mAreaMonsterMap[areaId]
             ?: mAreaMonsterMap[DEFAULT_MONSTER_AREA]!!
@@ -134,22 +134,22 @@ object StaticData {
 
 
     /****Person Property********/
-    fun getPersonInit(roleType: RoleType, gold: Int = 0) = when (roleType) {
-        RoleType.BEGINNER -> PersonData(100, 2, 2, 0, 1, gold, roleType = roleType)
-        RoleType.FIGHTER -> PersonData(200, 40, 20, 0, 1, gold, roleType = roleType, ex = ExPerson(200, 350, 150))
-        RoleType.NEC -> PersonData(150, 22, 22, 0, 1, gold, roleType = roleType, ex = ExPerson(150, 150, 170))
-        RoleType.KNIGHT -> PersonData(250, 20, 40, 0, 1, gold, roleType = roleType, ex = ExPerson(100, 150, 120))
-        RoleType.ROGUE -> PersonData(150, 25, 20, 0, 1, gold, roleType = roleType, ex = ExPerson(300, 350, 300))
-        else -> PersonData(100, 2, 2, 0, 1, 0)
+    fun getPersonInit(name: String, roleType: RoleType, gold: Int = 0) = when (roleType) {
+        RoleType.BEGINNER -> PersonData(name, 100, 2, 2, 0, 1, gold, roleType = roleType)
+        RoleType.FIGHTER -> PersonData(name, 200, 40, 20, 0, 1, gold, roleType = roleType, ex = ExPerson(200, 350, 150))
+        RoleType.NEC -> PersonData(name, 150, 22, 22, 0, 1, gold, roleType = roleType, ex = ExPerson(150, 150, 170))
+        RoleType.KNIGHT -> PersonData(name, 250, 20, 40, 0, 1, gold, roleType = roleType, ex = ExPerson(100, 150, 120))
+        RoleType.ROGUE -> PersonData(name, 150, 25, 20, 0, 1, gold, roleType = roleType, ex = ExPerson(300, 350, 300))
+        else -> PersonData(name, 100, 2, 2, 0, 1, 0)
     }
 
     fun getLvGrow(roleType: RoleType = RoleType.BEGINNER) = when (roleType) {
-        RoleType.BEGINNER -> PersonData(20, 2, 2, 0, 0, 0, 0)
-        RoleType.FIGHTER -> PersonData(40, 3, 3, 0, 0, 0, 0)
-        RoleType.NEC -> PersonData(30, 3, 4, 0, 0, 0, 0)
-        RoleType.KNIGHT -> PersonData(60, 1, 4, 0, 0, 0, 0)
-        RoleType.ROGUE -> PersonData(20, 6, 2, 0, 0, 0, 0)
-        else -> PersonData(20, 2, 2, 0, 0, 0, 0)
+        RoleType.BEGINNER -> PersonData("", 20, 2, 2, 0, 0, 0, 0)
+        RoleType.FIGHTER -> PersonData("", 40, 3, 3, 0, 0, 0, 0)
+        RoleType.NEC -> PersonData("", 30, 3, 4, 0, 0, 0, 0)
+        RoleType.KNIGHT -> PersonData("", 60, 1, 4, 0, 0, 0, 0)
+        RoleType.ROGUE -> PersonData("", 20, 6, 2, 0, 0, 0, 0)
+        else -> PersonData("", 20, 2, 2, 0, 0, 0, 0)
     }
 
     fun getUPFee(currentLevel: Int) = 300 * currentLevel + 100
@@ -163,14 +163,16 @@ object StaticData {
     fun statusUpCalc(person: PersonData, personBought: PersonBought) {
         person.let {
             it.HP = getUppedHP(person.HP, personBought.hpLv)
-            it.atk = getUppedHP(person.atk, personBought.atkLv)
-            it.def = getUppedHP(person.def, personBought.defLv)
+            it.atk = getUppedAtk(person.atk, personBought.atkLv)
+            it.def = getUppedDef(person.def, personBought.defLv)
         }
     }
 
     /****Equip Area**********************/
 
-    fun getBaseEquipInfo(id: Int) = mEquipInfoMap[id]?: mSPEquipInfoMap[id]?: mEquipInfoMap[0x0001]!!
+    fun getBaseEquipInfo(id: Int) = mEquipInfoMap[id] ?: mSPEquipInfoMap[id]
+    ?: mEquipInfoMap[0x0001]!!
+    fun getBaseEquipInfoNullable(id: Int) = mEquipInfoMap[id] ?: mSPEquipInfoMap[id]
 
     fun getAllEquips() = mEquipInfoMap.keys
 

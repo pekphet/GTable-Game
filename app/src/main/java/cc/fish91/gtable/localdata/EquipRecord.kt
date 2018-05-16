@@ -4,15 +4,15 @@ import android.content.Context
 import cc.fish91.gtable.Equip
 import cc.fish91.gtable.EquipPosition
 import cc.fish91.gtable.Framework
+import cc.fish91.gtable.resource.StaticData
 
 object EquipRecord {
-    private const val EQUIP_FILE = "equip"
     private const val EQUIP_WORN_W = "worn_weapon"
     private const val EQUIP_WORN_A = "worn_armor"
     private const val EQUIP_WORN_R = "worn_ring"
 
 
-    private val SP_HANDLE by lazy { Framework._C.getSharedPreferences(EQUIP_FILE, Context.MODE_PRIVATE) }
+    private val SP_HANDLE by lazy { Framework._C.getSharedPreferences(SaveDataManager.EQUIP_FILES[SaveDataManager.checkedPosition], Context.MODE_PRIVATE) }
 
     private fun getEq(equipStr: String) = SP_HANDLE.getString(equipStr, "").run {
         if (this.isEmpty())

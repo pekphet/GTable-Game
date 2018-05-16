@@ -14,8 +14,9 @@
         android:textSize="10dp" />
 
     <LinearLayout
+        android:id="@+id/ll_vperson_status"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tv_vperson_floor"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
@@ -97,9 +98,8 @@
         android:id="@+id/ll_vperson_equip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
+        android:layout_alignBottom="@+id/ll_vperson_status"
         android:orientation="horizontal">
 
         <ImageView
@@ -147,6 +147,14 @@
             android:layout_marginLeft="16dp"
             android:scaleType="center"
             android:src="@drawable/t_icon_quest" />
+
+        <ImageView
+            android:id="@+id/img_vperson_code"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="16dp"
+            android:scaleType="center"
+            android:src="@drawable/t_icon_excode" />
     </LinearLayout>
 
 

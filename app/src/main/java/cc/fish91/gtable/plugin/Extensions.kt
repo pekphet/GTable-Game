@@ -40,6 +40,7 @@ fun Double.toPercentKeep1() = String.format("%.1f%%", this * 100f)
 
 /****Int utils ***/
 fun Int.max(max: Int) = if (this <= max) this else max
+
 fun Int.limitAtMost(target: Int) = if (this < target) this else target
 fun Int.limitAtLeast(target: Int) = if (this > target) this else target
 
@@ -78,6 +79,10 @@ fun FightSceneFinalData.reCalc(person: PersonData, vararg equips: Equip?) {
     } else {
         HP = HPLine
     }
+}
+
+fun <T> T.ifTrue(predicate: Boolean, block: (T) -> R): R? {
+    return if (predicate) block(this) else null
 }
 
 fun FloorBuff.clear() {

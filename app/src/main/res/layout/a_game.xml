@@ -7,7 +7,8 @@
 
     <FrameLayout
         android:layout_width="360dp"
-        android:layout_height="506dp">
+        android:layout_height="506dp"
+        android:layout_gravity="center_horizontal">
 
         <View
             android:layout_width="match_parent"
@@ -29,6 +30,17 @@
             android:overScrollMode="never"
             android:scrollbars="none" />
 
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/line_gm" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:background="@color/line_gm" />
+
         <TextView
             android:id="@+id/tv_game_show"
             android:layout_width="wrap_content"
@@ -46,6 +58,6 @@
     <FrameLayout
         android:id="@+id/fl_game_persons"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -90,3 +90,13 @@ enum class EquipSuit(val id: Int, val info: String) {
     FIGHTER_SUIT_1(3, "【狂暴套装】\n提升70%攻击与防御力\n回复力提升10点\n暴击率提升20%"),
     NEC_SUIT_1(4, "【血祭套装】\n体力值提升50%\n回复力降低30点\n回避率提升30%\n暴击率提升20%\n暴击伤害提升150%"),
 }
+
+enum class ExchangeCodeType(val desc: String) {
+    EQUIP_W("获取装备!"),
+    EQUIP_A("获取装备!"),
+    EQUIP_R("获取装备!"),
+    GOLD("获取金币"),
+    LV("打个怪～升级"),
+    CHANGETYPE("打个怪～转职"),
+    ERROR("兑换码错误"),
+}

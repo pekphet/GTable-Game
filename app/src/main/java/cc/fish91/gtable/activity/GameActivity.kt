@@ -11,6 +11,8 @@ import cc.fish91.gtable.*
 import cc.fish91.gtable.engine.*
 import cc.fish91.gtable.localdata.EquipRecord
 import cc.fish91.gtable.localdata.PersonRecord
+import cc.fish91.gtable.net.NetEntity
+import cc.fish91.gtable.net.NetManager
 import cc.fish91.gtable.plugin.*
 import cc.fish91.gtable.plugin.Math.getNear9Blocks
 import cc.fish91.gtable.plugin.Math.getNearBlocks
@@ -43,6 +45,7 @@ class GameActivity : Activity() {
     private val mDropMap = mutableMapOf<Int, Equip>()
     private val mEquips = mutableMapOf<EquipPosition, Equip>()
     private val mTasks = mutableListOf<TaskEntity>()
+    private var mStartFloor = 0
 
     /****Game Scene Data*********/
     private var mMonsterK = MonsterData(1, 1, 1, 1, 1, 1)
@@ -60,6 +63,7 @@ class GameActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.a_game)
         mFloor = intent.getIntExtra(GAME_FLOOR_KEY, 1)
+        mStartFloor = mFloor
         makeFloor(mFloor)
         loadPerson()
         initTask()
@@ -103,7 +107,16 @@ class GameActivity : Activity() {
         mPersonView.setOnQuestClick {
             Dialogs.ExDialogs.showTasks(this@GameActivity, mTasks, mTaskCK)
         }
+        mPersonView.setOnCodeClick {
+            Dialogs.edit(this@GameActivity, "礼物兑换码", {
+                NetManager.loadExchangeCode(it, {
+                    takeCodeAward(it)
+                    show(it.awardType.desc)
+                }) { show(it) }
+            })
+        }
     }
+
 
     private fun loadEquips() {
         mEquips.putNullable(EquipPosition.WEAPON, EquipRecord.getEqW())
@@ -197,22 +210,7 @@ class GameActivity : Activity() {
                     show("超稀有装备！！")
                     4
                 } else task.award!!.rare).run {
-                    Dialogs.ExDialogs.showEquipCompare(this@GameActivity, mEquips[info.position], this) {
-                        if (it) {
-                            if (mFloor <= KEEP_EQUIP_FLOORS || rare >= 3)
-                                EquipRecord.saveEq(this)
-                            mEquips[info.position] = this
-                            mFightData.suit = EquipEngine.getSuitById(EquipEngine.checkSuit(*(mEquips.values.toTypedArray())))
-                            mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
-                            mPersonView.flushEquip(mEquips, mFightData.suit != null)
-                            mPersonView.load(mPerson)
-                        } else {
-                            (rare * info.sell).let {
-                                mPerson.gold += it
-                                show("获取${it}金币！")
-                            }
-                        }
-                    }
+                    showTaskEquip(this)
                 }
             }
         }
@@ -334,7 +332,7 @@ class GameActivity : Activity() {
         PersonRecord.getEnabledRoleType1().run {
             Dialogs.ExDialogs.showSelectors(this@GameActivity, "人物转职", "选择想要转的职业,转职后会退出副本", this.map { "${it.info}\n${it.pSkill.objectInstance!!.getInfo(0)}" }) { info, pos ->
                 run {
-                    PersonRecord.changeRoleType1(this[pos], mPerson.gold)
+                    PersonRecord.changeRoleType1(mPerson.name, this[pos], mPerson.gold)
                     toast("转职成功！")
                     finish()
                 }
@@ -386,6 +384,9 @@ class GameActivity : Activity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        if (mFloor - mStartFloor >= 5) {
+            NetManager.commitFightResult(mFloor)
+        }
         FloorDataCreater.cleanData()
     }
 
@@ -398,7 +399,46 @@ class GameActivity : Activity() {
     private fun interrupt() {
         Dialogs.questionSmall(this@GameActivity, "确定返回主城？") {
             FightScene.failed(mPerson, mTasks, mFloor)
+            setResult(1003)
             finish()
+        }
+    }
+
+    private fun showTaskEquip(equip: Equip) {
+        Dialogs.ExDialogs.showEquipCompare(this@GameActivity, mEquips[equip.info.position], equip) {
+            if (it) {
+                if (mFloor <= KEEP_EQUIP_FLOORS || equip.rare >= 3)
+                    EquipRecord.saveEq(equip)
+                mEquips[equip.info.position] = equip
+                mFightData.suit = EquipEngine.getSuitById(EquipEngine.checkSuit(*(mEquips.values.toTypedArray())))
+                mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
+                mPersonView.flushEquip(mEquips, mFightData.suit != null)
+                mPersonView.load(mPerson)
+            } else {
+                (equip.rare * equip.info.sell).let {
+                    mPerson.gold += it
+                    show("获取${it}金币！")
+                }
+            }
+        }
+    }
+
+    private fun takeCodeAward(it: NetEntity.ExchangeCodeResp) = when (it.awardType) {
+        ExchangeCodeType.EQUIP_A, ExchangeCodeType.EQUIP_W, ExchangeCodeType.EQUIP_R -> {
+            showTaskEquip(EquipEngine.createByRare(it.eid, it.value, it.rare))
+        }
+        ExchangeCodeType.ERROR -> {
+            show("兑换码错误")
+        }
+        ExchangeCodeType.GOLD -> {
+            mPerson.gold += it.value
+        }
+        ExchangeCodeType.LV -> {
+            mPerson.exp += 99999
+        }
+        ExchangeCodeType.CHANGETYPE -> {
+            mPerson.level = CHANGE_ROLE_TYPE_1
+            mPerson.exp = 100000
         }
     }
 }

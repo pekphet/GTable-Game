@@ -72,4 +72,10 @@ class PersionView(val ctx: Context, val fd: FightSceneFinalData) : LoadableView<
         }
     }
 
+    fun setOnCodeClick(clk: () -> Unit) {
+        view.findViewById<ImageView>(R.id.img_vperson_code).setOnClickListener {
+            clk()
+        }
+    }
+
 }

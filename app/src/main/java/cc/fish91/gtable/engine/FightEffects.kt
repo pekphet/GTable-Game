@@ -3,6 +3,7 @@ package cc.fish91.gtable.engine
 import cc.fish91.gtable.FightSceneFinalData
 import cc.fish91.gtable.MonsterData
 import cc.fish91.gtable.plugin.Math
+import cc.fish91.gtable.plugin.ifTrue
 import cc.fish91.gtable.plugin.limitAtLeast
 import cc.fish91.gtable.plugin.limitAtMost
 
@@ -83,17 +84,21 @@ object FightEffects {
     }
 
     object ROGUEPSkill : IFightEffect {
+        var tmp = 0
+        var tmpHp = 0
         override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
-            if (monster.HP > person.HP)
-                monster.HP -= (monster.HP * 0.1).toInt()
+            tmp = monster.def * Math.rand(20, 120)
+            tmpHp = person.HP
+            monster.def -= tmp
         }
 
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
-            if (monster.HP < person.HP && Math.percent(2))
-                monster.HP = -1
+            monster.def += tmp
+            if (Math.percent(20)) person.HP = tmpHp
+
         }
 
-        override fun getInfo(floor: Int) = "[暗影瞬杀] 攻击强大对手时削减对方体力值，对弱小的对手攻击结束时有几率秒杀"
+        override fun getInfo(floor: Int) = "[暗影瞬杀]攻击时随机无视目标护甲，对弱小的对手攻击结束时有20%几率复原体力值"
     }
 
     object NECPSkill : IFightEffect {

@@ -23,7 +23,7 @@ import org.w3c.dom.Text
 
 object Dialogs {
 
-    fun show(activity: Activity, title: String = "", msg: CharSequence, isSmall: Boolean = false, hasCancel: Boolean, ok: () -> Unit, cancel: () -> Unit) {
+    private fun show(activity: Activity, title: String = "", msg: CharSequence, isSmall: Boolean = false, hasCancel: Boolean, ok: () -> Unit, cancel: () -> Unit) {
         Dialog(activity, R.style.app_dialog).apply {
             setContentView(if (isSmall) R.layout.d_common_small else R.layout.d_common)
             findViewById<TextView>(R.id.tv_d_title).showNotEmpty(title)
@@ -53,6 +53,21 @@ object Dialogs {
     fun showSmall(activity: Activity, title: String = "", msg: String, hasCancel: Boolean, ok: () -> Unit, cancel: () -> Unit) = show(activity, title, msg, true, hasCancel, ok, cancel)
 
     fun questionSmall(activity: Activity, msg: CharSequence, ok: () -> Unit) = show(activity, "", msg, true, true, ok) {}
+
+    fun edit(activity: Activity, title: String, apply: (String) -> Unit, notApply: () -> Unit = {}) {
+        Dialog(activity, R.style.app_dialog).apply {
+            setContentView(R.layout.d_edit)
+            findViewById<TextView>(R.id.tv_d_title).showNotEmpty(title)
+            findViewById<View>(R.id.tv_d_ok).setOnClickListener {
+                apply(findViewById<EditText>(R.id.et_d_edit).text.toString())
+                dismiss()
+            }
+            findViewById<View>(R.id.tv_d_cancel).setOnClickListener {
+                notApply()
+                dismiss()
+            }
+        }.show()
+    }
 
     object ExDialogs {
         private val LinearLayoutParamsWW = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)

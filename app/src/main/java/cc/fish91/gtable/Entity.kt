@@ -7,7 +7,7 @@ import kotlin.reflect.KClass
 
 
 data class FloorMeta(var isOpened: Boolean = false, var isNearMonster: Boolean = false, var status: FloorStatus = FloorStatus.IDLE, var exId: Int = -1, var isOpenable: Boolean = false)
-data class PersonData(var HP: Int, var atk: Int, var def: Int, var exp: Int, var level: Int, var gold: Int, var maxFloor: Int = 1, var ex: ExPerson = ExPerson(), var roleType: RoleType = RoleType.BEGINNER)
+data class PersonData(var name: String = "", var HP: Int, var atk: Int, var def: Int, var exp: Int, var level: Int, var gold: Int, var maxFloor: Int = 1, var ex: ExPerson = ExPerson(), var roleType: RoleType = RoleType.BEGINNER)
 data class ExPerson(var miss: Int = 100, var critical: Int = 100, var critical_dmg: Int = 150, var restore: Int = 0, val ex: MutableList<Pair<ExEffect, Int>> = mutableListOf())
 
 data class MonsterData(var HP: Int, var atk: Int, var def: Int, var exp: Int, var gold: Int, var mId: Int, var exAdderClz: KClass<IMonsterAdder>? = null)

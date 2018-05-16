@@ -56,7 +56,7 @@ object EquipEngine {
     }
 
 
-    fun calcEquipsAppend(person: PersonData, vararg mEquips: Equip?) = PersonData(0, 0, 0, 0, 0, 0, 0,
+    fun calcEquipsAppend(person: PersonData, vararg mEquips: Equip?) = PersonData("", 0, 0, 0, 0, 0, 0, 0,
             ExPerson(0, 0, 0, 0)).apply {
         calcEquipEX(*mEquips).forEach {
             when (it.key) {
@@ -134,4 +134,5 @@ object EquipEngine {
         ExEffect.CRITICAL_UP, ExEffect.MISS_UP -> String.format(effect.first.info, effect.second.toMillicentKeep1())
         else -> String.format(effect.first.info, effect.second)
     }
+
 }
