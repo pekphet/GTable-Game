@@ -18,7 +18,7 @@ object FloorDataCreater {
         setFloor(FloorStatus.MONSTER, getMonsterCount(floor))
         setFloor(FloorStatus.GIFT, Math.rand(2, getGiftCount(floor)))
         setFloor(FloorStatus.BUFF, Math.rand(1, getBufCount(floor)))
-        if (floor%StaticData.AREA_SPLIT_FLOORS == StaticData.AREA_SPLIT_FLOORS - 1) {
+        if (floor%15 == 14) {
             setFloor(FloorStatus.MONSTER_SP)
         }
 //        if (floor % 3 == 2) {
