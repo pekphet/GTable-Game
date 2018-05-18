@@ -105,7 +105,7 @@ class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift
     }
 
     fun loadEquip(q: Equip?) {
-        if (q == null)  {
+        if (q == null) {
             hideAll()
             dispContent(false)
             mMonsterImg.visibility = View.GONE
@@ -114,7 +114,7 @@ class FloorView(parent: ViewGroup, monsters: List<MonsterData>, gifts: List<Gift
         hideAll()
         dispContent(true)
         mContentImg.setImageResource(q.info.iconId)
-        mTv.text = "+${q.level}"
+        mTv.text = "+${q.level - q.info.baseLevel}"
     }
 
     override fun getView() = this.view

@@ -87,7 +87,7 @@ object FightEffects {
         var tmp = 0
         var tmpHp = 0
         override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
-            tmp = monster.def * Math.rand(20, 120)
+            tmp = monster.def * Math.rand(20, 120) / 100
             tmpHp = person.HP
             monster.def -= tmp
         }

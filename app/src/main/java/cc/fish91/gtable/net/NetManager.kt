@@ -106,6 +106,7 @@ object NetManager {
             url("$BASE_API/award/code")
             mType = NetEntity.ExchangeCodeResp::class.java
             urlParam("code", code)
+            urlParam("name", PersonRecord.getPersonData().name)
             get(Framework._C, {
                 if (this != null && this.errCode == CODE_SUCCESS)
                     result(this)

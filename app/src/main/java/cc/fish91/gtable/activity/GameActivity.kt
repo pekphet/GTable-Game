@@ -438,6 +438,7 @@ class GameActivity : Activity() {
         }
         ExchangeCodeType.CHANGETYPE -> {
             mPerson.level = CHANGE_ROLE_TYPE_1
+            mPerson.roleType = RoleType.BEGINNER
             mPerson.exp = 100000
         }
     }

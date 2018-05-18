@@ -58,7 +58,7 @@ object StaticData {
                     arrayOf(Pair(0x3001, 2)), FightEffects.ClearPArmor::class)),
             Pair(0x3008, BaseMonster(8, 10, 12, "魂·月光精灵", 20, 20, R.drawable.t_icon_monster_moon,
                     arrayOf(Pair(0x3002, 2)), FightEffects.CopyPAtk::class)),
-            Pair(0x3009, BaseMonster(8, 12, 12, "魂·日光精灵", 20, 20, R.drawable.t_icon_monster_sun,
+            Pair(0x3009, BaseMonster(8, 12, 0, "魂·日光精灵", 20, 20, R.drawable.t_icon_monster_sun,
                     arrayOf(Pair(0x3003, 2)), FightEffects.CopyPDef::class))
     )
 
@@ -134,12 +134,12 @@ object StaticData {
 
 
     /****Person Property********/
-    fun getPersonInit(name: String, roleType: RoleType, gold: Int = 0) = when (roleType) {
-        RoleType.BEGINNER -> PersonData(name, 100, 2, 2, 0, 1, gold, roleType = roleType)
-        RoleType.FIGHTER -> PersonData(name, 200, 40, 20, 0, 1, gold, roleType = roleType, ex = ExPerson(200, 350, 150))
-        RoleType.NEC -> PersonData(name, 150, 22, 22, 0, 1, gold, roleType = roleType, ex = ExPerson(150, 150, 170))
-        RoleType.KNIGHT -> PersonData(name, 250, 20, 40, 0, 1, gold, roleType = roleType, ex = ExPerson(100, 150, 120))
-        RoleType.ROGUE -> PersonData(name, 150, 25, 20, 0, 1, gold, roleType = roleType, ex = ExPerson(300, 350, 300))
+    fun getPersonInit(name: String, roleType: RoleType, gold: Int = 0, floor: Int = 0) = when (roleType) {
+        RoleType.BEGINNER -> PersonData(name, 100, 2, 2, 0, 1, gold, floor, roleType = roleType)
+        RoleType.FIGHTER -> PersonData(name, 200, 40, 20, 0, 1, gold, floor, roleType = roleType, ex = ExPerson(200, 350, 150))
+        RoleType.NEC -> PersonData(name, 150, 22, 22, 0, 1, gold, floor, roleType = roleType, ex = ExPerson(150, 150, 170))
+        RoleType.KNIGHT -> PersonData(name, 250, 20, 40, 0, 1, gold, floor, roleType = roleType, ex = ExPerson(100, 150, 120))
+        RoleType.ROGUE -> PersonData(name, 150, 25, 20, 0, 1, gold, floor, roleType = roleType, ex = ExPerson(300, 350, 300))
         else -> PersonData(name, 100, 2, 2, 0, 1, 0)
     }
 

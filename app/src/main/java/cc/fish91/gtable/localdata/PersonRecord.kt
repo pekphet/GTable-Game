@@ -134,7 +134,7 @@ object PersonRecord {
     fun getEnabledRoleType1() = arrayOf(RoleType.FIGHTER, RoleType.ROGUE, RoleType.KNIGHT, RoleType.NEC)
 
     fun changeRoleType1(name: String, type: RoleType, gold: Int) {
-        storePersonData(StaticData.getPersonInit(name, type, gold))
+        storePersonData(StaticData.getPersonInit(name, type, gold, 90))
     }
 
 }
