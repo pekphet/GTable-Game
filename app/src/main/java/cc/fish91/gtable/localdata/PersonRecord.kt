@@ -118,6 +118,7 @@ object PersonRecord {
         }
     }
 
+
     fun clearData() {
         SP_HANDLE().edit()
                 .putString(PERSON_BASE_BOUGHT, "")
