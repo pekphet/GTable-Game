@@ -130,7 +130,7 @@ object EquipEngine {
 
     fun getSuitById(id: Int) = EquipSuit.values().filter { it.id == id }.run { if (size > 0) this[0] else null }
 
-    fun getEquipEffectInfo(effect: Pair<ExEffect, Int>) = when (effect) {
+    fun getEquipEffectInfo(effect: Pair<ExEffect, Int>) = when (effect.first) {
         ExEffect.CRITICAL_UP, ExEffect.MISS_UP -> String.format(effect.first.info, effect.second.toMillicentKeep1())
         else -> String.format(effect.first.info, effect.second)
     }

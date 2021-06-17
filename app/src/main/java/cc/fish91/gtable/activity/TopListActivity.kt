@@ -3,13 +3,13 @@ package cc.fish91.gtable.activity
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cc.fish91.gtable.R
 import cc.fish91.gtable.RoleType
 import cc.fish91.gtable.engine.EquipEngine
@@ -68,7 +68,7 @@ class TopListActivity : Activity() {
     }
 
 
-    val mAdapter = object : RecyclerView.Adapter<TLVH>() {
+    private val mAdapter = object : RecyclerView.Adapter<TLVH>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = TLVH(LayoutInflater.from(this@TopListActivity).inflate(R.layout.i_top_list, parent, false))
 
         override fun getItemCount() = mData.size

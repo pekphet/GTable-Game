@@ -3,10 +3,9 @@ package cc.fish91.gtable.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.Adapter
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cc.fish91.gtable.*
 import cc.fish91.gtable.engine.*
 import cc.fish91.gtable.localdata.EquipRecord
@@ -172,7 +171,7 @@ class GameActivity : Activity() {
         mDropMap.clear()
     }
 
-    val mAdapter = object : Adapter<FloorVH>() {
+    val mAdapter = object : RecyclerView.Adapter<FloorVH>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FloorVH(parent, mMonsters, mGifts, mBuffs, mMonsterK, mMonsterSP, mDropMap)
 
         override fun getItemCount() = 5 * 7

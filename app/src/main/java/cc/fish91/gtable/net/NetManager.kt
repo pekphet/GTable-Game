@@ -1,14 +1,15 @@
 package cc.fish91.gtable.net
 
 import android.util.Log
-import cc.fish.kfishhttp.Requester
 import cc.fish91.gtable.*
+import cc.fish91.gtable.base.net.NetCore
 import cc.fish91.gtable.localdata.EquipRecord
 import cc.fish91.gtable.localdata.PersonRecord
+import com.lenovo.lcui.base.net.Requester
 
 object NetManager {
 
-    const val BASE_API_PROD = "http://api.dogrid.cn:14000/v1"
+    const val BASE_API_PROD = "http://api.fishgame.com.cn:14000/v1"
     const val BASE_API_TEST = "http://192.168.1.201:14000/v1"
     const val CODE_SUCCESS = 0
     val BASE_API = BASE_API_PROD
@@ -18,7 +19,7 @@ object NetManager {
             url("$BASE_API/app/update")
             mType = NetEntity.UpdateResp::class.java
             urlParam("version", Framework._C.packageManager.getPackageInfo(Framework._C.packageName, 0).versionCode)
-            get(Framework._C, {
+            Get(Framework._C, {
                 Log.e("net", this?.errMsg ?: "")
                 if (this != null) {
                     if (this.hasNew) {
@@ -39,7 +40,7 @@ object NetManager {
             body("name", p.name)
             body("info", Framework._G.toJson(NetEntity.FightResultData(floor, p,
                     EquipRecord.getEqW(), EquipRecord.getEqA(), EquipRecord.getEqR())))
-            post(Framework._C, {}) {}
+            Post(Framework._C, {}) {}
         }
     }
 
@@ -48,7 +49,7 @@ object NetManager {
             url("$BASE_API/result/list")
             mType = NetEntity.TopListResp::class.java
             urlParam("type", roleType.name)
-            get(Framework._C, {
+            Get(Framework._C, {
                 if (this != null && this.errCode == CODE_SUCCESS)
                     success(resultList)
                 else if (this != null)
@@ -66,12 +67,20 @@ object NetManager {
             url("$BASE_API/account/check")
             mType = NetEntity.BaseResp::class.java
             urlParam("name", name)
-            get(Framework._C, {
-                if (this != null && this.errCode == CODE_SUCCESS) {
-                    postPerson(name, { ck(true) }) { ck(false) }
+            try {
+                Get(Framework._C, {
+                    if (this != null && this.errCode == CODE_SUCCESS) {
+                        postPerson(name, { ck(true) }) { ck(false) }
+                    }
+                }) {
+                    if (this == NetCore.IO_EXCEPTION) {
+                        ck(true)
+                    } else {
+                        ck(false)
+                    }
                 }
-            }) {
-                ck(false)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
             }
         }
     }
@@ -81,7 +90,7 @@ object NetManager {
             url("$BASE_API/account/new")
             mType = NetEntity.BaseResp::class.java
             body("name", name)
-            post(Framework._C, {
+            Post(Framework._C, {
                 if (this != null && this.errCode == CODE_SUCCESS) ck()
                 else if (this != null) failed(this.errMsg)
                 else failed("server error!")
@@ -97,7 +106,7 @@ object NetManager {
             mType = NetEntity.BaseResp::class.java
             jsonBody(Framework._G.toJson(NetEntity.FightResultData(floor, PersonRecord.getPersonData(),
                     EquipRecord.getEqW(), EquipRecord.getEqA(), EquipRecord.getEqR())))
-            post(Framework._C, {}) {}
+            Post(Framework._C, {}) {}
         }
     }
 
@@ -107,7 +116,7 @@ object NetManager {
             mType = NetEntity.ExchangeCodeResp::class.java
             urlParam("code", code)
             urlParam("name", PersonRecord.getPersonData().name)
-            get(Framework._C, {
+            Get(Framework._C, {
                 if (this != null && this.errCode == CODE_SUCCESS)
                     result(this)
                 else

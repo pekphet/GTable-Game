@@ -18,14 +18,14 @@ object PersonRecord {
     private var mHpLine = 0
 
     fun getPersonData(): PersonData = SP_HANDLE().getString(PERSON_BASE_KEY, "").run {
-        if (this.isBlank())
+        if (this.isNullOrBlank())
             StaticData.getPersonInit("", RoleType.BEGINNER)
         else
             Framework._G.fromJson(this, PersonData::class.java)
     }
 
     fun getPersonDataNullable(slot: Int): PersonData? = Framework._C.getSharedPreferences(SaveDataManager.PERSON_FILES[slot], Context.MODE_PRIVATE).getString(PERSON_BASE_KEY, "").run {
-        if (this.isBlank())
+        if (this.isNullOrBlank())
             null
         else
             Framework._G.fromJson(this, PersonData::class.java)
@@ -61,7 +61,7 @@ object PersonRecord {
             .apply()
 
     fun getPersonBought(): PersonBought = SP_HANDLE().getString(PERSON_BASE_BOUGHT, "").run {
-        if (this.isBlank())
+        if (this.isNullOrBlank())
             PersonBought(0, 0, 0)
         else
             Framework._G.fromJson(this, PersonBought::class.java)
@@ -100,7 +100,7 @@ object PersonRecord {
 
     @Synchronized
     fun getTasks() = SP_HANDLE().getString(PERSON_TASK, "").run {
-        if (this.isBlank())
+        if (this.isNullOrBlank())
             listOf<TaskEntity>()
         else
             Framework._G.fromJson(this, object : TypeToken<List<TaskEntity>>() {}.type)

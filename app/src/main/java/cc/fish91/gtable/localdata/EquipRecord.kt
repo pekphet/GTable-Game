@@ -15,7 +15,7 @@ object EquipRecord {
     private fun SP_HANDLE() = Framework._C.getSharedPreferences(SaveDataManager.EQUIP_FILES[SaveDataManager.checkedPosition], Context.MODE_PRIVATE)
 
     private fun getEq(equipStr: String) = SP_HANDLE().getString(equipStr, "").run {
-        if (this.isEmpty())
+        if (this.isNullOrEmpty())
             null
         else
             Framework._G.fromJson(this, Equip::class.java)
