@@ -73,7 +73,7 @@ class MainActivity : Activity() {
                             flushPersonArea()
                         } else {
                             toast("用户已经存在")
-                            checkName()
+//                            checkName()
                         }
                     }
                 }

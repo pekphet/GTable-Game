@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "cc.fish91.gtable.ss",
+  "variantName": "processReleaseResources",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "versionCode": 9120,
+      "versionName": "0.9.2",
+      "outputFile": "app-release.apk"
+    }
+  ]
+}

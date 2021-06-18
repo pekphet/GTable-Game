@@ -10,9 +10,9 @@ import com.lenovo.lcui.base.net.Requester
 object NetManager {
 
     const val BASE_API_PROD = "http://api.fishgame.com.cn:14000/v1"
-    const val BASE_API_TEST = "http://192.168.1.201:14000/v1"
+    const val BASE_API_TEST = "http://111.229.9.170:14000/v1"
     const val CODE_SUCCESS = 0
-    val BASE_API = BASE_API_PROD
+    val BASE_API = BASE_API_TEST
 
     fun checkVersion(hasNewCallback: (wikiUrl: String, downloadUrl: String) -> Unit) {
         Requester<NetEntity.UpdateResp>().run {

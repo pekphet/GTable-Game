@@ -5,6 +5,11 @@
     android:background="@color/bg_color_show"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <FrameLayout
         android:layout_width="360dp"
         android:layout_height="506dp"
@@ -47,10 +52,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/bg_color_show"
-            android:paddingBottom="32dp"
             android:paddingLeft="56dp"
-            android:paddingRight="56dp"
             android:paddingTop="32dp"
+            android:paddingRight="56dp"
+            android:paddingBottom="32dp"
             android:textColor="@color/text_color_show"
             android:visibility="gone" />
     </FrameLayout>
@@ -59,5 +64,10 @@
         android:id="@+id/fl_game_persons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>
