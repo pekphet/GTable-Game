@@ -12,7 +12,7 @@ object NetManager {
     const val BASE_API_PROD = "http://api.fishgame.com.cn:14000/v1"
     const val BASE_API_TEST = "http://111.229.9.170:14000/v1"
     const val CODE_SUCCESS = 0
-    val BASE_API = BASE_API_TEST
+    val BASE_API = BASE_API_PROD
 
     fun checkVersion(hasNewCallback: (wikiUrl: String, downloadUrl: String) -> Unit) {
         Requester<NetEntity.UpdateResp>().run {

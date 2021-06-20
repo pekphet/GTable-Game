@@ -3,6 +3,7 @@ package com.lenovo.lcui.base.net
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import cc.fish91.gtable.base.net.*
 import com.google.gson.reflect.TypeToken
 import cc.fish91.gtable.base.net.extensions.ThreadPool
@@ -168,6 +169,7 @@ class Requester<Result>() {
         tmpHandler = WeakReference(handler)
         tmpSuccess = success
         tmpFailed = failed
+        Log.e("REQUESTER", "U:$mUrl")
         if (!NetUtils.hasNet(tmpCtx.get()))
             "".failed()
         if (mUrl.isEmpty())

@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "cc.fish91.gtable.ss",
+  "applicationId": "cc.fish91.gtable",
   "variantName": "processReleaseResources",
   "elements": [
     {
