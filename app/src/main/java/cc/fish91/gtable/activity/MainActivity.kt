@@ -45,7 +45,7 @@ class MainActivity : Activity() {
             GameActivity.start(this@MainActivity, mFloor)
         }
         img_main_info.setOnClickListener {
-            Dialogs.show(this@MainActivity, "游戏说明", "${StaticInfo.APP_INFO_D}\n版本号：${packageManager.getPackageInfo(packageName, 0).versionName}") {}
+            Dialogs.show(this@MainActivity, "Info", "${StaticInfo.APP_INFO_D}\nVersion：${packageManager.getPackageInfo(packageName, 0).versionName}") {}
         }
         tv_main_toplist.setOnClickListener {
             startActivity(Intent(this@MainActivity, TopListActivity::class.java))
@@ -60,7 +60,7 @@ class MainActivity : Activity() {
 
     private fun checkName() {
         if (mPersonData.name.isEmpty()) {
-            Dialogs.edit(this@MainActivity, "请输入角色名字", { name ->
+            Dialogs.edit(this@MainActivity, resources.getString(R.string.tip_input_name), { name ->
                 if (name.length > 8) {
                     toast("名字需要在8个字以内")
                     checkName()
@@ -69,11 +69,11 @@ class MainActivity : Activity() {
                         if (it) {
                             mPersonData.name = name
                             PersonRecord.storePersonData(mPersonData)
-                            toast("新建用户成功")
+                            toast(resources.getString(R.string.tip_create_ok))
                             flushPersonArea()
                         } else {
-                            toast("用户已经存在")
-//                            checkName()
+                            toast(resources.getString(R.string.tip_create_exists))
+                            checkName()
                         }
                     }
                 }
@@ -86,7 +86,7 @@ class MainActivity : Activity() {
     @Synchronized
     private fun flushUps() {
         tv_home_atk_up.let {
-            it.text = "ATK Lv${mBought.atkLv + 1} 使用${StaticData.getUPFee(mBought.atkLv)}G升级"
+            it.text = resources.getString(R.string.lvup_atk_btn, mBought.atkLv + 1, StaticData.getUPFee(mBought.atkLv))
             it.isEnabled = mPersonData.gold >= StaticData.getUPFee(mBought.atkLv)
             it.setOnClickListener {
                 it.setOnClickListener(null)
@@ -96,7 +96,7 @@ class MainActivity : Activity() {
             }
         }
         tv_home_def_up.let {
-            it.text = "DEF Lv${mBought.defLv + 1} 使用${StaticData.getUPFee(mBought.defLv)}G升级"
+            it.text = resources.getString(R.string.lvup_def_btn, mBought.defLv + 1, StaticData.getUPFee(mBought.defLv))
             it.isEnabled = mPersonData.gold >= StaticData.getUPFee(mBought.defLv)
             it.setOnClickListener {
                 it.setOnClickListener(null)
@@ -106,7 +106,7 @@ class MainActivity : Activity() {
             }
         }
         tv_home_hp_up.let {
-            it.text = "HP  Lv${mBought.hpLv + 1} 使用${StaticData.getUPFee(mBought.hpLv)}G升级"
+            it.text = resources.getString(R.string.lvup_hp_btn, mBought.hpLv + 1, StaticData.getUPFee(mBought.hpLv))
             it.isEnabled = mPersonData.gold >= StaticData.getUPFee(mBought.hpLv)
             it.setOnClickListener {
                 it.setOnClickListener(null)
@@ -123,12 +123,12 @@ class MainActivity : Activity() {
         PersonRecord.getPersonData().let {
             mPersonData = it
             checkName()
-            tv_main_lv.text = "[${it.roleType.info}]  ${it.name}  等级: ${it.level}"
-            tv_main_exp.text = "经验值: ${it.exp} / ${StaticData.getLimitExp(it.level)}"
-            tv_main_hp.text = "体力值: ${StaticData.getUppedHP(it.HP, mBought.hpLv)}"
-            tv_main_atk.text = "攻击力: ${StaticData.getUppedAtk(it.atk, mBought.atkLv)}"
-            tv_main_def.text = "防御力: ${StaticData.getUppedDef(it.def, mBought.defLv)}"
-            tv_main_gold.text = "金币: ${it.gold}"
+            tv_main_lv.text = "[${it.roleType.info}]  ${it.name}  Level: ${it.level}"
+            tv_main_exp.text = "${resources.getString(R.string.attr_exp)}: ${it.exp} / ${StaticData.getLimitExp(it.level)}"
+            tv_main_hp.text = "${resources.getString(R.string.attr_hp)}: ${StaticData.getUppedHP(it.HP, mBought.hpLv)}"
+            tv_main_atk.text = "${resources.getString(R.string.attr_atk)}: ${StaticData.getUppedAtk(it.atk, mBought.atkLv)}"
+            tv_main_def.text = "${resources.getString(R.string.attr_def)}: ${StaticData.getUppedDef(it.def, mBought.defLv)}"
+            tv_main_gold.text = "${resources.getString(R.string.attr_gold)}: ${it.gold}"
         }
     }
 

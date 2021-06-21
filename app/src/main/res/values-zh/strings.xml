@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Dungeon Of Grid</string>
-    <string name="main_title">Dungeon of Grid\n\nQQ Group:764145299</string>
-    <string name="award_title">Gift Code</string>
-    <string name="empty_slot">Empty Slot</string>
-    <string name="del_role_tip">Delete role record(KEEP EQUIPS)??</string>
-    <string name="floor_info">Area:%1$s Floor:%2$s</string>
-    <string name="gain_exp">Gain%1$d Exp！</string>
-    <string name="gain_gold">Gain%1$d Golds！</string>
+    <string name="app_name">格子地下城</string>
+    <string name="main_title">格 子 地 下 城\nDungeon of Grid\n\nQQ群:764145299</string>
+    <string name="award_title">礼物兑换码</string>
+    <string name="empty_slot">新建存档</string>
+    <string name="del_role_tip">删除角色信息（保留装备）??</string>
+    <string name="floor_info">区域%1$s 第%2$s层</string>
+    <string name="gain_exp">获取%1$d点经验值！</string>
+    <string name="gain_gold">获取%1$d金币！</string>
 
-    <string name="ur_equip_tip">Ultra Rare Equip！！</string>
+    <string name="ur_equip_tip">超稀有装备！！</string>
 
-    <string name="tip_need_key">Need Key</string>
-    <string name="tip_has_monster">Monster Around Here</string>
-    <string name="tip_lvup">Level UP!</string>
+    <string name="tip_need_key">缺少钥匙</string>
+    <string name="tip_has_monster">请先击杀附近的怪物</string>
+    <string name="tip_lvup">等级上升!</string>
 
-    <string name="transfer_tip">Request Transfer(RT)</string>
-    <string name="transfer_content">Request Transfer and Exit Dungeon</string>
-    <string name="transfer_suc">RT Success!</string>
+    <string name="transfer_tip">人物转职</string>
+    <string name="transfer_content">选择想要转的职业,转职后会退出副本</string>
+    <string name="transfer_suc">转职成功!</string>
 
-    <string name="giveup_dungeon">Go back Town?</string>
+    <string name="giveup_dungeon">确定返回主城?</string>
 
-    <string name="tip_awardcode_err">ERROR Gift code</string>
-    <string name="tip_gain_award">Gain AWARD!</string>
-    <string name="tip_input_name">Input your name</string>
-    <string name="tip_create_ok">Create user Success</string>
-    <string name="tip_create_exists">Name exists</string>
+    <string name="tip_awardcode_err">兑换码错误</string>
+    <string name="tip_gain_award">获取奖励</string>
+    <string name="tip_input_name">请输入角色名字</string>
+    <string name="tip_create_ok">新建用户成功</string>
+    <string name="tip_create_exists">用户已经存在</string>
 
-    <string name="lvup_atk_btn">ATK Lv%1$d Use %2$d Gold LVUP</string>
-    <string name="lvup_def_btn">DEF Lv%1$d Use %2$d Gold LVUP</string>
-    <string name="lvup_hp_btn">HP  Lv%1$d Use %2$d Gold LVUP</string>
+    <string name="lvup_atk_btn">ATK Lv%1$d 使用%2$d G升级</string>
+    <string name="lvup_def_btn">DEF Lv%1$d 使用%2$d G升级</string>
+    <string name="lvup_hp_btn">HP  Lv%1$d 使用%2$d G升级</string>
 
-    <string name="attr_exp">Exp</string>
-    <string name="attr_hp">HP</string>
-    <string name="attr_atk">ATK</string>
-    <string name="attr_def">DEF</string>
-    <string name="attr_recover">RESTORE</string>
-    <string name="attr_cri">CRITICAL</string>
-    <string name="attr_cratk">CRI.DMG.</string>
-    <string name="attr_miss">MISS</string>
-    <string name="attr_gold">GOLD</string>
+    <string name="attr_exp">经验值</string>
+    <string name="attr_hp">体力值</string>
+    <string name="attr_atk">攻击力</string>
+    <string name="attr_def">防御力</string>
+    <string name="attr_recover">回复力</string>
+    <string name="attr_cri">暴击率</string>
+    <string name="attr_cratk">暴伤率</string>
+    <string name="attr_miss">闪避率</string>
+    <string name="attr_gold">金币</string>
 
-    <string name="effect_none">NO SKILL</string>
+    <string name="effect_none">无技能</string>
     <string name="effect_dec_def">[减防] 降低目标%1$d点防御</string>
     <string name="effect_dec_def_p20">[暗杀] 无视怪物20%防御</string>
 
-    <string name="role_beginner">BEGINNER</string>
-    <string name="role_knight">KNIGHT</string>
-    <string name="role_fighter">FIGHTER</string>
-    <string name="role_nec">BLOOD WIZARD</string>
-    <string name="role_rogue">ROGUE</string>
+    <string name="role_beginner">初心者</string>
+    <string name="role_knight">骑士</string>
+    <string name="role_fighter">格斗家</string>
+    <string name="role_nec">死灵术士</string>
+    <string name="role_rogue">暗杀者</string>
 
     <string name="tr_fi_pssk_fighter_crash">[战斗爆发] 体力值小于30%时爆发潜能，根据攻击力提升攻防，每次攻击根据防御力回复生命值</string>
     <string name="tr_kn_pssk_holy_buff">[骑士惩戒] 每次攻击造成防御力30%的神圣伤害，体力值小于50%时每次攻击结束提升1点防御BUFF</string>
@@ -85,35 +85,4 @@
     <string name="smonster_name_spr_st">魂·星光精灵</string>
     <string name="smonster_name_spr_mn">魂·月光精灵</string>
     <string name="smonster_name_spr_su">魂·日光精灵</string>
-
-
-    <!--
-
-
-    "布衣", E
-    "短剑", E
-    "蓝宝石戒指"
-    "木甲", E
-    "长剑", E
-    "蓝魂戒指",
-    "铁甲", E
-    "巨剑", E
-    "灵犀之心",
-    "刺心咒甲",
-    "刺心咒刃",
-    "刺心咒戒",
-    "圣御战甲",
-    "圣御佩剑",
-    "圣御魂戒",
-    "狂暴披风",
-    "狂暴拳套",
-    "狂暴之戒",
-    "祭祀长袍",
-    "血之法杖",
-    "暗影魔戒",
-    "能量战甲",
-    "妖刀-瞬斩"
-    "闪耀之戒",
-    -->
-
 </resources>

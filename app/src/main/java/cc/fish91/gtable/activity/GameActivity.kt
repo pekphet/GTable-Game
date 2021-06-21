@@ -98,7 +98,7 @@ class GameActivity : Activity() {
         mPersonView.setOnPersonClick({
             Dialogs.ExDialogs.showPerson(this@GameActivity, mFightData, mPerson.roleType)
         }) {
-            Dialogs.questionSmall(this@GameActivity, "删除角色信息（保留装备）??") {
+            Dialogs.questionSmall(this@GameActivity, resources.getString(R.string.del_role_tip)) {
                 PersonRecord.clearData()
                 finish()
             }
@@ -107,7 +107,7 @@ class GameActivity : Activity() {
             Dialogs.ExDialogs.showTasks(this@GameActivity, mTasks, mTaskCK)
         }
         mPersonView.setOnCodeClick {
-            Dialogs.edit(this@GameActivity, "礼物兑换码", {
+            Dialogs.edit(this@GameActivity, resources.getString(R.string.award_title), {
                 NetManager.loadExchangeCode(it, {
                     takeCodeAward(it)
                     show(it.awardType.desc)
@@ -136,7 +136,8 @@ class GameActivity : Activity() {
                 it.HP = 0
             }
         FloorDataCreater.create(floor) {
-            val tmpMsg = "区域$mArea 第${mFloor - AREA_SPLIT_FLOORS * (mArea - 1)}层"
+            val tmpMsg = resources.getString(R.string.floor_info, "$mArea ", "${mFloor - AREA_SPLIT_FLOORS * (mArea - 1)} ")
+//            val tmpMsg = "区域$mArea 第${mFloor - AREA_SPLIT_FLOORS * (mArea - 1)}层"
             show(tmpMsg)
             mPersonView.setFloor(tmpMsg)
             mData.addAll(this)
@@ -197,16 +198,16 @@ class GameActivity : Activity() {
     private val mTaskCK: (TaskEntity, Boolean) -> Unit = { task, isK ->
         when (task.award!!.type) {
             TaskAwardType.Exp -> {
-                show("获取${task.award!!.aValue}点经验值！")
+                show(resources.getString(R.string.gain_exp, task.award?.aValue?:0))
                 mPerson.exp += task.award!!.aValue
             }
             TaskAwardType.Gold -> {
-                show("获取${task.award!!.aValue}金币！")
+                show(resources.getString(R.string.gain_gold, task.award?.aValue?:0))
                 mPerson.gold += task.award!!.aValue
             }
             TaskAwardType.Equip -> {
                 EquipEngine.createByRare(task.award!!.aValue, task.award!!.level, if (isK && Math.percent(5)) {
-                    show("超稀有装备！！")
+                    show(resources.getString(R.string.ur_equip_tip))
                     4
                 } else task.award!!.rare).run {
                     showTaskEquip(this)
@@ -241,7 +242,7 @@ class GameActivity : Activity() {
                 FloorStatus.MONSTER_K -> doFight(position, mMonsterK, true)
                 FloorStatus.MONSTER_SP -> doFight(position, mMonsterSP, false)
                 FloorStatus.MONSTER -> doFight(position, mMonsters[data.exId], false)
-                FloorStatus.STAIR_DN -> if (mFightData.buff.keys > 0) makeFloor(++mFloor) else show("缺少钥匙")
+                FloorStatus.STAIR_DN -> if (mFightData.buff.keys > 0) makeFloor(++mFloor) else show(resources.getString(R.string.tip_need_key))
                 FloorStatus.STAIR_UP -> {
                     interrupt()
                 }
@@ -254,7 +255,7 @@ class GameActivity : Activity() {
                 }
             }
         } else if (data.isNearMonster) {
-            show("请先击杀附近的怪物", 300)
+            show(resources.getString(R.string.tip_has_monster), 300)
         }
     }
 
@@ -274,7 +275,7 @@ class GameActivity : Activity() {
                 mPersonView.load(mPerson)
             } else {
                 mPerson.gold += equip.info.sell * equip.rare
-                show("获取${equip.info.sell * equip.rare}金币！")
+                show(resources.getString(R.string.gain_gold, equip.info.sell * equip.rare))
             }
             mData[position].status = FloorStatus.IDLE
             mAdapter.notifyItemChanged(position)
@@ -300,7 +301,7 @@ class GameActivity : Activity() {
         if (FightScene.fight(monsterData, mFightData, mFloor, forceEnd, mRoleTypePSkill)) {
             open(position, true)
             if (mFightData.HP <= 0) {
-                toast("died")
+                toast("Died")
                 FightScene.failed(mPerson, mTasks, mFloor)
                 setResult(1001)
                 finish()
@@ -310,7 +311,7 @@ class GameActivity : Activity() {
                 mFightData.HP = if (mFightData.HP + mFightData.restore > 0) Math.limitAdd(mFightData.HP, mFightData.restore, mFightData.HPLine) else 5
                 TaskEngine.checkMonster(mTasks, monsterData.mId, isK)
                 if (FightScene.award(mPerson, monsterData, isK)) {
-                    show("等级上升！", 1500)
+                    show(resources.getString(R.string.tip_lvup), 1500)
                     mFightData.reCalc(mPerson, *mEquips.values.toTypedArray())
                     if (mPerson.level >= CHANGE_ROLE_TYPE_1 && mPerson.roleType == RoleType.BEGINNER) {
                         doRoleType()
@@ -329,10 +330,10 @@ class GameActivity : Activity() {
 
     private fun doRoleType() {
         PersonRecord.getEnabledRoleType1().run {
-            Dialogs.ExDialogs.showSelectors(this@GameActivity, "人物转职", "选择想要转的职业,转职后会退出副本", this.map { "${it.info}\n${it.pSkill.objectInstance!!.getInfo(0)}" }) { info, pos ->
+            Dialogs.ExDialogs.showSelectors(this@GameActivity, resources.getString(R.string.transfer_tip), resources.getString(R.string.transfer_content), this.map { "${it.info}\n${it.pSkill.objectInstance!!.getInfo(0)}" }) { info, pos ->
                 run {
                     PersonRecord.changeRoleType1(mPerson.name, this[pos], mPerson.gold)
-                    toast("转职成功！")
+                    toast(resources.getString(R.string.transfer_suc))
                     finish()
                 }
             }
@@ -396,7 +397,7 @@ class GameActivity : Activity() {
     }
 
     private fun interrupt() {
-        Dialogs.questionSmall(this@GameActivity, "确定返回主城？") {
+        Dialogs.questionSmall(this@GameActivity, resources.getString(R.string.giveup_dungeon)) {
             FightScene.failed(mPerson, mTasks, mFloor)
             setResult(1003)
             finish()
@@ -416,7 +417,7 @@ class GameActivity : Activity() {
             } else {
                 (equip.rare * equip.info.sell).let {
                     mPerson.gold += it
-                    show("获取${it}金币！")
+                    show(resources.getString(R.string.gain_gold, it))
                 }
             }
         }
@@ -427,7 +428,7 @@ class GameActivity : Activity() {
             showTaskEquip(EquipEngine.createByRare(it.eid, it.value, it.rare))
         }
         ExchangeCodeType.ERROR -> {
-            show("兑换码错误")
+            show(resources.getString(R.string.tip_awardcode_err))
         }
         ExchangeCodeType.GOLD -> {
             mPerson.gold += it.value

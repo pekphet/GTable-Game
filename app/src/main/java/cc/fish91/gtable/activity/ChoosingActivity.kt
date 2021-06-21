@@ -52,7 +52,7 @@ class ChoosingActivity : Activity() {
     inner class PersonVH : RecyclerView.ViewHolder(LayoutInflater.from(this@ChoosingActivity).inflate(R.layout.i_choose_data, null)) {
 
         fun load(p: PersonData?, position: Int) {
-            this@PersonVH.itemView.findViewById<TextView>(R.id.tv_ichose).text = if (p != null) "${p.name}: \tLv${p.level}\t${p.roleType.info}" else "新建存档"
+            this@PersonVH.itemView.findViewById<TextView>(R.id.tv_ichose).text = if (p != null) "${p.name}: \tLv${p.level}\t${p.roleType.info}" else resources.getString(R.string.empty_slot)
             this@PersonVH.itemView?.setOnClickListener {
                 SaveDataManager.checkedPosition = position
                 MainActivity.start(this@ChoosingActivity)

@@ -5,12 +5,12 @@ import cc.fish91.gtable.engine.IFightEffect
 import kotlin.reflect.KClass
 
 enum class RoleType(val info: String, val pSkill: KClass<out IFightEffect>) {
-    BEGINNER("初心者", FightEffects.NANSkill::class),
-    KNIGHT("骑士", FightEffects.KNIGHTPSkill::class),
-    ROGUE("暗杀者", FightEffects.ROGUEPSkill::class),
-    FIGHTER("格斗家", FightEffects.FighterPSkill::class),
+    BEGINNER(resString(R.string.role_beginner), FightEffects.NANSkill::class),
+    KNIGHT(resString(R.string.role_knight), FightEffects.KNIGHTPSkill::class),
+    ROGUE(resString(R.string.role_rogue), FightEffects.ROGUEPSkill::class),
+    FIGHTER(resString(R.string.role_fighter), FightEffects.FighterPSkill::class),
     HUNTER("猎人", FightEffects.NANSkill::class),
-    NEC("死灵术士", FightEffects.NECPSkill::class),
+    NEC(resString(R.string.role_nec), FightEffects.NECPSkill::class),
 }
 
 enum class FloorStatus {
@@ -38,16 +38,16 @@ enum class Gifts(val desc: String) {
 }
 
 enum class EquipProperty(val description: String) {
-    HP_RESTORE("回复力"),
-    ATK("攻击力"),
-    DEF("防御力"),
-    HP("体力值"),
+    HP_RESTORE(resString(R.string.attr_recover)),
+    ATK(resString(R.string.attr_atk)),
+    DEF(resString(R.string.attr_def)),
+    HP(resString(R.string.attr_hp)),
     ATK_PC("攻击力追加"),
     DEF_PC("防御力追加"),
     HP_PC("体力值追加"),
-    CRITICAL("暴击率"),
-    CRITICAL_DMG("暴伤率"),
-    MISS("闪避率")
+    CRITICAL(resString(R.string.attr_cri)),
+    CRITICAL_DMG(resString(R.string.attr_cratk)),
+    MISS(resString(R.string.attr_miss))
 
 }
 

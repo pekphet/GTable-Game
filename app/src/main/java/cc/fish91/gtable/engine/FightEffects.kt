@@ -1,18 +1,21 @@
 package cc.fish91.gtable.engine
 
+import android.content.Context
 import cc.fish91.gtable.FightSceneFinalData
 import cc.fish91.gtable.MonsterData
+import cc.fish91.gtable.R
 import cc.fish91.gtable.plugin.Math
 import cc.fish91.gtable.plugin.ifTrue
 import cc.fish91.gtable.plugin.limitAtLeast
 import cc.fish91.gtable.plugin.limitAtMost
+import cc.fish91.gtable.resString
 
 object FightEffects {
 
 
     /****Person Fight Effect*******************/
     object DcsMDef : IFightEffect {
-        override fun getInfo(floor: Int) = "[减防] 降低目标${floor / 2}点防御"
+        override fun getInfo(floor: Int) = resString(R.string.effect_dec_def, floor / 2)
 
         override fun onFight(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
             monster.def -= floor / 2
@@ -34,7 +37,7 @@ object FightEffects {
             monster.def += decreased
         }
 
-        override fun getInfo(floor: Int) = "[暗杀] 无视怪物20%防御"
+        override fun getInfo(floor: Int) = resString(R.string.effect_dec_def_p20)
 
     }
 
@@ -67,7 +70,7 @@ object FightEffects {
             if (adder > 0) person.HP += (person.def * 0.05).toInt().limitAtMost(person.HPLine)
         }
 
-        override fun getInfo(floor: Int) = "[战斗爆发] 体力值小于30%时爆发潜能，根据攻击力提升攻防，每次攻击根据防御力回复生命值"
+        override fun getInfo(floor: Int) = resString(R.string.tr_fi_pssk_fighter_crash)
     }
 
     object KNIGHTPSkill : IFightEffect {
@@ -80,7 +83,7 @@ object FightEffects {
                 person.buff.tDef += 1
         }
 
-        override fun getInfo(floor: Int) = "[骑士惩戒] 每次攻击造成防御力30%的神圣伤害，体力值小于50%时每次攻击结束提升1点防御BUFF"
+        override fun getInfo(floor: Int) = resString(R.string.tr_kn_pssk_holy_buff)
     }
 
     object ROGUEPSkill : IFightEffect {
@@ -98,7 +101,7 @@ object FightEffects {
 
         }
 
-        override fun getInfo(floor: Int) = "[暗影瞬杀]攻击时随机无视目标护甲，对弱小的对手攻击结束时有20%几率复原体力值"
+        override fun getInfo(floor: Int) = resString(R.string.tr_ro_pssk_shadow_kill)
     }
 
     object NECPSkill : IFightEffect {
@@ -118,7 +121,7 @@ object FightEffects {
             }
         }
 
-        override fun getInfo(floor: Int) = "[幽魂血爆] 每次攻击付出体力值给对方造成伤害，结束时根据敌人状况进行二次攻击或者回复体力"
+        override fun getInfo(floor: Int) = resString(R.string.tr_ne_pssk_blood_magic)
     }
 
 
@@ -132,7 +135,7 @@ object FightEffects {
             person.def += floor / 2
         }
 
-        override fun getInfo(floor: Int) = "[恐惧] 无视对手${floor / 2}点防御"
+        override fun getInfo(floor: Int) = resString(R.string.m_effect_dec_def, floor / 2)
     }
 
     object DscPAtk : IFightEffect {
@@ -144,7 +147,7 @@ object FightEffects {
             person.atk += floor / 2
         }
 
-        override fun getInfo(floor: Int) = "[坚韧] 无视对手${floor / 2}点攻击"
+        override fun getInfo(floor: Int) = resString(R.string.m_effect_dec_atk, floor / 2)
 
     }
 
@@ -156,7 +159,7 @@ object FightEffects {
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
         }
 
-        override fun getInfo(floor: Int) = "[弱敌] 每回合直接减少对方10%HP"
+        override fun getInfo(floor: Int) = resString(R.string.m_effect_dec_hpp)
 
     }
 
@@ -168,7 +171,7 @@ object FightEffects {
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
         }
 
-        override fun getInfo(floor: Int) = "[击破] 攻击时去掉对手护盾"
+        override fun getInfo(floor: Int) = resString(R.string.m_effect_clear_shield)
 
     }
 
@@ -182,7 +185,7 @@ object FightEffects {
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
         }
 
-        override fun getInfo(floor: Int) = "[震慑] 每回合降低攻击力3点, 当前层有效"
+        override fun getInfo(floor: Int) = resString(R.string.m_effect_atkdn_evr)
 
     }
 
@@ -196,7 +199,7 @@ object FightEffects {
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
         }
 
-        override fun getInfo(floor: Int) = "[腐蚀] 每回合降低防御力3点，当前层有效"
+        override fun getInfo(floor: Int) = resString(R.string.m_effect_defdn_evr)
     }
 
     object CopyPAtk : IFightEffect {
@@ -209,7 +212,7 @@ object FightEffects {
 
         }
 
-        override fun getInfo(floor: Int) = "[镜像攻击] 攻击力变为对方攻击力"
+        override fun getInfo(floor: Int) = resString(R.string.m_effect_image_atk)
     }
 
     object CopyPDef : IFightEffect {
@@ -222,7 +225,7 @@ object FightEffects {
 
         }
 
-        override fun getInfo(floor: Int) = "[镜像防御] 防御力变为对方防御力"
+        override fun getInfo(floor: Int) = resString(R.string.m_effect_image_def)
     }
 
     object RebP10Atk : IFightEffect {
@@ -233,7 +236,7 @@ object FightEffects {
         override fun onFightEnd(person: FightSceneFinalData, monster: MonsterData, floor: Int) {
         }
 
-        override fun getInfo(floor: Int) = "[反弹] 反弹对方攻击力10%的伤害，无视防御"
+        override fun getInfo(floor: Int) = resString(R.string.m_effect_reflect_p10)
 
     }
 

@@ -229,11 +229,11 @@ object Dialogs {
                 }
                 findViewById<View>(R.id.tv_d_cancel).setOnClickListener { cancel() }
                 findViewById<LinearLayout>(R.id.ll_d_game_monster_content).apply {
-                    addView(getInfoText(activity, "攻击力: ${monster.atk}"), LinearLayoutParamsWW)
-                    addView(getInfoText(activity, "防御力: ${monster.def}"), LinearLayoutParamsWW)
-                    addView(getInfoText(activity, "生命值: ${monster.HP}"), LinearLayoutParamsWW)
-                    addView(getInfoText(activity, "可掉落物品: ${StaticData.getBaseEquipInfo(base.drop[0].first).name}"), LinearLayoutParamsWW)
-                    addView(getInfoText(activity, "装备暴率: ${(1.0 / base.drop[0].second).toPercentKeep1()}"), LinearLayoutParamsWW)
+                    addView(getInfoText(activity, "ATK: ${monster.atk}"), LinearLayoutParamsWW)
+                    addView(getInfoText(activity, "DEF: ${monster.def}"), LinearLayoutParamsWW)
+                    addView(getInfoText(activity, "HP : ${monster.HP}"), LinearLayoutParamsWW)
+                    addView(getInfoText(activity, "Drops: ${StaticData.getBaseEquipInfo(base.drop[0].first).name}"), LinearLayoutParamsWW)
+                    addView(getInfoText(activity, "Drops%: ${(1.0 / base.drop[0].second).toPercentKeep1()}"), LinearLayoutParamsWW)
                 }
                 findViewById<TextView>(R.id.tv_game_monster_ex).apply {
                     if (base.exEffectClz == null) {
@@ -272,13 +272,13 @@ object Dialogs {
                 findViewById<TextView>(R.id.tv_d_title).text = "人物信息"
                 findViewById<View>(R.id.tv_d_ok).setOnClickListener { dismiss() }
                 findViewById<LinearLayout>(R.id.ll_d_task).run {
-                    addView(getInfoText(activity, Html.fromHtml("体力值: ${info.HP} / ${info.HPLine} <font color='#4c9fff'> (+ ${info.floorAppend.HP})</font>")))
-                    addView(getInfoText(activity, Html.fromHtml("攻击力: ${info.atk} +${info.floorAppend.atk} <font color='#4c9fff'>( ${info.buff.tAtk.run { if (this >= 0) " +$this" else " -$this" }})</font>")))
-                    addView(getInfoText(activity, Html.fromHtml("防御力: ${info.def} +${info.floorAppend.def} <font color='#4c9fff'>( ${info.buff.tDef.run { if (this >= 0) " +$this" else " -$this" }})</font>")))
-                    addView(getInfoText(activity, "回复力: ${info.restore}"))
-                    addView(getInfoText(activity, "暴击率: ${info.critical.toMillicentKeep1()}"))
-                    addView(getInfoText(activity, "暴伤率: ${info.criticalDmg}%"))
-                    addView(getInfoText(activity, "闪避率: ${info.miss.toMillicentKeep1()}"))
+                    addView(getInfoText(activity, Html.fromHtml("${resString(R.string.attr_hp)}: ${info.HP} / ${info.HPLine} <font color='#4c9fff'> (+ ${info.floorAppend.HP})</font>")))
+                    addView(getInfoText(activity, Html.fromHtml("${resString(R.string.attr_atk)}: ${info.atk} +${info.floorAppend.atk} <font color='#4c9fff'>( ${info.buff.tAtk.run { if (this >= 0) " +$this" else " -$this" }})</font>")))
+                    addView(getInfoText(activity, Html.fromHtml("${resString(R.string.attr_def)}: ${info.def} +${info.floorAppend.def} <font color='#4c9fff'>( ${info.buff.tDef.run { if (this >= 0) " +$this" else " -$this" }})</font>")))
+                    addView(getInfoText(activity, "${resString(R.string.attr_recover)}: ${info.restore}"))
+                    addView(getInfoText(activity, "${resString(R.string.attr_cri)}: ${info.critical.toMillicentKeep1()}"))
+                    addView(getInfoText(activity, "${resString(R.string.attr_cratk)}: ${info.criticalDmg}%"))
+                    addView(getInfoText(activity, "${resString(R.string.attr_miss)}: ${info.miss.toMillicentKeep1()}"))
                     addView(getInfoText(activity, "\n${roleType.pSkill.objectInstance!!.getInfo(0)}"))
                 }
             }.show()
